@@ -1,0 +1,55 @@
+// Demo directory. Every row is isDemo: true and labelled on screen. No person names, no real contacts.
+// Replaced row by row as a human verifies real professionals (then verificationStatus: "verified", lastVerifiedAt set).
+
+import type { Professional } from "./types";
+
+export const DEMO_PROFESSIONALS: readonly Professional[] = [
+  {
+    id: "demo-1",
+    name: { ru: "Психолог · демо-карточка 1", tg: "Равоншинос · корти демо 1", verify: true },
+    role: "psychologist",
+    credentials: { ru: "Демо: квалификация появится после проверки", tg: "Демо: тахассус пас аз санҷиш пайдо мешавад", verify: true },
+    languages: ["tg", "ru"],
+    city: { ru: "Душанбе", tg: "Душанбе" },
+    format: "both",
+    adolescentServices: true,
+    verificationStatus: "demo",
+    lastVerifiedAt: null,
+    contactMethod: { ru: "Как связаться: Telegram или звонок. Первый разговор — 20 минут, бесплатно.", tg: "Тарзи тамос: Telegram ё занг. Сӯҳбати аввал — 20 дақиқа, ройгон.", verify: true },
+    availability: { mon: ["14:00", "19:00"], tue: ["14:00", "19:00"], wed: ["14:00", "19:00"], thu: ["14:00", "19:00"], fri: ["14:00", "19:00"] },
+    acceptingRequests: true,
+    isDemo: true,
+  },
+  {
+    id: "demo-2",
+    name: { ru: "Школьный психолог · демо-карточка 2", tg: "Равоншиноси мактаб · корти демо 2", verify: true },
+    role: "school_psychologist",
+    credentials: { ru: "Демо", tg: "Демо" },
+    languages: ["tg"],
+    city: { ru: "В твоей школе, если есть", tg: "Дар мактаби ту, агар бошад", verify: true },
+    format: "in_person",
+    adolescentServices: true,
+    verificationStatus: "demo",
+    lastVerifiedAt: null,
+    contactMethod: { ru: "Через классного руководителя. Можно сказать просто: «Мне нужно поговорить».", tg: "Тавассути роҳбари синф. Метавонӣ танҳо бигӯӣ: «Ба ман сӯҳбат лозим».", verify: true },
+    availability: null,
+    acceptingRequests: false,
+    isDemo: true,
+  },
+  {
+    id: "demo-3",
+    name: { ru: "Служба помощи · демо-карточка 3", tg: "Хадамоти кӯмак · корти демо 3", verify: true },
+    role: "helpline",
+    credentials: { ru: "Демо", tg: "Демо" },
+    languages: ["tg", "ru"],
+    city: null,
+    format: "online",
+    adolescentServices: true,
+    verificationStatus: "demo",
+    lastVerifiedAt: null,
+    contactMethod: { ru: "Номер появится после проверки командой.", tg: "Рақам пас аз санҷиши даста пайдо мешавад.", verify: true },
+    availability: null,
+    acceptingRequests: false,
+    isDemo: true,
+  },
+];

@@ -1,0 +1,17 @@
+{
+  "name": "@safechilds/directory",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@safechilds/config": "workspace:*",
+    "typescript": "^5.8.0"
+  }
+}

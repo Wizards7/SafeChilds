@@ -1,0 +1,69 @@
+/* SafeChilds — design tokens (light only; dark re-add trigger: pilot analytics show heavy night use)
+   Source of truth for packages/ui/tokens.css once approved. Same values, same names. */
+
+:root {
+  color-scheme: light;
+
+  /* Brand */
+  --primary: #2563eb;
+  --primary-pressed: #1e40af;
+  --primary-hover: #1d4ed8; /* desktop shell only */
+  --on-primary: #ffffff;
+
+  /* Support (human side) */
+  --support: #0f766e;
+  --support-pressed: #134e4a;
+  --support-bg: #f0fdfa;
+  --support-bg-selected: #ccfbf1;
+
+  /* Semantic */
+  --success: #15803d;
+  --success-bg: #f0fdf4;
+  --warning: #b45309;
+  --warning-bg: #fff7ed;
+  --danger: #b91c1c;
+  --danger-pressed: #991b1b;
+  --danger-bg: #fef2f2;
+  --neutral: #64748b;
+  --neutral-bg: #f1f5f9;
+
+  /* Neutrals */
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-disabled: #94a3b8;
+  --border: #cbd5e1;
+  --input-border: #94a3b8;
+  --disabled-bg: #e2e8f0;
+
+  /* Interactive */
+  --focus-outline: #1d4ed8;
+  --overlay: rgb(15 23 42 / 0.5);
+
+  /* Type scale — mobile */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --text-h1: 28px;
+  --text-h2: 22px;
+  --text-h3: 18px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --leading: 1.5;
+
+  /* Shape + spacing */
+  --radius-card: 16px;
+  --radius-control: 12px;
+  --radius-chip: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --touch-min: 44px;
+}
+
+:where(button, a, input, textarea, select, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 3px solid var(--focus-outline);
+  outline-offset: 3px;
+}
