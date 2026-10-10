@@ -1,6 +1,6 @@
 # `apps/crm` — PRD
 
-**Status:** Draft 2026-10-09
+**Status:** Deferred 2026-10-10 — pilot plan, not a hackathon deliverable (see README). Added to the pilot scope from the 2026-10-10 discussion: working hours + "accepting requests" on each professional; a **Номера помощи** page for the verified urgent numbers; a **Запросы** inbox with two types (contact request, image-review request without the image — routing by category to a reviewer who contacts the kid in their own channel); a **Статистика** page of counts without PII.
 
 ## Why it exists
 

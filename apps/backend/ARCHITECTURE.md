@@ -4,7 +4,7 @@
 
 - **Fastify standalone + `@trpc/server` Fastify adapter.** Shape B from the plan: one API, three typed clients. Copied from the RentTimeReal P0 pipeline, not rebuilt.
 - **PostgreSQL + Drizzle** through `packages/db`. Schema changes are committed migration files.
-- **Two procedure builders, `public` and `admin`, defined once** in `trpc/procedures.ts`. No router hand-rolls an auth check.
+- **Two procedure builders, `public` and `admin`, defined once** in `trpc/procedures.ts`. No router hand-rolls an auth check. For the hackathon only `public` is used; `admin` and its auth come back with the CRM (deferred 2026-10-10).
 - **Admin auth: Better Auth**, email + password, one admin seeded from env, DB-backed session in an httpOnly cookie on this app's domain. Escape hatch if the setup exceeds one hour: custom DB-backed session, ~200 lines.
 - **Image handling:** multipart in, validated for type and size on the server, passed to `packages/analysis`, discarded. Never written to disk, never logged.
 - **Health:** `healthz` always 200; `readyz` checks the database only. Third-party reachability (Anthropic) is never a readiness condition.
@@ -34,8 +34,8 @@ A module exposes its router and its service. Services talk to `packages/db`; rou
 |---|---|
 | `DATABASE_URL` | Postgres (Railway) |
 | `ANTHROPIC_API_KEY` | analysis model |
-| `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` | the single seeded admin |
-| `CORS_ORIGINS` | comma-separated: mobile origin, crm origin |
+| `CORS_ORIGINS` | comma-separated: mobile origin (crm origin when the CRM returns) |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` | deferred with the CRM |
 | `PORT` | Railway sets it |
 
 All validated at boot. A missing variable is a crash with a clear message, not a runtime surprise.

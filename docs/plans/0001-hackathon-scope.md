@@ -23,14 +23,14 @@ We don't detect fakes. We help a teenager take the next safe step and reach a re
 | Directory | **Demo data**, every row `is_demo = true`, banner on screen | No verified professionals by the 14th; inventing them is forbidden | First row a human verifies → `verified` with a date |
 | Languages | **Russian + Tajik** in the app; English only in the pitch | The team can write and review both; crisis copy in Tajik gets a native review before the demo | Kazakh / Uzbek at regional expansion |
 | Design | Palette "Calm Trust" with the fixes in `assets/design/design-system/tokens.css`; **light only**; Inter self-hosted, Tajik glyphs verified | Neutrals dominate, blue is protection, teal is human support, red is urgency only. No AI accent colour | Dark theme if pilot analytics show heavy night use |
-| Hosting | **Railway**: Postgres + backend + mobile + crm + bot | Account exists, GitHub deploy, nothing to provision | Pilot with real minors' data → data-residency review (Закон №1537 — VERIFY applicability) |
+| Hosting | **Railway**: Postgres + backend + mobile + bot (crm deferred 2026-10-10) | Account exists, GitHub deploy, nothing to provision | Pilot with real minors' data → data-residency review (Закон №1537 — VERIFY applicability) |
 | Monorepo | pnpm workspaces + Turborepo; `apps/` never import each other; `packages/` one responsibility each | Guidance content and directory types are shared by three apps; one source or the demo contradicts itself on stage | — |
 
 ## 3. Scope
 
 The spine is one journey: language → home → category → situation → safety → (analyze) → (feelings → breathe) → plan → people → incident. Home carries four of the organizers' six threat categories — поддельный контент, вымогательство, мошенничество, кибербуллинг — each with 2–3 concrete situations; content per category follows their four-question scheme (что это · как выглядит · почему ребёнок молчит · что помогает). Per-app scope by phase lives in each app's `PRD.md`; the cut across the whole product is:
 
-**MUST** — the mobile spine (P0) and support screens (P1), the backend's three public procedures and four admin procedures, the CRM's three pages, the bot's situation → safety → plan → people flow, installable PWA, `ru` + `tg`, a working end-to-end demo on three real phones.
+**MUST** — the mobile spine (P0) and support screens (P1), the backend's four public procedures (analysis, directory, reports, link check) with seeded directory and helplines, the bot's situation → safety → plan → people flow, installable PWA, `ru` + `tg`, a working end-to-end demo on three real phones.
 
 **NICE** — day 4 only if MUST is green: "pop the anxious thoughts" (`/thoughts`), `/lock` on "Мой случай", three SVG spot scenes for the welcome, Sightengine as a second signal (VERIFY free signup from Tajikistan), offline guidance. Parent / teacher "browse everything" is out (2026-10-10) — pilot.
 
@@ -40,9 +40,9 @@ The spine is one journey: language → home → category → situation → safet
 
 ```
 apps/
-  backend/   Fastify + tRPC — analysis · directory · reports modules; admin auth; only DB access
+  backend/   Fastify + tRPC — analysis · directory · reports · links modules; public procedures only; only DB access
   mobile/    Next.js PWA — the product; tRPC client; IndexedDB incident store; desktop shell = landing
-  crm/       Next.js — directory admin only; own login; admin.<domain>
+  crm/       DEFERRED 2026-10-10 — spec kept; trigger: first real professional or a partner sending requests
   bot/       grammY — second entrance: situation → safety → plan → people → link to app; no uploads
 packages/
   guidance/  situations, safety answers, feelings, plans per situation × platform, exercises; ru + tg strings
@@ -65,7 +65,7 @@ Deliberately absent: `infra/` (Railway, until a VPS), `e2e/` (Playwright at pilo
 | Person | Owns | Blocked on |
 |---|---|---|
 | Ali | `apps/mobile`, `apps/backend`, `packages/*`, design, DB schema | — |
-| Person 2 | `apps/crm` UI on Ali's schema | backend admin procedures, Saturday |
+| Person 2 | guidance content with the floater (ru), then testing on three phones (CRM deferred 2026-10-10) | `packages/guidance` vocabulary from Ali, Friday |
 | Person 3 | `apps/bot` | `packages/guidance` strings, Friday |
 | Person 4 (floater) | guidance copy ru → tg, per-platform report paths, demo directory data, testing on three phones, pitch deck, helpline VERIFY | — |
 
@@ -73,12 +73,12 @@ Design came first (Thursday) because three people were blocked on it.
 
 ## 7. Schedule
 
-| Day | Ali | CRM | Bot | Floater |
+| Day | Ali | Person 2 (content) | Bot | Floater |
 |---|---|---|---|---|
 | Thu 9 | Repo, specs, tokens + foundation sheet — done | Read specs | BotFather, grammY hello-world | Collect report paths for Instagram / TikTok / Telegram / VK; draft ru guidance copy |
-| Fri 10 | HTML sketches of the screens with state switchers, on a real phone; scaffold monorepo + backend skeleton | Read `apps/crm/*` | Conversation tree against `packages/guidance` | Finish guidance JSON (ru); demo directory dataset; call the helpline |
-| Sat 11 | Backend: three public procedures + admin; mobile: home, situation, safety, analyze end to end | CRM pages on typed procedures | Safety check + plan + people | Tajik translation pass |
-| Sun 12 | Mobile: urgent, feelings, breathe, plan, people, incident | CRM done | Link to app, urgent path | Test on three phones; Figma import of approved sketches |
+| Fri 10 | HTML sketches of the screens with state switchers, on a real phone; scaffold monorepo + backend skeleton | Fake content + extortion plans (ru) with the floater | Conversation tree against `packages/guidance` | Finish guidance JSON (ru); demo directory dataset; call the helpline |
+| Sat 11 | Backend: four public procedures + seeds; mobile: home, situation, safety, analyze end to end | Fraud + cyberbullying plans (ru); learn-the-signs cards | Safety check + plan + people | Tajik translation pass |
+| Sun 12 | Mobile: urgent, feelings, breathe, plan, people, incident | Test every journey on three phones; file bugs | Link to app, urgent path | Test on three phones; Figma import of approved sketches |
 | Mon 13 | PWA install + offline + i18n polish; deploy; install on the demo phone | Deploy | Deploy | Run the demo script five times; fix what breaks |
 | Tue 14 | Rehearsal in the morning. Nothing new ships | Pitch deck | — | — |
 

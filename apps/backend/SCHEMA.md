@@ -17,8 +17,21 @@ professionals
   verification_status   text            demo | unverified | verified
   last_verified_at      timestamptz null
   contact_method        text            how to reach them, as verified
+  availability          jsonb null      weekday ranges in Asia/Dushanbe, e.g. {"mon":["14:00","19:00"]} (added 2026-10-10)
+  accepting_requests    boolean         shown on the card; false hides the second path
   is_demo               boolean         true for every seeded row during the hackathon
   created_at, updated_at timestamptz
+
+helplines                               (added 2026-10-10 — the Urgent screen reads this; nothing renders until verified_at is set)
+  id               uuid pk
+  name             text            ru + tg in a jsonb, or two columns
+  number           text
+  hours            text
+  languages        text[]
+  categories       text[]          which situations it fits (extortion, fraud, …)
+  verified_by      text            team member who called
+  verified_at      timestamptz null
+  created_at       timestamptz
 
 listing_reports
   id               uuid pk
@@ -35,7 +48,9 @@ analysis_events
 
 Indexes: `professionals (verification_status, city)`, `professionals (created_at)` for cursor pagination, `listing_reports (professional_id)`, `analysis_events (created_at)`.
 
-What is deliberately absent: users, sessions for the public, incidents, evidence, images, device keys. Admin sessions are Better Auth's own tables.
+What is deliberately absent: users, sessions for the public, incidents, evidence, images, device keys. Admin sessions (Better Auth's own tables) arrive with the CRM.
+
+Hackathon data path: `professionals` and `helplines` are filled by `packages/db/src/seed.ts` from `packages/directory` — the floater sends a verified number, it is committed, Railway redeploys. No admin UI.
 
 **Specified, not built — `referrals` (saved 2026-10-10).** Goes live only when a partner organisation agrees to receive requests. Until then `referrals.create` runs in prototype mode: validates, returns a demo confirmation, persists nothing.
 
@@ -70,8 +85,9 @@ No incident data, no evidence, no situation text travels with a request.
 | `reports.create` | `{ professionalId, reason }` | `{ ok: true }` | rate-limited per IP |
 | `links.check` | `{ url }` | `{ tier, findings: Finding[], finalUrl, nextSteps: string[] }` | rate-limited per IP; nothing stored; backend follows redirects with HEAD; rules in `packages/analysis` (saved 2026-10-10) |
 | `referrals.create` | the request fields above | `{ mode: "prototype" \| "live", requestId? }` | **prototype mode in the hackathon: validates and persists nothing.** Live mode behind the partner trigger; rate-limited per IP |
+| `reviews.create` | `{ category, situation, platform, tier, indicatorCodes, answers, contact (as in referrals) }` — **never the image** | same prototype/live shape as `referrals.create` | the "спросить человека" ticket; the reviewer contacts the kid in their own channel and sees the image there, once. Specified 2026-10-10, prototype in the hackathon |
 
-**Admin**
+**Admin — deferred with the CRM (2026-10-10); specified, not built**
 
 | Procedure | Input | Output |
 |---|---|---|

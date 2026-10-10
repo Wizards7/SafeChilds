@@ -1,5 +1,7 @@
 # `apps/crm` — directory admin
 
+**Status: deferred (decided 2026-10-10).** Not built for the hackathon: the directory is seed data, the helpline numbers are a seed file the floater fills after calling, and requests ship as a labelled prototype, so nobody would open a CRM on demo day. Two sketch frames on the design board tell the "how a human verifies" story instead. **Re-add trigger:** the first real professional to verify, or a partner organisation that sends requests. The spec below stays as the pilot plan; the data it needs (`availability`, `helplines`, `referrals`, `review_requests`) is already in `apps/backend/SCHEMA.md` so the CRM becomes a UI over existing tables.
+
 The back office for exactly one thing: the professional directory. Add a professional, set their verification status, see reports of inaccurate listings. Separate app, separate subdomain, its own login — never a route inside the product.
 
 ## Documentation

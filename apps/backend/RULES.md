@@ -15,7 +15,8 @@
 
 - Every procedure is `public` or `admin`. There is no third builder and no inline check.
 - `public` procedures are rate-limited per IP. `analysis.run` gets the tightest limit because it costs money per call.
-- Admin session cookie: httpOnly, secure, same-site as the CRM allows. Sessions are DB-backed; no stateless JWT.
+- Admin session cookie (when the CRM returns): httpOnly, secure, same-site as the CRM allows. Sessions are DB-backed; no stateless JWT.
+- A review request never carries an image. The reviewer sees it in their own channel, from the kid, once.
 - CORS is an explicit allowlist from env. `*` never ships, not even in development.
 - Errors to the client carry a code and a clean message. Stack traces and SQL stay in server logs.
 
