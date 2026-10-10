@@ -1,0 +1,34 @@
+{
+  "name": "@safechilds/mobile",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@safechilds/analysis": "workspace:*",
+    "@safechilds/directory": "workspace:*",
+    "@safechilds/guidance": "workspace:*",
+    "@safechilds/ui": "workspace:*",
+    "@tanstack/react-query": "^5.100.0",
+    "@trpc/client": "^11.19.0",
+    "@trpc/tanstack-react-query": "^11.19.0",
+    "idb": "^8.0.0",
+    "next": "^16.4.0",
+    "next-intl": "^4.14.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@safechilds/backend": "workspace:*",
+    "@safechilds/config": "workspace:*",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.8.0"
+  }
+}

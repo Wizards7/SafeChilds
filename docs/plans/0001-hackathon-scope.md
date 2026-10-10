@@ -84,6 +84,25 @@ Design came first (Thursday) because three people were blocked on it.
 
 Nothing new after Sunday night. Monday is polish and deploy.
 
+## 7a. Build phases (approved 2026-10-10)
+
+Root, packages and backend are built, tested, pushed; CI is green. Each phase below ends green (typecheck + tests), verified in a browser at 375px, committed and pushed. Nothing new after Sunday night.
+
+| Phase | What | Done when |
+|---|---|---|
+| M0 app shell | Next.js + next-intl (locale on the device, no URL prefixes), `packages/ui` CSS, layout with nav + help + desktop shell, error boundary, IndexedDB incident store, tRPC client, `/welcome`, first Home | welcome → Home works in both languages |
+| M1 demo spine | `/`, `/situation`, `/safety`, `/urgent`, `/question`, `/stop`, `/plan` composed from `packages/guidance`, `/incident` | fake-photo and extortion journeys click through with no backend; steps persist |
+| M2 tools | `/analyze` (exifr + c2pa in the browser, compare with the original, `POST /analysis`, four tiers + markers + где смотреть), `/link` | works against the local backend; `unavailable` tier correct with the backend stopped |
+| M3 people + support | `/people`, `/request` (prototype), `/feelings`, `/breathe`, `/privacy` | all 16 routes exist and match the board |
+| M4 PWA | manifest, serwist precache, offline states, install prompt after the first plan step, `?from=` deep links, i18n sweep | installs on a phone; guidance works in airplane mode |
+| B bot skeleton | grammY boot, `/start` with language + situations, tRPC client | `/start` answers in Telegram; flows handed to the bot person |
+| R Railway | Postgres + backend + mobile + bot, env, migrations as release step, seeds, domain, QR | the public URL opens on a phone over mobile data |
+| D demo | content merged, Tajik reviewed, demo image, five rehearsals on three phones | the script runs clean twice in a row |
+
+Small library picks taken without a separate decision: `exifr` (EXIF), the official `c2pa` package (Content Credentials), `@serwist/next` (PWA), `idb` (IndexedDB). Each is VERIFY on install.
+
+**Demo image (decided 2026-10-10):** a team member's own photo, edited by that team member, with their consent. Never a stranger's photo, never a generated face presented as a person. One version with metadata stripped and visible indicators for the model path; the untouched original on the demo phone for the compare path.
+
 ## 8. Demo (three minutes)
 
 Laptop on the projector shows the app inside the phone frame with the QR beside it; the journey is clicked through there.

@@ -1,0 +1,14 @@
+{
+  "name": "SafeChilds",
+  "short_name": "SafeChilds",
+  "description": "Что-то случилось в интернете? Поможем понять, что делать.",
+  "start_url": "/?from=installed",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#f8fafc",
+  "lang": "ru",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
