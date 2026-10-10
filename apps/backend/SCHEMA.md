@@ -46,6 +46,7 @@ What is deliberately absent: users, sessions for the public, incidents, evidence
 | `analysis.run` | multipart image, max size and allowed types enforced server-side | `{ status, indicatorCodes: string[], limitations: string[] }` | rate-limited per IP; writes one `analysis_events` row |
 | `directory.list` | `{ lang?, city?, format?, cursor?, limit? }` | `{ items: Professional[], nextCursor: string \| null }` | cursor pagination by `created_at, id`; every item carries `isDemo` and `verificationStatus` |
 | `reports.create` | `{ professionalId, reason }` | `{ ok: true }` | rate-limited per IP |
+| `links.check` | `{ url }` | `{ tier, findings: Finding[], finalUrl, nextSteps: string[] }` | rate-limited per IP; nothing stored; backend follows redirects with HEAD; rules in `packages/analysis` (saved 2026-10-10) |
 
 **Admin**
 

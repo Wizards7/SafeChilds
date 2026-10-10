@@ -30,6 +30,17 @@ Plain TypeScript, no dependency on Next.js or the database. Consumed by `apps/ba
 - Every explanation ends with the next step, never with a verdict.
 - The image is not stored by anything in this package or by its callers.
 
+## Links (saved 2026-10-10)
+
+The same contract on a different input. `checkLink(url)` owns:
+
+- **Deterministic checks**: final URL after redirects (the backend fetches with HEAD, never in a user's session); lookalike comparison against a short list of brands teens in Tajikistan actually use (banks, Instagram, Telegram, TikTok — list VERIFY with the floater); domain registration age via RDAP; shortener detection; page asks for a code or payment (from the URL and title only).
+- **Blocklist lookups**: Google Safe Browsing, URLhaus — VERIFY free access and limits; each is one evidence source, timeout-wrapped, failure = `unavailable` for that source only.
+- **Tiers**: `known_dangerous` (blocklist hit) → `signs` (deterministic findings) → `nothing_known` ("это не значит, что безопасно") → `unavailable`.
+- **Templates** (`ru`, `tg`): each finding as "what it is + где смотреть + what it means for the next step".
+
+Nothing about a checked URL is stored.
+
 ## What is deliberately not here
 
 - A second detection vendor (Sightengine). Re-add trigger: Phase 2 of the hackathon if the free signup works from Tajikistan; at that point this package wraps both behind one `signals()` call and the rules gain one evidence source.

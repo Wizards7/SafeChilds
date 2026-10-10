@@ -15,6 +15,8 @@ Telegram is where teenagers in Tajikistan already are. A bot removes the "open a
 | Action plan | asks the platform, then sends the steps for situation × platform, one message, from `packages/guidance` |
 | People | `directory.list` filtered by the chosen language; three cards per page with "More"; DEMO label on every card |
 | Hand-off | "Проверить изображение" and "Мой случай" send a deep link to the PWA with the locale preset |
+| Link check | a forwarded link → `links.check` → one of four tiers with "где смотреть" and the next step; the kid never opens it (saved 2026-10-10) |
+| File by type | a forwarded file is never downloaded; the bot answers from Telegram's metadata (name, extension, MIME): `.apk` / `.exe` → never install from a chat; documents → we can't see inside, don't press "enable"; photo / video → the danger is the link with it; archives → don't unpack. Table in `apps/mobile/PRD.md` § Fraud |
 
 Built by the bot person Thursday to Sunday; deployed Monday.
 
@@ -23,6 +25,7 @@ Built by the bot person Thursday to Sunday; deployed Monday.
 | Feature | Trigger |
 |---|---|
 | Image analysis in the bot | never through Telegram — files would sit on a foreign-hosted channel; the app does it |
+| File content scanning | pilot — a hash-only lookup (download to memory, hash, discard) if type-based rules prove insufficient; never an upload of a kid's file to a third-party scanner |
 | Feelings check and breathing | Phase 2 if time; a timer in chat is a weak version of the app's screen |
 | Remembering the user between sessions | real referrals, with the same legal review as accounts |
 | Webhook mode | pilot; long-poll is enough for a demo |

@@ -111,6 +111,8 @@ One slide lists what is real, what is prototype, what is next.
 | Sightengine free signup from Tajikistan | Ali | Sun, only if NICE is reached |
 | Anthropic API data policy text at the time of the pitch | Ali | Mon |
 | Take It Down (NCMEC) works from Tajikistan; participating platforms today | Ali | Fri |
+| Google Safe Browsing + URLhaus free access and limits for `links.check` | Ali | Sat |
+| Bank hotline numbers for "уже отправил(а)": Alif, Eskhata, Амонатбанк, Душанбе Сити | floater | Fri |
 | An organisation in Tajikistan that can look at evidence of a fake (the "ask a real person" hand-off) | floater | Fri |
 | grammY conversation plugin fits the inline-keyboard tree | bot | Thu |
 | Better Auth setup within a one-hour time-box, else the custom session fallback | Ali | Sat |

@@ -11,6 +11,7 @@ Three public capabilities and one admin surface, nothing else.
 | Analyze one image and return an honest status | mobile | `analysis.run` |
 | List professionals with filters, paginated | mobile, bot | `directory.list` |
 | Report an inaccurate listing | mobile, bot | `reports.create` |
+| Check a link — four honesty tiers, nothing stored | bot, mobile | `links.check` (saved 2026-10-10) |
 | Manage the directory and read reports | crm | `directory.create` · `directory.update` · `directory.setStatus` · `reports.list` |
 
 ## Phase

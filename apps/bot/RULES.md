@@ -2,7 +2,8 @@
 
 ## Nothing leaves, nothing stays
 
-- No file, photo, video or voice message is ever downloaded or forwarded. The reply is one sentence and the app link.
+- No file, photo, video or voice message is ever downloaded or forwarded. For files the bot reads Telegram's metadata only (name, extension, MIME, size) and replies by type; for photos and videos the reply is one sentence and the app link.
+- A forwarded link is sent to `links.check`; the bot never opens it and never says "safe" — "ничего известного не найдено" is the strongest positive wording allowed.
 - No chat id, username or message is written anywhere. Logs carry step names and error codes only.
 - Conversation state lives in memory and dies with the process.
 

@@ -80,6 +80,46 @@ The team's idea, reviewed and kept: two doors — *what to do* and *help me calm
 
 **Where it lives:** category *Вымогательство* in `packages/guidance` (stop card, two doors, seven steps, ready message ru + tg, numbers behind VERIFY). Screens: `/plan` with a category header card, `/breathe` for door 2. New components: the stop card and the share-message button; nothing else.
 
+## Fraud — detail (saved 2026-10-10)
+
+The team's idea, reviewed and kept: two options — step-by-step block and report on social, and a "is it safe to open?" check in the bot. Links in, files by type only, same honesty tiers as images.
+
+**Option 1 — social, the plan** (category *Мошенничество* in `packages/guidance`):
+1. Сначала — не отправляй: деньги, код из СМС, фото, данные карты. "Код из СМС не сообщают никому — даже «банку»."
+2. Сохрани — screenshot the profile, messages, payment details.
+3. Пожалуйся — exact taps, reason "мошенничество / спам".
+4. Заблокируй — after the screenshots.
+5. Предупреди — if a friend's hacked account was used, tell the friend by another channel (call, not DM).
+6. Если уже отправил(а) — the branch that brings kids here: call the bank hotline now (VERIFY numbers: Alif, Eskhata, Амонатбанк, Душанбе Сити), block the card, change passwords where the code was used, tell an adult, report to МВД 1919. No shame.
+
+*Как это выглядит* for this category = the scam-profile signs (new account, few posts and many followers, easy-money promise, "напиши в личку") — the learn-the-signs cards.
+
+**Option 2 — "Проверить ссылку"** in the bot and under the fraud category in the app. One backend procedure `links.check({ url }) → { tier, findings[], finalUrl, nextSteps }`, rate-limited per IP, nothing stored; rules live in `packages/analysis` next to the image rules. The backend expands redirects itself with a HEAD request; the kid never opens the link.
+
+| Tier | Source | Shown as |
+|---|---|---|
+| Известная опасная ссылка | blocklist hit — Google Safe Browsing, URLhaus (VERIFY free access and limits) | the fact + which list |
+| Есть признаки обмана | deterministic checks: real domain after redirects, lookalike vs known brands (`alif-tj.com` vs `alif.tj`), domain registered days ago (RDAP), shortener, asks for a code or payment | где смотреть: the real address, the registration age, the lookalike comparison |
+| Ничего известного не найдено | no hits, no signs | "это не значит, что безопасно" |
+| Проверка недоступна | API down | the general rules |
+
+Every answer ends with the next step: don't enter codes, don't install anything, how to report the sender.
+
+**Files — never downloaded, judged by type.** Telegram's message metadata gives name, extension, MIME type and size without the contents; the bot reads that and nothing more.
+
+| Arrived | Bot says |
+|---|---|
+| `.apk` | installer for Android — never install apps from a chat, only from Play Store; fake "bank" apps are the main way money is stolen |
+| `.exe` `.scr` `.bat` `.msi` | a program — don't open; no service sends programs in a chat |
+| `.pdf` `.docx` `.xlsx` | we can't see inside; the danger is "enable content / macros" and links inside — open in view mode only, never press "enable"; if it promises money or asks for a code, don't open |
+| photo / video | the file itself isn't dangerous; the link or request that comes with it is → link check |
+| `.zip` `.rar` | an archive hides the type inside — don't unpack from a chat |
+| anything else | we don't check files inside; here are the signs of a dangerous one |
+
+Why no content scan: uploading a kid's file to a scanner shares it with dozens of AV vendors; a clean scan still can't say "safe" (fresh scam APKs are in no database); and it's a day we don't have. Re-add trigger: pilot, a hash-only lookup (download to memory, hash, discard, ask "is this hash known bad?") if type rules prove insufficient.
+
+**Owner split:** Ali writes `links.check` Saturday morning; the bot person wires the flow and the file-type replies.
+
 ## Phase 1 — support (makes it human)
 
 | # | Screen | What it does |
