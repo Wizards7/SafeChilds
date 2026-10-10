@@ -2,6 +2,12 @@
 
 body { margin: 0; }
 
+/* Offline banner (global, top of the screen) + install card */
+.offline-global { margin: var(--space-2) var(--space-4) 0; }
+.install { display: flex; flex-direction: column; gap: var(--space-2); }
+.install .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.install .row2 .btn { min-height: 44px; }
+
 /* Analyze rules list */
 .rules { list-style: none; padding: 0; margin: 0; }
 .rules li { display: flex; gap: var(--space-2); align-items: flex-start; padding: var(--space-2) 0; }

@@ -99,7 +99,7 @@ Root, packages and backend are built, tested, pushed; CI is green. Each phase be
 | R Railway | Postgres + backend + mobile + bot, env, migrations as release step, seeds, domain, QR | the public URL opens on a phone over mobile data |
 | D demo | content merged, Tajik reviewed, demo image, five rehearsals on three phones | the script runs clean twice in a row |
 
-Small library picks taken without a separate decision: `exifr` (EXIF), the official `c2pa` package (Content Credentials), `@serwist/next` (PWA), `idb` (IndexedDB). Each is VERIFY on install.
+Small library picks taken without a separate decision: `exifr` (EXIF), `idb` (IndexedDB). Two VERIFYs failed on install and were replaced (2026-10-10): the official `c2pa` package needs WASM + worker assets wired through the bundler — the client detects Content Credentials *presence* only (`c2pa_present_unverified`), validation is a pilot item; `@serwist/next` is a webpack plugin and the app builds with Turbopack — the service worker is hand-written (`apps/mobile/public/sw.js`: shell precache + route chunks, cache-first static, network-first navigation with `/offline`). The embedded Browser pane cannot run service workers, so the worker is **verified on a real phone or desktop Chrome**, not in the pane — a Monday checklist item.
 
 **Demo image (decided 2026-10-10):** a team member's own photo, edited by that team member, with their consent. Never a stranger's photo, never a generated face presented as a person. One version with metadata stripped and visible indicators for the model path; the untouched original on the demo phone for the compare path.
 

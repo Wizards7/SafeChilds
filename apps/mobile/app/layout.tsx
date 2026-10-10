@@ -8,7 +8,9 @@ import "./shell.css";
 import { BottomNav } from "../components/BottomNav";
 import { DeviceShell } from "../components/DeviceShell";
 import { HelpButton } from "../components/HelpButton";
+import { OfflineBanner } from "../components/OfflineBanner";
 import { Providers } from "../components/Providers";
+import { ServiceWorker } from "../components/ServiceWorker";
 
 export const metadata: Metadata = {
   title: "SafeChilds",
@@ -32,10 +34,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <NextIntlClientProvider>
           <Providers>
             <DeviceShell>
+              <OfflineBanner />
               {children}
               <HelpButton />
               <BottomNav />
             </DeviceShell>
+            <ServiceWorker />
           </Providers>
         </NextIntlClientProvider>
       </body>

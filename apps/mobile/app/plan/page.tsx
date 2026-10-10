@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { composePlan, ITEMS, PLATFORM_LABEL, PLATFORMS, SITUATION_LABEL, type Platform, type StepItem } from "@safechilds/guidance";
 import { Icon } from "../../components/Icon";
+import { InstallPrompt } from "../../components/InstallPrompt";
 import { MessageButton } from "../../components/MessageButton";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Incident } from "../../lib/incident-store";
@@ -103,6 +104,8 @@ export default function PlanPage() {
           <span className="body"><span className="t">{t("people.title")}</span><span className="d">{t("people.sub")}</span></span>
           <Icon name="chevron-right" className="i chev" />
         </Link>
+
+        <InstallPrompt ready={Object.values(incident.steps).some((s) => s.done)} />
       </main>
     </>
   );
