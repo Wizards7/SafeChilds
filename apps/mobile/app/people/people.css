@@ -1,0 +1,11 @@
+.filters { display: flex; flex-direction: column; gap: var(--space-2); }
+.card.col { display: flex; flex-direction: column; gap: var(--space-2); }
+.card .body { color: var(--text); }
+.pro .contact { background: var(--support-bg); border-radius: var(--radius-control); padding: var(--space-3); color: var(--text); }
+.pro .is-disabled { opacity: 0.5; pointer-events: none; }
+.report-link { background: none; border: 0; padding: 8px 0; min-height: 40px; font-size: var(--text-small); color: var(--text-secondary); text-decoration: underline; text-align: left; cursor: pointer; }
+.pro .field .actions { margin-top: var(--space-2); }
+.num { display: flex; align-items: center; gap: var(--space-3); min-height: 56px; padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); text-decoration: none; }
+.num b { flex: 1; }
+.small-btn { width: auto; min-height: 44px; }
+.error { color: var(--danger); font-size: var(--text-small); }

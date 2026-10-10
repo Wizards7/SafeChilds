@@ -1,0 +1,5 @@
+.card.p { display: flex; flex-direction: column; gap: var(--space-2); }
+.card.p .head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+.card.p .head .i { color: var(--support); }
+.card.p ul { padding-left: 18px; margin: 0; color: var(--text-secondary); font-size: var(--text-small); display: flex; flex-direction: column; gap: 4px; }
+.btn.danger { color: var(--danger); }

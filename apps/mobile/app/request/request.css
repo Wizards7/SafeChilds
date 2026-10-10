@@ -1,0 +1,9 @@
+main.request { gap: var(--space-4); }
+main.request .card.col { display: flex; flex-direction: column; gap: 4px; }
+main.request .card .body { color: var(--text); }
+main.request .label { font-weight: 500; }
+main.request .opt { font-weight: 400; color: var(--text-secondary); font-size: var(--text-small); }
+main.request .preview { background: var(--neutral-bg); border-radius: var(--radius-control); padding: var(--space-3); font-size: var(--text-small); display: flex; flex-direction: column; gap: 4px; }
+main.request .preview b { color: var(--text); }
+main.request .grid2 .btn[aria-pressed="true"] { background: var(--support-bg-selected); border-color: var(--support); color: var(--support); }
+.error { color: var(--danger); font-size: var(--text-small); }
