@@ -120,6 +120,34 @@ Why no content scan: uploading a kid's file to a scanner shares it with dozens o
 
 **Owner split:** Ali writes `links.check` Saturday morning; the bot person wires the flow and the file-type replies.
 
+## Cyberbullying — detail (saved 2026-10-10)
+
+The team's idea, reviewed and kept: the weight depends on the situation, and the support side (psychologist, counsellor) is part of it — with one correction: no split into "serious → evidence" and "jokes → psychologist". Kids understate; a class group humiliating them is "jokes" in their words. One plan skeleton; every path carries both the practical steps and the support offer; the kid's answers decide the weight.
+
+**Triage = the three situations plus one question** after the safety check, only in this category: "Это один раз или продолжается?" Ongoing → "tell an adult" moves to step 2.
+
+| Situation | Practical weight | Support |
+|---|---|---|
+| Публично унижают / выложили моё фото | heavy: evidence, report; a photo → the fake-content / non-consensual plan (Take It Down if intimate) | offered |
+| Пишут и не останавливаются | medium: screenshots, restrict or block, report | offered |
+| Группа против меня | medium, group steps below | offered first — the loneliest one |
+
+**The plan** (category *Кибербуллинг* in `packages/guidance`):
+1. Не отвечай и не мсти — ответ это то, чего они ждут.
+2. Сохрани — messages, group name, usernames, dates; before leaving or deleting anything.
+3. Ограничь, не только блокируй — Instagram *Restrict* (the bully doesn't know; their comments vanish for everyone but them), exact taps; block where restrict doesn't exist.
+4. Группа — leave after the screenshots; a group *about* you → report the group, not just a message; don't count on the admin.
+5. Пожалуйся — reason "травля / преследование", exact taps per platform.
+6. Расскажи взрослому — here often a teacher or the school psychologist, because the bullies are classmates. Ready message with one extra line: "Я не хочу, чтобы стало хуже — давай сначала просто поговорим." It answers the two reasons kids stay silent: fear it gets worse, fear of being the snitch.
+7. Если выложили твоё фото → the fake-content plan.
+8. Если угрожают → urgent.
+
+Not in it: "поговори с ним / с ней", "не обращай внимания" as the only advice, "просто выйди из группы" before screenshots.
+
+**Support side, offered on every path, never forced:** feelings check → breathing, or "pop the anxious thoughts" — the category it fits best: the bubbles are the bullying thoughts ("все так думают", "я сам(а) виноват(а)") with an answer under each. Then the directory with a school-psychologist entry ("в твоей школе — если есть"; VERIFY how common they are) and counsellors who work with teens. The *почему ребёнок молчит* copy lives here.
+
+**Safety:** the other category with documented self-harm risk. Feelings check matters; "не хочу отвечать" stays a first-class answer; the floating help button is one tap away everywhere. Never diagnose; never "it's not that bad".
+
 ## Phase 1 — support (makes it human)
 
 | # | Screen | What it does |
