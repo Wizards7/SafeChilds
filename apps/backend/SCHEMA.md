@@ -80,7 +80,7 @@ No incident data, no evidence, no situation text travels with a request.
 
 | Procedure | Input | Output | Notes |
 |---|---|---|---|
-| `analysis.run` | multipart image, max size and allowed types enforced server-side | `{ status, indicatorCodes: string[], limitations: string[] }` | rate-limited per IP; writes one `analysis_events` row |
+| `POST /analysis` (plain multipart route, not tRPC — a file is the wrong fit for JSON transport; implemented 2026-10-10) | `image` (jpeg/png/webp ≤ 8 MB) + `evidence` (JSON array of local facts the phone established) | `{ tier, markers: [{code,x,y}], evidence: string[], originalMatches: boolean }` | rate-limited 10/min per IP; image held in memory for the request only; writes one `analysis_events` row (tier + codes); without `ANTHROPIC_API_KEY` the tier is `unavailable` unless local evidence raises it |
 | `directory.list` | `{ lang?, city?, format?, cursor?, limit? }` | `{ items: Professional[], nextCursor: string \| null }` | cursor pagination by `created_at, id`; every item carries `isDemo` and `verificationStatus` |
 | `reports.create` | `{ professionalId, reason }` | `{ ok: true }` | rate-limited per IP |
 | `links.check` | `{ url }` | `{ tier, findings: Finding[], finalUrl, nextSteps: string[] }` | rate-limited per IP; nothing stored; backend follows redirects with HEAD; rules in `packages/analysis` (saved 2026-10-10) |

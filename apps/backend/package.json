@@ -1,0 +1,33 @@
+{
+  "name": "@safechilds/backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@fastify/cors": "^11.0.0",
+    "@fastify/multipart": "^10.0.0",
+    "@fastify/rate-limit": "^11.0.0",
+    "@safechilds/analysis": "workspace:*",
+    "@safechilds/db": "workspace:*",
+    "@safechilds/directory": "workspace:*",
+    "@safechilds/guidance": "workspace:*",
+    "@trpc/server": "^11.0.0",
+    "drizzle-orm": "^0.45.0",
+    "fastify": "^5.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@safechilds/config": "workspace:*",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "vitest": "^5.0.0"
+  }
+}
