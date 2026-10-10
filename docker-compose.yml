@@ -1,0 +1,21 @@
+# Dev database only. Production Postgres is Railway's.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: safechilds-postgres
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: safechilds
+      POSTGRES_PASSWORD: safechilds
+      POSTGRES_DB: safechilds
+    volumes:
+      - safechilds-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U safechilds -d safechilds"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  safechilds-pg:
