@@ -18,8 +18,9 @@ svg.i { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-widt
 .lang button { min-width: 44px; min-height: 36px; padding: 0 10px; border: 0; background: none; font-weight: 600; font-size: 13px; color: var(--text-secondary); }
 .lang button[aria-pressed="true"] { background: var(--text); color: var(--surface); }
 
-main { flex: 1; padding: var(--space-4); padding-bottom: calc(140px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: var(--space-4); }
-main.no-nav { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+/* Bottom padding clears the nav + the floating help button so the last action on a screen is never under it. */
+main { flex: 1; padding: var(--space-4); padding-bottom: calc(168px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: var(--space-4); }
+main.no-nav { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 h1 { font-size: var(--text-h1); font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; }
 h2 { font-size: var(--text-h2); font-weight: 700; line-height: 1.2; }
 h3 { font-size: var(--text-h3); font-weight: 600; line-height: 1.3; }
