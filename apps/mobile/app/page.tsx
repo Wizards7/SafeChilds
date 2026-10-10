@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CATEGORIES, CATEGORY_DESCRIPTION, CATEGORY_LABEL } from "@safechilds/guidance";
 import { Icon } from "../components/Icon";
+import { StartIncident } from "../components/StartIncident";
 import { pick, type Locale } from "../lib/locale";
 import { ContinueCard } from "./ContinueCard";
 import { LanguageToggle } from "./LanguageToggle";
@@ -40,11 +41,11 @@ export default async function Home() {
               <Icon name="chevron-right" className="i chev" />
             </Link>
           ))}
-          <Link className="option" href="/safety?s=unknown">
+          <StartIncident situation="unknown" className="option">
             <span className="ic"><Icon name="circle-help" /></span>
             <span className="body"><span className="t">{pick(CATEGORY_LABEL.unknown, locale)}</span></span>
             <Icon name="chevron-right" className="i chev" />
-          </Link>
+          </StartIncident>
         </div>
         <footer style={{ textAlign: "center" }}>
           <Link href="/privacy" className="small">{t("privacy")}</Link>

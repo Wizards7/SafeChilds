@@ -1,0 +1,4 @@
+main.safety { justify-content: center; }
+main.safety .sub { margin-top: var(--space-2); }
+main.safety .answer { min-height: 64px; justify-content: center; font-size: var(--text-h3); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

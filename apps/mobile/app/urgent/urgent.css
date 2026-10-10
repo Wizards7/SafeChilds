@@ -1,0 +1,9 @@
+main.urgent h1 { color: var(--danger); }
+main.urgent .fault { margin-top: var(--space-2); font-weight: 600; }
+main.urgent .card.col { display: flex; flex-direction: column; gap: var(--space-3); }
+main.urgent .card .body { color: var(--text); }
+main.urgent .msg { background: var(--neutral-bg); border-radius: var(--radius-control); padding: var(--space-3); font-size: var(--text-small); }
+main.urgent .num { display: flex; align-items: center; gap: var(--space-3); min-height: 56px; padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); text-decoration: none; }
+main.urgent .num b { flex: 1; }
+main.urgent .num .n { font-weight: 700; font-variant-numeric: tabular-nums; }
+main.urgent .card-neutral.col { display: flex; flex-direction: column; gap: var(--space-1); }
