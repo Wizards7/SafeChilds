@@ -50,6 +50,7 @@ export const EVIDENCE_TEXT: Record<Evidence, Explanation> = {
   exif_stripped: { label: "fact", what: { ru: "Метаданные удалены", tg: "Метамаълумот нест шудааст", verify: true }, how: { ru: "Свойства файла → нет данных о камере и дате. У фото с телефона они есть почти всегда, но платформы тоже их удаляют.", tg: "Хусусиятҳои файл → маълумоти камера ва сана нест. Дар акси телефон онҳо қариб ҳамеша ҳастанд, аммо платформаҳо ҳам онҳоро нест мекунанд.", verify: true } },
   exif_present: { label: "fact", what: { ru: "Метаданные на месте", tg: "Метамаълумот дар ҷояш аст", verify: true } },
   c2pa_absent: { label: "fact", what: { ru: "Content Credentials не найдены", tg: "Content Credentials ёфт нашуд", verify: true } },
+  c2pa_present_unverified: { label: "fact", what: { ru: "В файле есть Content Credentials", tg: "Дар файл Content Credentials ҳаст", verify: true }, how: { ru: "Подпись мы не проверяли. Открой contentcredentials.org/verify и загрузи файл — там видно, кто и чем его создал.", tg: "Имзоро мо насанҷидем. contentcredentials.org/verify-ро кушо ва файлро бор кун — он ҷо дида мешавад, кӣ ва бо чӣ онро сохтааст.", verify: true } },
   original_matches: { label: "fact", what: { ru: "Совпадает с оригиналом", tg: "Бо аслӣ мувофиқ аст", verify: true } },
 };
 

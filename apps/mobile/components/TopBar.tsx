@@ -7,7 +7,7 @@ import { LanguageToggle } from "../app/LanguageToggle";
 import type { Locale } from "../lib/locale";
 import { Icon } from "./Icon";
 
-export function TopBar({ title, back = true, backHref, right }: { title?: ReactNode; back?: boolean; backHref?: string; right?: ReactNode }) {
+export function TopBar({ title, back = true, backHref, right }: { title?: ReactNode; back?: boolean; backHref?: string | undefined; right?: ReactNode }) {
   const t = useTranslations("common");
   const router = useRouter();
   const locale = useLocale() as Locale;

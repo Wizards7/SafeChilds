@@ -9,7 +9,9 @@ export const RAISING_EVIDENCE = [
 ] as const;
 export type RaisingEvidence = (typeof RAISING_EVIDENCE)[number];
 
-export const NEUTRAL_EVIDENCE = ["exif_stripped", "exif_present", "c2pa_absent", "original_matches"] as const;
+// c2pa_present_unverified: a Content Credentials manifest exists in the file but its signature was not validated
+// (the hackathon client detects presence only; full validation with the c2pa library is a pilot item).
+export const NEUTRAL_EVIDENCE = ["exif_stripped", "exif_present", "c2pa_absent", "c2pa_present_unverified", "original_matches"] as const;
 export type NeutralEvidence = (typeof NEUTRAL_EVIDENCE)[number];
 
 export type Evidence = RaisingEvidence | NeutralEvidence;

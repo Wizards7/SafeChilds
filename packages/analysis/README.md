@@ -4,7 +4,7 @@ Plain TypeScript, no dependency on Next.js or the database. Consumed by `apps/ba
 
 ## What it owns
 
-- **Evidence types** — the verifiable facts the client or server can establish without a model: `c2pa_manifest` (present, and what it declares), `exif_present`, `exif_contradiction` (software tag, dimensions, dates), `original_differs`, `original_matches`.
+- **Evidence types** — the verifiable facts the client or server can establish without a model: `c2pa_declares_generated` / `c2pa_declares_edited` (raising; needs manifest validation — pilot), `c2pa_present_unverified` / `c2pa_absent` (neutral; the hackathon client detects presence only), `exif_present` / `exif_stripped` (neutral), `exif_contradiction` (raising: the Software tag names an editor), `original_differs` (raising) / `original_matches` (finding).
 - **Indicator codes** — the fixed enum the model may return: a closed list such as `face_boundary`, `lighting_mismatch`, `hands_or_fingers`, `text_or_logo_artifacts`, `background_warp`, `skin_too_smooth`. Final list fixed when the prompt is written; anything outside the enum is a validation failure, not a new code.
 - **Rules** — `(evidence[], codes[]) → tier`, pure and unit-tested. The model adds markers; it never raises a tier.
 - **Prompt + Zod response schema** — the model returns codes with marker positions and nothing else: no free text, no numbers, no verdict.
