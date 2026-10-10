@@ -59,6 +59,27 @@ The team's idea, reviewed and kept: tiered, no percentages, escalation only when
 
 **Rules that survive every tier:** safety check comes first; Analyze is optional; a pending or inconclusive result never blocks the plan; nothing ever tells the kid to contact the account.
 
+## Extortion — detail (saved 2026-10-10)
+
+The team's idea, reviewed and kept: two doors — *what to do* and *help me calm down* — with one correction: a stop card comes before the doors, because blackmailers run a countdown and a kid can pay in the middle of a breathing exercise.
+
+**Stop card** (ten seconds, no choice): не плати · не отправляй ничего · не удаляй переписку · не спорь с ним · ты не виноват(а). Then the two doors, each linking to the other at the bottom.
+
+**Door 1 — Что делать дальше**, in this order because the order is the advice:
+1. Сохрани доказательства — screenshots of the demands, username, payment details, dates. Don't delete the chat: shame makes kids delete; the police need it.
+2. Прекрати общение, но не блокируй сразу — stop replying first, block after the screenshots, and say why.
+3. Пожалуйся на платформе — exact taps, reason "шантаж / интимные изображения". No promise of removal.
+4. Take It Down (NCMEC) — for under-18 intimate images, a hash is created on the phone, the image never uploaded; participating platforms block it from being posted. VERIFY it works from Tajikistan before it goes on a screen. If it does, it is the one technical weapon the kid has and it fits "no image leaves the phone".
+5. Расскажи взрослому — with a ready message, copy or share in one tap: "Мне нужна помощь. Меня шантажируют в интернете. Я не знаю, что делать. Пожалуйста, не ругай меня." This is the answer to "почему ребёнок молчит".
+6. Сообщи — МВД trust line 1919 (VERIFY by phone) and the directory.
+7. Если уже заплатил(а) — separate branch: it does not stop after payment, don't pay again, same steps, no shame.
+
+**Door 2 — Мне тяжело**: the 60-second breathing with the expanding circle plus one generated ambient sound (Web Audio) or one CC0 track. No music library, no "choose your music" screen — re-add trigger: pilot feedback. Always ends with "Готов(а) к следующему шагу?" → Door 1. Calming is a pause, not an exit.
+
+**Category-specific safety:** the safety check before this stays, and the "не уверен" / "срочно" answers matter most here — sextortion is the category with documented self-harm risk. Urgent screen's first line for extortion: "Ты не виноват(а). Это преступление против тебя, не твоя ошибка." Nothing ever suggests negotiating, paying a smaller amount, or sending a "proof" image. No "we're on it".
+
+**Where it lives:** category *Вымогательство* in `packages/guidance` (stop card, two doors, seven steps, ready message ru + tg, numbers behind VERIFY). Screens: `/plan` with a category header card, `/breathe` for door 2. New components: the stop card and the share-message button; nothing else.
+
 ## Phase 1 — support (makes it human)
 
 | # | Screen | What it does |
@@ -98,5 +119,6 @@ The team's idea, reviewed and kept: tiered, no percentages, escalation only when
 
 - Which four platforms matter most for teens in Tajikistan — is VK still relevant, is Likee? Owner: floater, Friday.
 - Which organisation in Tajikistan can look at evidence of a fake (for the "ask a real person" hand-off)? Owner: floater, with the helpline calls.
+- Take It Down (NCMEC) — does it work from Tajikistan, which platforms participate as of today? Owner: Ali, Friday. Nothing about it reaches a screen until verified.
 - Learn-the-signs quiz (Phase 1), floating help button on every screen, bold headline weight on our palette, "pop the anxious thoughts" replacing grounding in Phase 2 — proposed after reviewing the organizers' example (Лупа); confirm or kill.
 - Does the teen pick a situation first or the safety check first for a user who arrives via the bot link? Current answer: situation, then safety, same as the app.

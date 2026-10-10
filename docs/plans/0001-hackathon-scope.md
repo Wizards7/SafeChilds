@@ -110,5 +110,7 @@ One slide lists what is real, what is prototype, what is next.
 | Every Tajik string written by AI — native review | floater | Sat |
 | Sightengine free signup from Tajikistan | Ali | Sun, only if NICE is reached |
 | Anthropic API data policy text at the time of the pitch | Ali | Mon |
+| Take It Down (NCMEC) works from Tajikistan; participating platforms today | Ali | Fri |
+| An organisation in Tajikistan that can look at evidence of a fake (the "ask a real person" hand-off) | floater | Fri |
 | grammY conversation plugin fits the inline-keyboard tree | bot | Thu |
 | Better Auth setup within a one-hour time-box, else the custom session fallback | Ali | Sat |
