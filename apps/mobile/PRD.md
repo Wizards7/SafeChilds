@@ -154,7 +154,8 @@ Not in it: "поговори с ним / с ней", "не обращай вни
 |---|---|---|
 | 7 | Feelings | Eight answers including "I don't want to answer". Picks which support to offer. Never diagnoses |
 | 8 | Breathe | One 60-second guided breathing. Skippable at any second. Offered only when feelings suggest it |
-| 9 | People | Directory with filters: language, city, online / in person, works with teens. DEMO banner. Contact method per card. "Report inaccurate listing" |
+| 9 | People | Directory with filters: language, city, online / in person, works with teens. DEMO banner. Each card offers two paths: **"Свяжусь сам(а)"** (the verified contact method; we learn nothing) and **"Пусть со мной свяжутся"** (the contact request below). "Report inaccurate listing" |
+| 9a | Request | One screen, asked only here, only after tapping a professional, only on the second path: как к тебе обращаться (name or nickname) · один контакт (phone **or** Telegram) · язык · возраст (bracket: младше 18 / 18–24, never a birth date) · онлайн (Telegram / видео) или лично · когда удобно (optional) · кто может ответить вместо тебя (optional, a trusted adult) · one-sentence consent. **Prototype in the hackathon**: the form is real, the confirmation says "Прототип — в демо запрос никуда не отправляется" and shows how a professional would receive it; nothing persists. Saved 2026-10-10 |
 | 10 | Privacy | Plain language: what we store (nothing), what we send (one image, deleted after), limits of confidentiality |
 
 ## Phase 2 — only if P0 + P1 are green on three phones by Sunday night
@@ -172,11 +173,20 @@ Not in it: "поговори с ним / с ней", "не обращай вни
 - Bottom nav: Home · My Incident · Support · People. Analyze lives inside the journey, not in the nav
 - Install prompt appears after the first completed plan step, never on first open
 
+## Identity and remote help (saved 2026-10-10)
+
+No auth at the door — the team's decision. Identity is asked **once, at the moment of contact, as an expiring request — never as an account**. What a professional needs is a way to reach the kid and what to call them, not an identity: so no full name, no date of birth, no password. "Keep it as a hash" was considered and rejected: a hash is one-way and a hashed phone can never be called; the tool for "store but protect" is encryption at rest plus an expiry (deleted when the professional confirms receipt, or after 7 days). The incident never travels with the request.
+
+Remote help for kids who can't or won't go in person: the conversation happens in the professional's own channel — Telegram text, voice or video, or phone — chosen on the request form (онлайн / лично) and listed on the verified card. We connect; we don't host. No in-app chat: a chat with minors inside our app means an on-duty vetted professional, response-time promises, logs of children's messages on our server, a crisis protocol and a legal review — a safeguarding product, not a screen, and the brief forbids implying a human is there when one isn't. Privacy page says plainly that Telegram is a foreign-hosted channel and the kid's choice, same as calling.
+
+Re-add triggers: real requests when a partner organisation agrees to receive them (encrypted storage, expiry, reviewed consent text, №1537 check for minors' contact data); in-app chat only with on-duty professionals, a written safeguarding protocol and a legal review.
+
 ## Skipped, with the trigger that re-adds it
 
 | Feature | Trigger |
 |---|---|
-| Accounts, OTP, consent flows | real referrals |
+| Accounts, OTP, consent flows | never as a door; identity is an expiring contact request at the moment of need (above) |
+| In-app chat with a professional | partner with on-duty professionals + safeguarding protocol + legal review |
 | Multiple incidents | pilot feedback |
 | Video or URL analysis | a validated method exists |
 | Incident export (PDF for a parent or police) | pilot feedback |

@@ -37,6 +37,28 @@ Indexes: `professionals (verification_status, city)`, `professionals (created_at
 
 What is deliberately absent: users, sessions for the public, incidents, evidence, images, device keys. Admin sessions are Better Auth's own tables.
 
+**Specified, not built — `referrals` (saved 2026-10-10).** Goes live only when a partner organisation agrees to receive requests. Until then `referrals.create` runs in prototype mode: validates, returns a demo confirmation, persists nothing.
+
+```
+referrals
+  id               uuid pk
+  professional_id  uuid fk → professionals
+  display_name     text              name or nickname, as the kid typed it
+  contact_kind     text              phone | telegram
+  contact_value    bytea             encrypted at rest; never logged, never hashed (a hash can't be called)
+  language         text              tg | ru
+  age_bracket      text              under_18 | 18_24   — never a birth date
+  format           text              online | in_person
+  preferred_time   text null
+  proxy_contact    bytea null        a trusted adult's contact instead, encrypted
+  consent_at       timestamptz
+  status           text              pending | received | expired
+  expires_at       timestamptz       7 days from creation; deleted on `received` or expiry, whichever first
+  created_at       timestamptz
+```
+
+No incident data, no evidence, no situation text travels with a request.
+
 ## Procedures (tRPC)
 
 **Public**
@@ -47,6 +69,7 @@ What is deliberately absent: users, sessions for the public, incidents, evidence
 | `directory.list` | `{ lang?, city?, format?, cursor?, limit? }` | `{ items: Professional[], nextCursor: string \| null }` | cursor pagination by `created_at, id`; every item carries `isDemo` and `verificationStatus` |
 | `reports.create` | `{ professionalId, reason }` | `{ ok: true }` | rate-limited per IP |
 | `links.check` | `{ url }` | `{ tier, findings: Finding[], finalUrl, nextSteps: string[] }` | rate-limited per IP; nothing stored; backend follows redirects with HEAD; rules in `packages/analysis` (saved 2026-10-10) |
+| `referrals.create` | the request fields above | `{ mode: "prototype" \| "live", requestId? }` | **prototype mode in the hackathon: validates and persists nothing.** Live mode behind the partner trigger; rate-limited per IP |
 
 **Admin**
 
