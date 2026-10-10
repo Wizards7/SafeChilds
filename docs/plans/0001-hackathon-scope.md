@@ -32,7 +32,7 @@ The spine is one journey: language → home → category → situation → safet
 
 **MUST** — the mobile spine (P0) and support screens (P1), the backend's three public procedures and four admin procedures, the CRM's three pages, the bot's situation → safety → plan → people flow, installable PWA, `ru` + `tg`, a working end-to-end demo on three real phones.
 
-**NICE** — day 4 only if MUST is green: grounding exercise, calm audio, Sightengine as a second signal (VERIFY free signup from Tajikistan), offline guidance, parent/teacher entry.
+**NICE** — day 4 only if MUST is green: "pop the anxious thoughts" (`/thoughts`), `/lock` on "Мой случай", three SVG spot scenes for the welcome, Sightengine as a second signal (VERIFY free signup from Tajikistan), offline guidance. Parent / teacher "browse everything" is out (2026-10-10) — pilot.
 
 **SKIP, with triggers** — accounts (never as a door; expiring contact request instead), live referral requests (partner organisation; the form ships as a labelled prototype), in-app chat with a professional (partner + safeguarding protocol + legal review; remote help is a hand-off to Telegram or phone), video/URL analysis (validated method), incident export (pilot feedback), push (native), admin beyond the directory (never for incidents), any chat or "AI psychologist" (never).
 

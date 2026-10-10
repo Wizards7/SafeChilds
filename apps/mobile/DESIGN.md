@@ -1,54 +1,105 @@
 # `apps/mobile` — DESIGN
 
-## Workflow (playbook method)
+**Updated 2026-10-10** after the four category ideas and the identity decision were saved. Scope per phase is in [`PRD.md`](./PRD.md); this file is how it looks and behaves.
 
-1. Tokens and foundation sheet first — done 2026-10-09: `assets/design/design-system/tokens.css` + `foundation.html` (gitignored staging; promoted to `packages/ui/` when the app is scaffolded).
-2. One standalone HTML file per screen in `assets/design/mobile/`, opened on a real phone. Every file carries a state-switcher bar: normal / loading / empty / error / offline. Real `ru` + `tg` strings, never lorem ipsum.
-3. Ideation pass with `taste-skill`; after approval every change is surgical in the file, never regenerated.
-4. Approved files → `html.to.design` → one Figma file, the design home for the CRM and bot people.
-5. The sketches' CSS becomes the app's styling foundation; nothing is thrown away.
+## The principle: the app adapts to the kid; the kid never browses the app
+
+Four or five taps build a **situation profile**. Every screen after that is composed from the profile — steps, tools, support, directory filters. Nothing that doesn't match the profile exists on screen: no "all categories", no step for a platform they didn't name, no "check a link" when the problem is a fake photo. A kid who opens the app frightened sees one question or one action at a time, never a menu.
+
+### The inputs — at most five taps before the plan
+
+| Tap | Question | Why |
+|---|---|---|
+| 1 | Category — four cards | picks the skeleton |
+| 2 | Situation — 2–3 under the card | picks the steps |
+| 3 | "Ты сейчас в безопасности?" | urgent, or continue |
+| 4 | One category question | extortion *уже заплатил(а)?* · fraud *уже отправил(а)?* · cyberbullying *один раз или продолжается?* · fake content *есть оригинал?* |
+| 5 | Platform — asked only when a step needs it, inside the plan | the exact report taps |
+
+No typing. Under thirty seconds.
+
+### The profile
+
+```
+category · situation · safety · platform?
+flags: ongoing · alreadyPaid · alreadySent · hasOriginal · photoShared · intimate · threatened
+```
+
+Stored in the on-device incident ([`SCHEMA.md`](./SCHEMA.md)). The whole app renders from this one object; the bot renders from the same object with a different renderer.
+
+### How content declares where it belongs
+
+Every item in `packages/guidance` — a step, a tool, a support option, a directory filter — carries a `showWhen` over the profile. The plan is **composed from matching items**, never picked from a list of pre-written plans. A new flag is a new condition, not a new screen. The vocabulary is defined in [`packages/guidance/README.md`](../../packages/guidance/README.md).
+
+## Screens
+
+| # | Route | What's on it | Shown when |
+|---|---|---|---|
+| 0 | `/welcome` | Four steps, first open only: **1** Тоҷикӣ / Русский · **2** "Что-то случилось в интернете? Поможем понять, что делать — шаг за шагом." · **3** "Без регистрации. Ничего не храним. Всё остаётся на твоём телефоне." · **4** "Ты не один. Здесь есть путь к настоящему человеку." → [Начать]. "Пропустить" on every step from step 1; one sentence per step; dots + Далее + swipe | first open only; deep links (`?from=bot`, the QR) bypass it; "Start over" keeps the flag; re-readable from Privacy |
+| 1 | `/` Home | "Что-то случилось?" + four category cards + "не знаю, что произошло" · "Continue" card on top if an incident exists · small "Узнать признаки" entry · footer: Privacy | always |
+| 2 | `/situation` | 2–3 situations of the chosen category, one per row | after a category |
+| 3 | `/safety` | one question, four answers, nothing else — no nav, no skip, no progress dots | always, right after the situation |
+| 4 | `/urgent` | "Ты не виноват(а)." · tell an adult now, with the ready message · verified numbers (empty state "уточняем местные номера" until a human verified them) · directory urgent section · quiet "Я в безопасности, продолжить" | safety = threat / unsure / urgent, or the floating help button |
+| 5 | `/question` | the one category question — its own screen, one question per screen is the rule | one per category |
+| 6 | `/stop` | extortion stop card: не плати · не отправляй · не удаляй · не спорь · ты не виноват(а) → two doors: Что делать дальше / Мне тяжело | category = extortion |
+| 7 | `/analyze` | four steps: rules → local checks + compare with the original → markers + "где смотреть" → tier + next step. Optional, skippable at every step | fake photo / video, or `photoShared` |
+| 8 | `/link` | paste a link → four tiers + "где смотреть" + next step | category = fraud |
+| 9 | `/plan` | platform picker at the top only if a step needs it → **three steps "сейчас", the rest under "потом"** (opens when the three are ticked, or on demand) · each step one line, "как / почему" collapsed · ready-message button on the "tell an adult" step · "Узнать больше" link to the category's что это / как выглядит | always — the heart |
+| 10 | `/feelings` | eight answers incl. "не хочу отвечать" | offered after the plan; first for "группа против меня"; from the nav |
+| 11 | `/breathe` | 60-second expanding circle + one generated ambient sound; skippable any second; ends with "Готов(а) к следующему шагу?" | feelings = scared / anxious / overwhelmed, or extortion door 2 |
+| 12 | `/thoughts` | "pop the anxious thoughts" — bubbles with an answer under each | Phase 2; feelings = ashamed / sad, or cyberbullying |
+| 13 | `/people` | filters: language / city / online–in person / works with teens · DEMO banner · school psychologist entry for cyberbullying · per card: **Свяжусь сам(а)** / **Пусть со мной свяжутся** · "report listing" | from the plan and the nav |
+| 14 | `/request` | the contact request: обращение · один контакт · язык · возраст (bracket) · онлайн / лично · когда удобно · кто может ответить вместо тебя · consent. Prototype label in the hackathon | from a professional's card, second path only |
+| 15 | `/incident` | the one incident: category, situation, platform, saved links / screenshots, ticked steps, analysis tier · "Start over" with confirm | from the nav |
+| 16 | `/privacy` | what we store (nothing), what we send (one image / one link, deleted), confidentiality limits, Telegram is the kid's own channel, the model provider's policy line · "О приложении" re-opens the welcome | from Home footer and the nav |
+| 17 | `/signs` | learn-the-signs cards, five per category, Лупа-style reveal with numbered markers | Phase 1; from Home only, never inside a journey |
+
+Not pages: the **floating help button** (every screen → `/urgent`; the only element that ignores the profile) and the **desktop shell** (≥ 768 px: phone frame + QR + pitch line + "what is real / what is prototype").
+
+Out for the hackathon: `/about` (parent / teacher "browse everything") — re-add trigger: pilot, a parents/schools page. `/lock` (PIN on "Мой случай") — Phase 2 if cheap, else pilot.
 
 ## Journey graph
 
 ```
-/language ─► /  (home) ─► /situation/[type] ─► /safety ─┬─ safe ──► /analyze (fake photo/video only, optional)
-                                                         │                 │
-                                                         │                 ▼
-                                                         │            /feelings (optional) ─► /breathe (if offered)
-                                                         │                 │
-                                                         │                 ▼
-                                                         │              /plan ─► /people ─► /incident
-                                                         │
-                                                         └─ threat / not sure / urgent ──► /urgent
+/welcome (first open) ─► /  ─► /situation ─► /safety ─┬─ safe ──► /question ─► [/stop] ─► [/analyze | /link] ─► /plan ─► [/feelings ─► /breathe | /thoughts] ─► /people ─► [/request] ─► /incident
+                                                      └─ threat / unsure / urgent ──► /urgent ──► "продолжить" ──► /plan
 ```
 
-Bottom nav is visible everywhere except `/breathe` and `/urgent`. Support in the nav opens `/feelings` directly for a teen who comes back later just to breathe.
+Brackets = shown only when the profile says so.
 
-## Screens (in build order)
+## Nav
 
-| Order | Route | Why this order |
-|---|---|---|
-| 1 | `/` home | the demo starts here and it sets the tone |
-| 2 | `/safety` | the screen a UNICEF jury will judge hardest |
-| 3 | `/analyze` | four result states, the honesty contract made visible |
-| 4 | `/plan` | the most useful screen in the app (exact report taps) |
-| 5 | `/urgent` | must exist before any safety answer routes to it |
-| 6 | `/people` | the directory with the DEMO banner |
-| 7 | `/incident` | shows the journey paid off |
-| 8 | `/feelings`, `/breathe` | support |
-| 9 | `/language`, `/privacy` | small, last |
+Four items: **Главная · Мой случай · Поддержка · Люди**. Hidden on `/welcome`, `/safety`, `/urgent`, `/stop`, `/breathe`. Analyze, link, stop, question, request — inside the journey, never in the nav. "Поддержка" opens `/feelings` directly for a kid who comes back just to breathe.
+
+## What keeps a screen light
+
+- One screen, one question or one action. Never two questions on one screen.
+- Steps are cards: what to do in one line; "как" (exact taps) and "почему" collapsed under a tap.
+- Three steps now, the rest later. Eight at once is a wall.
+- No explanation before action. "Что это / как это выглядит" exists behind "Узнать больше", never in the path.
+- Every screen: one primary action, one secondary (skip / back / help), nothing else.
+- Loading, empty, error and offline are designed states on every screen that touches the backend; guidance never needs the network after first load.
 
 ## Visual direction
 
-Calm Trust: neutrals dominate, blue is the one primary action per screen, teal only on the human-support side, red only on the urgent screen. Icons are Lucide inline SVG. Warmth comes from copy and spacing, not from colour: "Что-то случилось?", not "Сообщить об инциденте".
+Calm Trust, from [`assets/design/design-system/tokens.css`](../../assets/design/design-system/tokens.css) (promoted to `packages/ui` at scaffold): neutrals dominate; blue is the one primary action per screen; teal only on the human-support side; red only on `/urgent` and the stop card. Light only. Icons Lucide inline SVG.
 
-Type scale (mobile): 28 / 22 / 18 / 16 / 14. Nothing under 14px. Inter, self-hosted woff2, Tajik glyphs verified on the foundation sheet.
+**Headlines are bold** — the warmth comes from type weight and copy, not from colour or illustration: "Что-то случилось?" not "Сообщить об инциденте"; "Ты не виноват(а)" as the first line wherever it applies. Type scale (mobile) 28 / 22 / 18 / 16 / 14, nothing under 14. Inter self-hosted, Tajik glyphs verified on the foundation sheet.
 
-## Desktop shell
+Illustrations: none in Phase 0; the headline is the visual. Phase 2 polish: three flat SVG spot scenes in the palette for `/welcome`, drawn in code — never a purchased isometric kit.
 
-At ≥ 768px the app renders inside a phone frame, centred, with the QR code, the one-line pitch and the "what is real / what is prototype" list beside it. This is the landing page. Below 768px the shell renders nothing.
+Motion: ≤ 300 ms, named properties only, `prefers-reduced-motion` respected; the breathing circle is the one longer animation and it is the content.
+
+## Workflow (playbook method)
+
+1. Tokens + foundation sheet — done 2026-10-09.
+2. One standalone HTML file per screen in `assets/design/mobile/`, opened on a real phone, each with a state-switcher bar (normal / loading / empty / error / offline). Real `ru` + `tg` strings. Build order: Home → situation → safety → plan → urgent → analyze → people → incident → stop / question / link → feelings / breathe → welcome / privacy → signs.
+3. Ideation pass with `taste-skill`; after approval every change is surgical in the file.
+4. Approved files → `html.to.design` → one Figma file, the design home for the CRM and bot people.
+5. The sketches' CSS becomes the app's styling foundation.
 
 ## Open design questions
 
-- Illustration or none on Home? Current answer: none for the hackathon; a warm headline does the job.
-- Breathing visual: expanding circle (Calm pattern) or a plain timer? Current answer: circle, CSS only, respects `prefers-reduced-motion`.
+- Breathing visual: expanding circle (chosen) — confirm on the phone that it reads at 60 fps on a cheap Android.
+- The "three now" rule on a plan with only four steps: show all four. Threshold is five.
+- `/lock` — PIN or biometric on "Мой случай": Phase 2 if the floater's testing shows kids worry about parents reading the phone.

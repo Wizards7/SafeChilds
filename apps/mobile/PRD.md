@@ -10,7 +10,7 @@ A teenager in Tajikistan who found a fake image, a fake video, an impersonating 
 
 | # | Screen | What it does | Decided |
 |---|---|---|---|
-| 0 | Language | First open: Тоҷикӣ / Русский. One tap, remembered on the device | yes |
+| 0 | Welcome | First open only: language (Тоҷикӣ / Русский) + three one-line role steps, skippable from step 1; deep links bypass it; never shown again | yes — 2026-10-10 |
 | 1 | Home | "Something happened online?" + four category cards (from the organizers' threat map), each opening 2–3 concrete situations, plus "не знаю, что произошло". If an incident exists, a "Continue" card on top | yes — 2026-10-10 |
 | 2 | Safety check | "Are you safe right now?" — four answers. Threat / not sure / urgent → Urgent screen, skipping everything else | yes — always the screen right after the situation |
 | 3 | Urgent | Tell a trusted adult now + verified numbers only (empty state until a human on the team verified them) + directory urgent section | yes |
@@ -160,8 +160,9 @@ Not in it: "поговори с ним / с ней", "не обращай вни
 
 ## Phase 2 — only if P0 + P1 are green on three phones by Sunday night
 
-- Grounding exercise (5-4-3) as a second coping option
-- Calm audio (licensed or original only)
+- "Pop the anxious thoughts" (`/thoughts`) as the second coping option — replaces the grounding exercise; fits cyberbullying best
+- `/lock` — PIN or biometric on "Мой случай", if testing shows kids worry about parents reading the phone
+- Three flat SVG spot scenes for `/welcome`, drawn in code
 - Sightengine score as an extra analysis signal (VERIFY free signup from Tajikistan)
 - Install prompt tuning; guidance works offline after first open
 - Parent / teacher entry on Home
@@ -172,6 +173,9 @@ Not in it: "поговори с ним / с ней", "не обращай вни
 - Installable PWA; `theme-color` set; safe areas respected
 - Bottom nav: Home · My Incident · Support · People. Analyze lives inside the journey, not in the nav
 - Install prompt appears after the first completed plan step, never on first open
+- Floating help button on every screen → `/urgent`; the only element that ignores the situation profile (confirmed 2026-10-10)
+- Learn-the-signs cards (`/signs`) in Phase 1, from Home only; bold headline weight on the Calm Trust palette (confirmed 2026-10-10)
+- Adaptive journey: at most five taps before the plan; three steps "сейчас", the rest under "потом"; one question per screen — [`DESIGN.md`](./DESIGN.md)
 
 ## Identity and remote help (saved 2026-10-10)
 
@@ -198,5 +202,5 @@ Re-add triggers: real requests when a partner organisation agrees to receive the
 - Which four platforms matter most for teens in Tajikistan — is VK still relevant, is Likee? Owner: floater, Friday.
 - Which organisation in Tajikistan can look at evidence of a fake (for the "ask a real person" hand-off)? Owner: floater, with the helpline calls.
 - Take It Down (NCMEC) — does it work from Tajikistan, which platforms participate as of today? Owner: Ali, Friday. Nothing about it reaches a screen until verified.
-- Learn-the-signs quiz (Phase 1), floating help button on every screen, bold headline weight on our palette, "pop the anxious thoughts" replacing grounding in Phase 2 — proposed after reviewing the organizers' example (Лупа); confirm or kill.
+- `/about` (parent / teacher "browse everything") — out for the hackathon (2026-10-10); re-add at pilot with a parents/schools page.
 - Does the teen pick a situation first or the safety check first for a user who arrives via the bot link? Current answer: situation, then safety, same as the app.
