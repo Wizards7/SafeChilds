@@ -25,6 +25,7 @@ import {
   type Profile,
   type Text,
 } from "@safechilds/guidance";
+import { LINK_TIER_TEXT, type LinkTier } from "@safechilds/analysis";
 import type { Locale } from "./state";
 
 export const UI: Record<string, Text> = {
@@ -55,6 +56,10 @@ export const UI: Record<string, Text> = {
   otherFile: { ru: "Мы не проверяем файлы изнутри. Если файл обещает деньги или просит код — не открывай.", tg: "Мо файлҳоро аз дохил намесанҷем. Агар файл пул ваъда диҳад ё рамз пурсад — накушо.", verify: true },
   sendLink: { ru: "Пришли ссылку одним сообщением — проверим, куда она ведёт. Открывать её тебе не нужно.", tg: "Пайвандро бо як паём фирист — месанҷем, ба куҷо мебарад. Ба ту кушодан лозим нест.", verify: true },
   useButtons: { ru: "Нажми одну из кнопок выше.", tg: "Яке аз тугмаҳои болоро пахш кун.", verify: true },
+  neverAsk: { ru: "Мы никогда не просим коды, пароли или деньги. Настоящий бот — только @{username}.", tg: "Мо ҳеҷ гоҳ рамз, парол ё пул намепурсем. Боти аслӣ — танҳо @{username}.", verify: true },
+  leadsTo: { ru: "Ведёт на", tg: "Мебарад ба", verify: true },
+  hiddenLink: { ru: "Внимание: текст ссылки показывает «{shown}», а ведёт на «{real}». Так прячут настоящий адрес.", tg: "Диққат: матни пайванд «{shown}»-ро нишон медиҳад, аммо ба «{real}» мебарад. Суроғаи аслиро ҳамин тавр пинҳон мекунанд.", verify: true },
+  apkDisguised: { ru: "Файл называется как фото, документ или приглашение, но это программа для Android (.apk). Так маскируют приложения, которые читают СМС с кодами. Не устанавливай. Настоящие приложения — только из Play Store.", tg: "Файл мисли акс, ҳуҷҷат ё даъватнома ном дорад, аммо ин барномаи Android аст (.apk). Барномаҳоеро, ки СМС-и рамздорро мехонанд, ҳамин тавр пинҳон мекунанд. Насб накун. Барномаҳои аслӣ — танҳо аз Play Store.", verify: true },
 };
 
 export const t = (key: keyof typeof UI, locale: Locale) => UI[key]![locale];
@@ -70,10 +75,14 @@ export interface Message {
   buttons: Button[][];
 }
 
-export function startMessage(locale: Locale): Message {
+// username: the bot's own @username, so a kid can tell the real bot from a copy that asks for codes.
+export function startMessage(locale: Locale, username?: string): Message {
   const cats = CATEGORIES.filter((c): c is Exclude<Category, "unknown"> => c !== "unknown");
+  const lines = [t("start", locale)];
+  if (username) lines.push(t("neverAsk", locale).replace("{username}", username));
+  lines.push("", t("whatHappened", locale));
   return {
-    text: `${t("start", locale)}\n\n${t("whatHappened", locale)}`,
+    text: lines.join("\n"),
     buttons: [...cats.map((c) => [{ text: pick(CATEGORY_LABEL[c], locale), data: `cat:${c}` }]), [{ text: pick(CATEGORY_LABEL.unknown, locale), data: "sit:unknown" }]],
   };
 }
@@ -142,10 +151,51 @@ export function planMessage(profile: Profile, locale: Locale, appUrl: string): M
   return { text, buttons };
 }
 
+// Never a tappable link in a reply: the dot becomes "[.]" so Telegram does not auto-link it.
+export function defang(host: string): string {
+  return host.replace(/\./g, "[.]");
+}
+
+function hostOf(s: string): string | null {
+  try {
+    return new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(s) ? s : `https://${s}`).hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
+const LOOKS_LIKE_ADDRESS = /^(?:https?:\/\/)?[\w-]+(?:\.[\w-]+)+(?:[/?#]\S*)?$/i;
+
+// A text_link whose visible text looks like an address but points somewhere else: the hidden link (plan 0003).
+export function hiddenLink(entity: { type: string; text: string; url?: string }): { shown: string; real: string } | null {
+  if (entity.type !== "text_link" || !entity.url) return null;
+  const shown = entity.text.trim();
+  if (!LOOKS_LIKE_ADDRESS.test(shown)) return null;
+  const shownHost = hostOf(shown);
+  const realHost = hostOf(entity.url);
+  if (!shownHost || !realHost || shownHost === realHost) return null;
+  return { shown: shownHost, real: realHost };
+}
+
+// The link verdict as text: the hidden-link warning first, then the tier, then the destination host, defanged.
+// Only the host is shown: a full URL can carry a token or a name.
+export function linkReply(result: { tier: LinkTier; finalUrl: string | null }, hidden: { shown: string; real: string } | null, locale: Locale): string {
+  const head = LINK_TIER_TEXT[result.tier];
+  const lines: string[] = [];
+  if (hidden) lines.push(t("hiddenLink", locale).replace("{shown}", defang(hidden.shown)).replace("{real}", defang(hidden.real)), "");
+  lines.push(pick(head.title, locale), pick(head.body, locale));
+  const finalHost = result.finalUrl ? hostOf(result.finalUrl) : null;
+  if (finalHost) lines.push(`${t("leadsTo", locale)}: ${defang(finalHost)}`);
+  return lines.join("\n");
+}
+
+// VERIFY with native speakers: the words scammers use to make an installer look like a harmless file (plan 0003).
+const DISGUISE_WORDS = ["фото", "видео", "документ", "приглашение", "свадьба", "посылка", "чек", "сурат", "ҳуҷҷат", "даъватнома", "тӯй", "туй", "photo", "video", "invite", "invitation", "document"];
+
 export function fileReply(fileName: string | undefined, mime: string | undefined, locale: Locale): string {
   const name = (fileName ?? "").toLowerCase();
   const ext = name.includes(".") ? name.slice(name.lastIndexOf(".") + 1) : "";
-  if (ext === "apk" || mime === "application/vnd.android.package-archive") return t("apk", locale);
+  if (ext === "apk" || mime === "application/vnd.android.package-archive") return DISGUISE_WORDS.some((w) => name.includes(w)) ? t("apkDisguised", locale) : t("apk", locale);
   if (["exe", "scr", "bat", "msi", "cmd", "com"].includes(ext)) return t("exe", locale);
   if (["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(ext)) return t("doc", locale);
   if (["zip", "rar", "7z"].includes(ext)) return t("archive", locale);

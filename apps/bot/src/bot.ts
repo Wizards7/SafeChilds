@@ -2,10 +2,9 @@
 // Files and photos are never downloaded: the reply uses Telegram's metadata (name, mime) only.
 
 import { Bot, InlineKeyboard } from "grammy";
-import { LINK_TIER_TEXT } from "@safechilds/analysis";
 import { PLATFORMS, SITUATIONS, URGENT_SAFETY, type Platform, type SafetyAnswer, type SituationId, SAFETY_ANSWERS, CATEGORIES, type Category, ITEMS, questionFor } from "@safechilds/guidance";
 import type { Env } from "./env";
-import { fileReply, pick, planMessage, platformMessage, questionMessage, safetyMessage, situationsMessage, startMessage, stopMessage, t, urgentMessage, UI, type Message } from "./render";
+import { fileReply, hiddenLink, linkReply, pick, planMessage, platformMessage, questionMessage, safetyMessage, situationsMessage, startMessage, stopMessage, t, urgentMessage, UI, type Message } from "./render";
 import { getState, reset, startIncident, type Locale } from "./state";
 import { makeApi } from "./trpc";
 
@@ -37,7 +36,7 @@ export function createBot(env: Env) {
     const s = getState(ctx.chat!.id);
     s.locale = ctx.match[1] as Locale;
     await ctx.answerCallbackQuery();
-    await send(ctx, startMessage(s.locale));
+    await send(ctx, startMessage(s.locale, ctx.me.username));
   });
 
   bot.callbackQuery(/^cat:(.+)$/, async (ctx) => {
@@ -130,19 +129,20 @@ export function createBot(env: Env) {
     await send(ctx, startMessage(s.locale));
   });
 
-  // A forwarded link → links.check. The bot never opens it.
-  bot.on("message:entities:url", async (ctx) => {
+  // A pasted or forwarded link → links.check. The bot never opens it. A text_link (visible text ≠ real address) is
+  // checked by its real address and called out; the reply never contains a tappable link.
+  bot.on(["message:entities:url", "message:entities:text_link"], async (ctx) => {
     const s = getState(ctx.chat.id);
-    const url = ctx.entities("url")[0]?.text;
-    if (!url) return;
+    const e = ctx.entities(["url", "text_link"])[0];
+    if (!e) return;
+    const raw = e.type === "text_link" ? e.url : e.text;
+    const url = raw.startsWith("http") ? raw : `https://${raw}`;
+    const hidden = hiddenLink(e);
     try {
-      const r = await api.links.check.mutate({ url: url.startsWith("http") ? url : `https://${url}` });
-      const head = LINK_TIER_TEXT[r.tier];
-      const lines = [pick(head.title, s.locale), pick(head.body, s.locale)];
-      if (r.finalUrl && r.finalUrl !== url) lines.push(`→ ${r.finalUrl}`);
-      await ctx.reply(lines.join("\n"));
+      const r = await api.links.check.mutate({ url });
+      await ctx.reply(linkReply(r, hidden, s.locale));
     } catch {
-      await ctx.reply(pick(LINK_TIER_TEXT.unavailable.title, s.locale));
+      await ctx.reply(linkReply({ tier: "unavailable", finalUrl: null }, hidden, s.locale));
     }
   });
 

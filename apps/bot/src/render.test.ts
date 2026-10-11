@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emptyProfile } from "@safechilds/guidance";
-import { fileReply, planMessage, questionMessage, safetyMessage, startMessage, stopMessage, urgentMessage } from "./render";
+import { defang, fileReply, hiddenLink, linkReply, planMessage, questionMessage, safetyMessage, startMessage, stopMessage, urgentMessage } from "./render";
 
 const APP = "https://app.example";
 
@@ -38,5 +38,29 @@ describe("bot renders the same guidance as the app", () => {
     expect(fileReply("report.pdf", undefined, "ru")).toContain("макросы");
     expect(fileReply("a.zip", undefined, "ru")).toContain("Архив");
     for (const f of ["bank.apk", "x.exe", "report.pdf", "a.zip", "y.txt"]) expect(fileReply(f, undefined, "ru").toLowerCase()).not.toContain("безопас");
+  });
+  it("start carries the never-ask line with the official username when known", () => {
+    expect(startMessage("ru", "SafeChildsBot").text).toContain("@SafeChildsBot");
+    expect(startMessage("tg", "SafeChildsBot").text).toContain("@SafeChildsBot");
+    expect(startMessage("ru").text).not.toContain("@");
+  });
+  it("links in replies are never tappable and a hidden link is called out", () => {
+    expect(defang("alif-tj.com")).toBe("alif-tj[.]com");
+    const h = hiddenLink({ type: "text_link", text: "alif.tj", url: "https://alif-tj.com/login" });
+    expect(h).toEqual({ shown: "alif.tj", real: "alif-tj.com" });
+    expect(hiddenLink({ type: "text_link", text: "https://alif.tj/", url: "https://alif.tj/promo" })).toBeNull();
+    expect(hiddenLink({ type: "text_link", text: "нажми сюда", url: "https://x.example" })).toBeNull();
+    expect(hiddenLink({ type: "url", text: "https://x.example" })).toBeNull();
+    const reply = linkReply({ tier: "signs", finalUrl: "https://alif-tj.com/login?code=1" }, h, "ru");
+    expect(reply).toContain("alif-tj[.]com");
+    expect(reply).toContain("alif[.]tj");
+    expect(reply).not.toMatch(/https?:\/\//);
+    expect(reply).not.toContain("code=1");
+    expect(linkReply({ tier: "unavailable", finalUrl: null }, null, "tg")).not.toContain("[.]");
+  });
+  it("an APK named like a photo or an invitation gets the disguise warning", () => {
+    expect(fileReply("Свадьба_приглашение.apk", undefined, "ru")).toContain("маскируют");
+    expect(fileReply("сурат.jpg.apk", undefined, "tg")).toContain("Play Store");
+    expect(fileReply("bank.apk", undefined, "ru")).not.toContain("маскируют");
   });
 });

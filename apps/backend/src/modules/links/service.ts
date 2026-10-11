@@ -1,12 +1,15 @@
 // The network half of the link check. Pure rules live in @safechilds/analysis; this file follows redirects with
 // HEAD (never in anyone's session), asks RDAP for the domain age, and feeds findings to decideLinkTier.
 // Blocklists (Safe Browsing, URLhaus) are behind VERIFY in plan 0001 and not wired yet.
+// Internal addresses are never contacted, neither as the pasted link nor behind a redirect (ssrf.ts, plan 0003).
 
 import { decideLinkTier, isShortener, lookalike, YOUNG_DOMAIN_DAYS, type LinkFinding, type LinkTier } from "@safechilds/analysis";
+import { isInternalHost } from "./ssrf";
 
 export interface LinkDeps {
   fetch: typeof fetch;
   now: () => Date;
+  resolve: (host: string) => Promise<string[]>; // every address a name resolves to
 }
 
 export interface LinkResult {
@@ -37,7 +40,15 @@ async function followRedirects(deps: LinkDeps, start: URL): Promise<URL | null> 
     const res = await withTimeout(deps.fetch(current, { method: "HEAD", redirect: "manual" }), TIMEOUT_MS);
     const loc = res.headers.get("location");
     if (res.status >= 300 && res.status < 400 && loc) {
-      current = new URL(loc, current);
+      let next: URL;
+      try {
+        next = new URL(loc, current);
+      } catch {
+        return current;
+      }
+      // Never step into a non-web scheme or an internal address: the last public hop is the answer.
+      if ((next.protocol !== "http:" && next.protocol !== "https:") || (await isInternalHost(deps.resolve, next.hostname))) return current;
+      current = next;
       continue;
     }
     return current;
@@ -65,6 +76,7 @@ export async function checkLink(deps: LinkDeps, raw: string): Promise<LinkResult
     return { tier: "unavailable", findings: [], finalUrl: null };
   }
   if (url.protocol !== "http:" && url.protocol !== "https:") return { tier: "unavailable", findings: [], finalUrl: null };
+  if (await isInternalHost(deps.resolve, url.hostname)) return { tier: "unavailable", findings: [], finalUrl: null };
 
   const findings: LinkFinding[] = [];
   let sourcesFailed = 0;
