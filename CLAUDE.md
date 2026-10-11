@@ -6,6 +6,11 @@ AI-assisted online safety and human support for teenagers in Tajikistan (UNICEF 
 
 **Status (2026-10-11):** built and deployed on Railway (mobile https://mobile-production-ea38.up.railway.app, API https://backend-production-e657.up.railway.app). What is left and how to run: [`docs/plans/0002-handoff-2026-10-11.md`](./docs/plans/0002-handoff-2026-10-11.md) — read it first in a new session.
 
+**Global rules (Ali's machine):** `~/Documents/claude/` — `rules.md` (how AI behaves) and `skill-routing.md` (which skill fires first) are imported below and apply in every session; `playbook.md` is read on demand when structuring something new. Edit them there, never here.
+
+@../claude/rules.md
+@../claude/skill-routing.md
+
 ## Layout
 
 ```
