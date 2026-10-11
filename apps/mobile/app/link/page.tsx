@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { LINK_TIER_TEXT, type LinkFinding } from "@safechilds/analysis";
+import { coverageLine, LINK_SOURCE_TEXT, LINK_SOURCES, LINK_TIER_TEXT, type LinkFinding, type LinkResult } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore } from "../../lib/incident-store";
@@ -46,7 +46,7 @@ export default function LinkPage() {
     check.mutate({ url: v });
   };
 
-  const result = check.isError ? { tier: "unavailable" as const, findings: [] as LinkFinding[], finalUrl: null } : check.data;
+  const result: LinkResult | undefined = check.isError ? { tier: "unavailable", findings: [], finalUrl: null, checked: [], unchecked: [...LINK_SOURCES] } : check.data;
 
   return (
     <>
@@ -82,6 +82,7 @@ export default function LinkPage() {
             <div className={`card col ${result.tier === "known_dangerous" ? "card-danger" : result.tier === "signs" ? "card-warning" : "card-neutral"}`}>
               <div className="head"><Icon name={result.tier === "known_dangerous" ? "shield-alert" : result.tier === "signs" ? "triangle-alert" : "info"} />{pick(LINK_TIER_TEXT[result.tier].title, locale)}</div>
               <p className="small body">{pick(LINK_TIER_TEXT[result.tier].body, locale)}</p>
+              <p className="small coverage">{coverageLine(result, LINK_SOURCE_TEXT, locale)}</p>
             </div>
 
             {result.findings.length > 0 && (

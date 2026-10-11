@@ -20,13 +20,13 @@ out. SafeChilds answers "a fake was made about me, what now?" (case 05) in three
 | No tappable link in a bot reply: only the destination host, written `example[.]com`; never the full URL | `render.ts` `defang`, `linkReply` |
 | `/start` after the language pick: "we never ask for codes, passwords or money", with the bot's own @username | `render.ts` `startMessage` |
 | An APK named like a photo, document or invitation (ru/tg words, VERIFY with native speakers) gets the "this is a program, not an invitation" wording | `render.ts` `fileReply` |
+| A "Проверено / Не проверено" line under every image and link result, derived from the signals (metadata, Content Credentials, original, model; destination, lookalike, age, blocklists), shared by the app and the bot. Blocklists always read "не проверено" until they are wired | `packages/analysis/src/coverage.ts`, `Decision.model`, `LinkResult.checked/unchecked`, both result screens, `linkReply` |
 
 Known limit, recorded in `ssrf.ts`: the name is resolved once and fetched by name afterwards, so DNS rebinding between the
 two is not caught; acceptable for a bodiless HEAD, revisit at pilot with a pinned-address agent.
 
 ## Adopted for the pilot, not code now
 
-- A "Проверено / Не проверено" coverage line under every analysis and link result.
 - Rules-based scam-text signals in ru and tg (code requests, "поддержка Telegram", Premium/Stars gifts, votes, "a relative needs money") with a labelled corpus, hard negatives, two native annotators, and precision/recall per language.
 - An "I already installed the app" help path (disable internet, remove special rights, uninstall, change passwords from another device).
 - Per-check consent before anything leaves the phone, instead of one notice.

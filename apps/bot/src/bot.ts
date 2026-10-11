@@ -4,7 +4,7 @@
 import { Bot, InlineKeyboard } from "grammy";
 import { PLATFORMS, SITUATIONS, URGENT_SAFETY, type Platform, type SafetyAnswer, type SituationId, SAFETY_ANSWERS, CATEGORIES, type Category, ITEMS, questionFor } from "@safechilds/guidance";
 import type { Env } from "./env";
-import { fileReply, hiddenLink, linkReply, pick, planMessage, platformMessage, questionMessage, safetyMessage, situationsMessage, startMessage, stopMessage, t, urgentMessage, UI, type Message } from "./render";
+import { fileReply, hiddenLink, linkReply, NO_COVERAGE, pick, planMessage, platformMessage, questionMessage, safetyMessage, situationsMessage, startMessage, stopMessage, t, urgentMessage, UI, type Message } from "./render";
 import { getState, reset, startIncident, type Locale } from "./state";
 import { makeApi } from "./trpc";
 
@@ -142,7 +142,7 @@ export function createBot(env: Env) {
       const r = await api.links.check.mutate({ url });
       await ctx.reply(linkReply(r, hidden, s.locale, url));
     } catch {
-      await ctx.reply(linkReply({ tier: "unavailable", finalUrl: null }, hidden, s.locale, url));
+      await ctx.reply(linkReply({ tier: "unavailable", finalUrl: null, ...NO_COVERAGE }, hidden, s.locale, url));
     }
   });
 

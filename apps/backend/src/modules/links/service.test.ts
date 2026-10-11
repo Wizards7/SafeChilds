@@ -34,18 +34,31 @@ describe("checkLink", () => {
     expect(r.tier).toBe("signs");
     expect(r.finalUrl).toBe("https://alif-tj.com/bonus");
     expect(r.findings.map((f) => f.kind).sort()).toEqual(["asks_for_code_or_payment", "lookalike", "shortener", "young_domain"].sort());
+    expect(r.checked).toEqual(["destination", "lookalike", "age"]);
+    expect(r.unchecked).toEqual(["blocklists"]);
   });
   it("the real bank domain with an old registration → nothing_known, never 'safe'", async () => {
     const r = await checkLink(deps({ registered: "2015-01-01T00:00:00Z" }), "https://alif.tj/");
     expect(r.tier).toBe("nothing_known");
     expect(r.findings).toEqual([]);
   });
-  it("all external sources failing → unavailable; a deterministic finding still wins", async () => {
+  it("all external sources failing → unavailable; a deterministic finding still wins; both sources reported unchecked", async () => {
+    const failed = await checkLink(deps({ headFails: true, rdapFails: true }), "https://example.org/x");
+    expect(failed.tier).toBe("unavailable");
+    expect(failed.checked).toEqual(["lookalike"]);
+    expect(failed.unchecked.sort()).toEqual(["age", "blocklists", "destination"]);
     expect((await checkLink(deps({ headFails: true, rdapFails: true }), "https://example.org/x")).tier).toBe("unavailable");
     expect((await checkLink(deps({ headFails: true, rdapFails: true }), "https://alif-tj.com/x")).tier).toBe("signs");
   });
+  it("an RDAP answer without a registration date leaves the age unchecked", async () => {
+    const r = await checkLink(deps({}), "https://example.org/");
+    expect(r.unchecked).toContain("age");
+    expect(r.checked).toContain("destination");
+  });
   it("garbage input → unavailable, no throw", async () => {
-    expect((await checkLink(deps(), "not a url")).tier).toBe("unavailable");
+    const g = await checkLink(deps(), "not a url");
+    expect(g.tier).toBe("unavailable");
+    expect(g.checked).toEqual([]);
     expect((await checkLink(deps(), "javascript:alert(1)")).tier).toBe("unavailable");
   });
 });

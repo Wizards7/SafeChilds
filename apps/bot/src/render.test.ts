@@ -51,8 +51,10 @@ describe("bot renders the same guidance as the app", () => {
     expect(hiddenLink({ type: "text_link", text: "https://alif.tj/", url: "https://alif.tj/promo" })).toBeNull();
     expect(hiddenLink({ type: "text_link", text: "нажми сюда", url: "https://x.example" })).toBeNull();
     expect(hiddenLink({ type: "url", text: "https://x.example" })).toBeNull();
-    const reply = linkReply({ tier: "signs", finalUrl: "https://alif-tj.com/login?code=1" }, h, "ru");
+    const reply = linkReply({ tier: "signs", finalUrl: "https://alif-tj.com/login?code=1", checked: ["destination", "lookalike", "age"], unchecked: ["blocklists"] }, h, "ru");
     expect(reply).toContain("alif-tj[.]com");
+    expect(reply).toContain("Проверено: куда ведёт ссылка, похожесть на известные сайты, возраст домена. Не проверено: списки опасных сайтов.");
+    expect(linkReply({ tier: "unavailable", finalUrl: null }, null, "ru")).toContain("Не проверено: куда ведёт ссылка, похожесть на известные сайты, возраст домена, списки опасных сайтов.");
     expect(reply).toContain("alif[.]tj");
     expect(reply).not.toMatch(/https?:\/\//);
     expect(reply).not.toContain("code=1");

@@ -8,7 +8,10 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import {
+  coverageLine,
   EVIDENCE_TEXT,
+  IMAGE_CHECK_TEXT,
+  imageCoverage,
   INDICATOR_TEXT,
   ORIGINAL_MATCHES_TEXT,
   REVERSE_SEARCH,
@@ -173,12 +176,17 @@ export default function AnalyzePage() {
         {step === "result" && decision && (
           <>
             {decision.originalMatches ? (
-              <div className="card card-support col"><div className="head"><Icon name="check" />{pick(ORIGINAL_MATCHES_TEXT.title, locale)}</div><p className="small body">{pick(ORIGINAL_MATCHES_TEXT.body, locale)}</p></div>
+              <div className="card card-support col">
+                <div className="head"><Icon name="check" />{pick(ORIGINAL_MATCHES_TEXT.title, locale)}</div>
+                <p className="small body">{pick(ORIGINAL_MATCHES_TEXT.body, locale)}</p>
+                <p className="small coverage">{coverageLine(imageCoverage(decision), IMAGE_CHECK_TEXT, locale)}</p>
+              </div>
             ) : (
               <div className={`card col ${decision.tier === "evidence" || decision.tier === "indicators" ? "card-warning" : "card-neutral"}`}>
                 <div className="head"><Icon name={decision.tier === "unavailable" ? "x" : decision.tier === "inconclusive" ? "circle-help" : "triangle-alert"} />{pick(TIER_TEXT[decision.tier].title, locale)}</div>
                 <p className="small body">{pick(TIER_TEXT[decision.tier].body, locale)}</p>
                 {decision.offline && <p className="small">{t("result.offline")}</p>}
+                <p className="small coverage">{coverageLine(imageCoverage(decision), IMAGE_CHECK_TEXT, locale)}</p>
               </div>
             )}
 

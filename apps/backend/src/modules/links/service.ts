@@ -3,8 +3,10 @@
 // Blocklists (Safe Browsing, URLhaus) are behind VERIFY in plan 0001 and not wired yet.
 // Internal addresses are never contacted, neither as the pasted link nor behind a redirect (ssrf.ts, plan 0003).
 
-import { decideLinkTier, isShortener, lookalike, YOUNG_DOMAIN_DAYS, type LinkFinding, type LinkTier } from "@safechilds/analysis";
+import { decideLinkTier, isShortener, lookalike, YOUNG_DOMAIN_DAYS, type LinkFinding, type LinkResult, type LinkSource } from "@safechilds/analysis";
 import { isInternalHost } from "./ssrf";
+
+export type { LinkResult };
 
 export interface LinkDeps {
   fetch: typeof fetch;
@@ -12,11 +14,9 @@ export interface LinkDeps {
   resolve: (host: string) => Promise<string[]>; // every address a name resolves to
 }
 
-export interface LinkResult {
-  tier: LinkTier;
-  findings: LinkFinding[];
-  finalUrl: string | null;
-}
+// Blocklists are not wired yet (VERIFY in plan 0001): always reported as unchecked, never silently skipped.
+const NOT_WIRED: LinkSource[] = ["blocklists"];
+const nothing = (): LinkResult => ({ tier: "unavailable", findings: [], finalUrl: null, checked: [], unchecked: ["destination", "lookalike", "age", ...NOT_WIRED] });
 
 const TIMEOUT_MS = 5000;
 const MAX_HOPS = 5;
@@ -73,10 +73,10 @@ export async function checkLink(deps: LinkDeps, raw: string): Promise<LinkResult
   try {
     url = new URL(raw.trim());
   } catch {
-    return { tier: "unavailable", findings: [], finalUrl: null };
+    return nothing();
   }
-  if (url.protocol !== "http:" && url.protocol !== "https:") return { tier: "unavailable", findings: [], finalUrl: null };
-  if (await isInternalHost(deps.resolve, url.hostname)) return { tier: "unavailable", findings: [], finalUrl: null };
+  if (url.protocol !== "http:" && url.protocol !== "https:") return nothing();
+  if (await isInternalHost(deps.resolve, url.hostname)) return nothing();
 
   const findings: LinkFinding[] = [];
   let sourcesFailed = 0;
@@ -96,16 +96,28 @@ export async function checkLink(deps: LinkDeps, raw: string): Promise<LinkResult
   // Judge the destination, not the shortener: the words that matter are in the URL the kid would land on.
   if (CODE_WORDS.test((finalUrl ?? url).href)) findings.push({ kind: "asks_for_code_or_payment" });
 
+  let ageKnown = false;
   try {
     const age = await domainAgeDays(deps, host);
+    ageKnown = age !== null;
     if (age !== null && age <= YOUNG_DOMAIN_DAYS) findings.push({ kind: "young_domain", host, ageDays: age });
   } catch {
     sourcesFailed++;
   }
 
+  // Coverage: the destination counts only when the probe followed the link; the age only when RDAP gave a date.
+  const checked: LinkSource[] = [];
+  const unchecked: LinkSource[] = [];
+  (finalUrl ? checked : unchecked).push("destination");
+  checked.push("lookalike");
+  (ageKnown ? checked : unchecked).push("age");
+  unchecked.push(...NOT_WIRED);
+
   return {
     tier: decideLinkTier({ findings, sourcesFailed: sourcesFailed === sources }),
     findings,
     finalUrl: finalUrl?.href ?? null,
+    checked,
+    unchecked,
   };
 }

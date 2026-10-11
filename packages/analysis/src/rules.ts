@@ -20,6 +20,7 @@ export interface Decision {
   originalMatches: boolean;
   evidence: readonly Evidence[];
   markers: readonly Marker[];
+  model: ModelStatus; // whether the model answered: the coverage line needs it even when evidence decided the tier
 }
 
 export function decideTier(s: Signals): Decision {
@@ -30,5 +31,5 @@ export function decideTier(s: Signals): Decision {
   else if (s.markers.length > 0) tier = "indicators";
   else if (s.model === "failed") tier = "unavailable";
   else tier = "inconclusive";
-  return { tier, originalMatches, evidence: s.evidence, markers: s.markers };
+  return { tier, originalMatches, evidence: s.evidence, markers: s.markers, model: s.model };
 }

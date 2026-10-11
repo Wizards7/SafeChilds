@@ -1,6 +1,8 @@
 // Link check: the same contract on a different input. Pure functions only; the backend does the network part
 // (redirects with HEAD, RDAP, blocklists) and feeds results here.
 
+import type { LinkSource } from "./coverage";
+
 export const LINK_TIERS = ["known_dangerous", "signs", "nothing_known", "unavailable"] as const;
 export type LinkTier = (typeof LINK_TIERS)[number];
 
@@ -40,6 +42,15 @@ export function lookalike(host: string): LinkFinding | null {
 }
 
 export const YOUNG_DOMAIN_DAYS = 30;
+
+// What the backend returns: the tier, the findings, the destination, and which sources actually answered.
+export interface LinkResult {
+  tier: LinkTier;
+  findings: LinkFinding[];
+  finalUrl: string | null;
+  checked: LinkSource[];
+  unchecked: LinkSource[];
+}
 
 export interface LinkSignals {
   findings: readonly LinkFinding[];
