@@ -140,9 +140,9 @@ export function createBot(env: Env) {
     const hidden = hiddenLink(e);
     try {
       const r = await api.links.check.mutate({ url });
-      await ctx.reply(linkReply(r, hidden, s.locale));
+      await ctx.reply(linkReply(r, hidden, s.locale, url));
     } catch {
-      await ctx.reply(linkReply({ tier: "unavailable", finalUrl: null }, hidden, s.locale));
+      await ctx.reply(linkReply({ tier: "unavailable", finalUrl: null }, hidden, s.locale, url));
     }
   });
 

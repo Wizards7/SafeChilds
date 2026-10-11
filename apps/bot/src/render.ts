@@ -178,13 +178,14 @@ export function hiddenLink(entity: { type: string; text: string; url?: string })
 }
 
 // The link verdict as text: the hidden-link warning first, then the tier, then the destination host, defanged.
-// Only the host is shown: a full URL can carry a token or a name.
-export function linkReply(result: { tier: LinkTier; finalUrl: string | null }, hidden: { shown: string; real: string } | null, locale: Locale): string {
+// Only the host is shown: a full URL can carry a token or a name. When the probe could not follow the link,
+// the host of the pasted link is shown instead, so the kid still sees where it points.
+export function linkReply(result: { tier: LinkTier; finalUrl: string | null }, hidden: { shown: string; real: string } | null, locale: Locale, original?: string): string {
   const head = LINK_TIER_TEXT[result.tier];
   const lines: string[] = [];
   if (hidden) lines.push(t("hiddenLink", locale).replace("{shown}", defang(hidden.shown)).replace("{real}", defang(hidden.real)), "");
   lines.push(pick(head.title, locale), pick(head.body, locale));
-  const finalHost = result.finalUrl ? hostOf(result.finalUrl) : null;
+  const finalHost = (result.finalUrl ? hostOf(result.finalUrl) : null) ?? (original ? hostOf(original) : null);
   if (finalHost) lines.push(`${t("leadsTo", locale)}: ${defang(finalHost)}`);
   return lines.join("\n");
 }

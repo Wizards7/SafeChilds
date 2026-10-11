@@ -57,6 +57,10 @@ describe("bot renders the same guidance as the app", () => {
     expect(reply).not.toMatch(/https?:\/\//);
     expect(reply).not.toContain("code=1");
     expect(linkReply({ tier: "unavailable", finalUrl: null }, null, "tg")).not.toContain("[.]");
+    // The probe failed: the pasted link's own host is still shown, defanged, and only the host.
+    const noProbe = linkReply({ tier: "nothing_known", finalUrl: null }, null, "ru", "http://zagonka8.zagonkom.gb.net/104860-film.html");
+    expect(noProbe).toContain("Ведёт на: zagonka8[.]zagonkom[.]gb[.]net");
+    expect(noProbe).not.toContain("104860");
   });
   it("an APK named like a photo or an invitation gets the disguise warning", () => {
     expect(fileReply("Свадьба_приглашение.apk", undefined, "ru")).toContain("маскируют");
