@@ -21,6 +21,16 @@ export interface AnalysisDeps {
   log: { warn: (msg: string) => void };
 }
 
+// Name, HTTP status and a short message: enough to tell a bad key (401) from a wrong model (404) or a timeout.
+// Never the image, never the key, never a response body.
+export function describeError(err: unknown): string {
+  const e = (typeof err === "object" && err !== null ? err : {}) as { name?: unknown; status?: unknown; message?: unknown };
+  const name = typeof e.name === "string" && e.name ? e.name : "Error";
+  const status = typeof e.status === "number" ? ` ${e.status}` : "";
+  const message = typeof e.message === "string" && e.message ? `: ${e.message.slice(0, 160)}` : "";
+  return `${name}${status}${message}`;
+}
+
 async function runModel(deps: AnalysisDeps, image: { bytes: Buffer; mime: string }): Promise<{ status: ModelStatus; markers: Marker[] }> {
   if (!deps.model) return { status: "failed", markers: [] };
   try {
@@ -28,15 +38,15 @@ async function runModel(deps: AnalysisDeps, image: { bytes: Buffer; mime: string
     const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
     const parsed = ModelResponse.safeParse(JSON.parse(json));
     if (!parsed.success) {
-      deps.log.warn("model response failed validation");
+      deps.log.warn(`model response failed validation: ${parsed.error.issues[0]?.message ?? "unknown issue"}`);
       return { status: "failed", markers: [] };
     }
     // Dedupe codes; the prompt asks for it, the rules do not rely on it.
     const seen = new Set<string>();
     const markers = parsed.data.indicators.filter((m) => (seen.has(m.code) ? false : (seen.add(m.code), true)));
     return { status: "ok", markers };
-  } catch {
-    deps.log.warn("model call failed");
+  } catch (err) {
+    deps.log.warn(`model call failed: ${describeError(err)}`);
     return { status: "failed", markers: [] };
   }
 }

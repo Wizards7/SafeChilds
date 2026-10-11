@@ -32,6 +32,7 @@ export function createAnthropicClient(apiKey: string, model: string): ModelClien
         { timeout: 20_000 },
       );
       if (response.stop_reason === "refusal") throw new Error("model refused");
+      if (response.stop_reason === "max_tokens") throw new Error("model hit max_tokens before finishing the JSON");
       return response.content
         .filter((b): b is Anthropic.TextBlock => b.type === "text")
         .map((b) => b.text)
