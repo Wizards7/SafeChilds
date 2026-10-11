@@ -26,7 +26,14 @@ const resolve = async (h: string): Promise<string[]> => {
   if (h === "dual.example") return ["93.184.216.34", "fd00::1"];
   return ["93.184.216.34"];
 };
-const deps = (opts: Opts = {}): LinkDeps => ({ fetch: fakeFetch(opts), now, resolve });
+const deps = (opts: Opts = {}, blocklists: LinkDeps["blocklists"] = []): LinkDeps => ({ fetch: fakeFetch(opts), now, resolve, blocklists });
+const listed = (name: "urlhaus" | "safe_browsing", answer: boolean | Error): LinkDeps["blocklists"][number] => ({
+  name,
+  lookup: async () => {
+    if (answer instanceof Error) throw answer;
+    return answer;
+  },
+});
 
 describe("checkLink", () => {
   it("expands a shortener, flags the lookalike behind it and a young domain → signs", async () => {
@@ -94,5 +101,32 @@ describe("checkLink never reaches an internal address", () => {
     const r = await checkLink(deps({ calls, redirectTo: "file:///etc/passwd", registered: "2015-01-01T00:00:00Z" }), "https://example.org/go");
     expect(r.finalUrl).toBe("https://example.org/go");
     expect(calls.some((c) => c.startsWith("file:"))).toBe(false);
+  });
+});
+
+describe("checkLink with blocklists", () => {
+  it("a hit on any list → known_dangerous with the list named, blocklists checked", async () => {
+    const r = await checkLink(deps({ registered: "2015-01-01T00:00:00Z" }, [listed("safe_browsing", false), listed("urlhaus", true)]), "https://example.org/x");
+    expect(r.tier).toBe("known_dangerous");
+    expect(r.findings).toEqual([{ kind: "blocklist", source: "urlhaus" }]);
+    expect(r.checked).toContain("blocklists");
+  });
+  it("lists that answer 'not listed' leave nothing_known but count as checked", async () => {
+    const r = await checkLink(deps({ registered: "2015-01-01T00:00:00Z" }, [listed("urlhaus", false)]), "https://example.org/x");
+    expect(r.tier).toBe("nothing_known");
+    expect(r.checked).toEqual(["destination", "lookalike", "age", "blocklists"]);
+    expect(r.unchecked).toEqual([]);
+  });
+  it("a list that fails is unchecked; with every source failing the tier is unavailable", async () => {
+    const r = await checkLink(deps({ registered: "2015-01-01T00:00:00Z" }, [listed("urlhaus", new Error("down"))]), "https://example.org/x");
+    expect(r.tier).toBe("nothing_known");
+    expect(r.unchecked).toEqual(["blocklists"]);
+    const all = await checkLink(deps({ headFails: true, rdapFails: true }, [listed("urlhaus", new Error("down"))]), "https://example.org/x");
+    expect(all.tier).toBe("unavailable");
+    expect(all.unchecked.sort()).toEqual(["age", "blocklists", "destination"]);
+  });
+  it("without a configured list, blocklists stay unchecked", async () => {
+    const r = await checkLink(deps({ registered: "2015-01-01T00:00:00Z" }), "https://example.org/x");
+    expect(r.unchecked).toEqual(["blocklists"]);
   });
 });

@@ -1,9 +1,10 @@
 // The network half of the link check. Pure rules live in @safechilds/analysis; this file follows redirects with
 // HEAD (never in anyone's session), asks RDAP for the domain age, and feeds findings to decideLinkTier.
-// Blocklists (Safe Browsing, URLhaus) are behind VERIFY in plan 0001 and not wired yet.
+// Blocklists (Safe Browsing, URLhaus) run when their keys exist (blocklists.ts); otherwise the coverage line says so.
 // Internal addresses are never contacted, neither as the pasted link nor behind a redirect (ssrf.ts, plan 0003).
 
 import { decideLinkTier, isShortener, lookalike, YOUNG_DOMAIN_DAYS, type LinkFinding, type LinkResult, type LinkSource } from "@safechilds/analysis";
+import type { Blocklist } from "./blocklists";
 import { isInternalHost } from "./ssrf";
 
 export type { LinkResult };
@@ -12,11 +13,10 @@ export interface LinkDeps {
   fetch: typeof fetch;
   now: () => Date;
   resolve: (host: string) => Promise<string[]>; // every address a name resolves to
+  blocklists: Blocklist[]; // empty when no key is configured
 }
 
-// Blocklists are not wired yet (VERIFY in plan 0001): always reported as unchecked, never silently skipped.
-const NOT_WIRED: LinkSource[] = ["blocklists"];
-const nothing = (): LinkResult => ({ tier: "unavailable", findings: [], finalUrl: null, checked: [], unchecked: ["destination", "lookalike", "age", ...NOT_WIRED] });
+const nothing = (): LinkResult => ({ tier: "unavailable", findings: [], finalUrl: null, checked: [], unchecked: ["destination", "lookalike", "age", "blocklists"] });
 
 const TIMEOUT_MS = 5000;
 const MAX_HOPS = 5;
@@ -80,7 +80,7 @@ export async function checkLink(deps: LinkDeps, raw: string): Promise<LinkResult
 
   const findings: LinkFinding[] = [];
   let sourcesFailed = 0;
-  const sources = 2; // redirects + rdap; blocklists are not wired yet
+  const sources = 2 + deps.blocklists.length; // redirects + rdap + each configured blocklist
 
   let finalUrl: URL | null = null;
   try {
@@ -105,13 +105,30 @@ export async function checkLink(deps: LinkDeps, raw: string): Promise<LinkResult
     sourcesFailed++;
   }
 
-  // Coverage: the destination counts only when the probe followed the link; the age only when RDAP gave a date.
+  // Blocklists: the destination is what matters (a shortener itself is rarely listed). Every list is asked; one
+  // answer is enough for "checked", a hit from any list is a finding, a list that did not answer is a failed source.
+  let listsAnswered = 0;
+  const target = finalUrl ?? url;
+  await Promise.all(
+    deps.blocklists.map(async (list) => {
+      try {
+        const listed = await withTimeout(list.lookup(target), TIMEOUT_MS);
+        listsAnswered++;
+        if (listed) findings.push({ kind: "blocklist", source: list.name });
+      } catch {
+        sourcesFailed++;
+      }
+    }),
+  );
+
+  // Coverage: the destination counts only when the probe followed the link; the age only when RDAP gave a date;
+  // the blocklists only when at least one list answered.
   const checked: LinkSource[] = [];
   const unchecked: LinkSource[] = [];
   (finalUrl ? checked : unchecked).push("destination");
   checked.push("lookalike");
   (ageKnown ? checked : unchecked).push("age");
-  unchecked.push(...NOT_WIRED);
+  (listsAnswered > 0 ? checked : unchecked).push("blocklists");
 
   return {
     tier: decideLinkTier({ findings, sourcesFailed: sourcesFailed === sources }),

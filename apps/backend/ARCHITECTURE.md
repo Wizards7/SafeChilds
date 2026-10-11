@@ -34,6 +34,8 @@ A module exposes its router and its service. Services talk to `packages/db`; rou
 |---|---|
 | `DATABASE_URL` | Postgres (Railway) |
 | `ANTHROPIC_API_KEY` | analysis model |
+| `SAFE_BROWSING_API_KEY` | optional; Google Safe Browsing Lookup API v4 for `links.check`; without it the list reads "не проверено" |
+| `URLHAUS_AUTH_KEY` | optional; abuse.ch URLhaus Auth-Key for `links.check`; same rule |
 | `CORS_ORIGINS` | comma-separated: mobile origin (crm origin when the CRM returns) |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` | deferred with the CRM |
 | `PORT` | Railway sets it |

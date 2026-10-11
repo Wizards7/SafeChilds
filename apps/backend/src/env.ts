@@ -11,6 +11,9 @@ const Env = z.object({
   PORT: z.coerce.number().int().positive().default(4100),
   ANTHROPIC_API_KEY: z.string().optional().transform((v) => (v && v.length > 0 ? v : undefined)),
   ANTHROPIC_MODEL: z.string().default("claude-opus-5"),
+  // Blocklists for links.check. Each is optional: without its key the list is reported as "не проверено", never skipped silently.
+  SAFE_BROWSING_API_KEY: z.string().optional().transform((v) => (v && v.length > 0 ? v : undefined)),
+  URLHAUS_AUTH_KEY: z.string().optional().transform((v) => (v && v.length > 0 ? v : undefined)),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 });
 
