@@ -9,8 +9,7 @@ COPY apps/backend ./apps/backend
 COPY apps/mobile ./apps/mobile
 RUN pnpm install --frozen-lockfile --filter @safechilds/mobile...
 ARG NEXT_PUBLIC_API_URL
-ARG NEXT_PUBLIC_APP_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN pnpm --filter @safechilds/mobile build
 ENV NODE_ENV=production
 EXPOSE 3000

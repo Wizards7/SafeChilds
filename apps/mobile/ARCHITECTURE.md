@@ -41,7 +41,6 @@ public/manifest.json, icons/, qr.svg   (static QR for the production URL + ?from
 | Var | Purpose |
 |---|---|
 | `NEXT_PUBLIC_API_URL` | backend origin for the tRPC client |
-| `NEXT_PUBLIC_APP_URL` | the app's own origin, shown as text under the QR in the desktop shell (the QR itself is static, see `public/qr.svg`) |
 
 No secrets exist in this app. Anything prefixed `NEXT_PUBLIC_` ships to every visitor.
 
