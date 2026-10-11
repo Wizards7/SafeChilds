@@ -4,6 +4,7 @@
 // Internal addresses are never contacted, neither as the pasted link nor behind a redirect (ssrf.ts, plan 0003).
 
 import { decideLinkTier, isShortener, lookalike, YOUNG_DOMAIN_DAYS, type LinkFinding, type LinkResult, type LinkSource } from "@safechilds/analysis";
+import { describeError } from "../analysis/service";
 import type { Blocklist } from "./blocklists";
 import { isInternalHost } from "./ssrf";
 
@@ -14,6 +15,7 @@ export interface LinkDeps {
   now: () => Date;
   resolve: (host: string) => Promise<string[]>; // every address a name resolves to
   blocklists: Blocklist[]; // empty when no key is configured
+  log?: { warn: (msg: string) => void }; // a list that did not answer is logged by name, never the URL
 }
 
 const nothing = (): LinkResult => ({ tier: "unavailable", findings: [], finalUrl: null, checked: [], unchecked: ["destination", "lookalike", "age", "blocklists"] });
@@ -115,8 +117,9 @@ export async function checkLink(deps: LinkDeps, raw: string): Promise<LinkResult
         const listed = await withTimeout(list.lookup(target), TIMEOUT_MS);
         listsAnswered++;
         if (listed) findings.push({ kind: "blocklist", source: list.name });
-      } catch {
+      } catch (err) {
         sourcesFailed++;
+        deps.log?.warn(`blocklist ${list.name} failed: ${describeError(err)}`);
       }
     }),
   );

@@ -5,12 +5,14 @@ import type { Env } from "../env";
 export interface Services {
   db: Db;
   env: Env;
+  log: { warn: (msg: string) => void };
 }
 
 export function makeCreateContext(services: Services) {
   return ({ req }: CreateFastifyContextOptions) => ({
     db: services.db,
     env: services.env,
+    log: services.log,
     ip: req.ip,
   });
 }

@@ -117,10 +117,13 @@ describe("checkLink with blocklists", () => {
     expect(r.checked).toEqual(["destination", "lookalike", "age", "blocklists"]);
     expect(r.unchecked).toEqual([]);
   });
-  it("a list that fails is unchecked; with every source failing the tier is unavailable", async () => {
-    const r = await checkLink(deps({ registered: "2015-01-01T00:00:00Z" }, [listed("urlhaus", new Error("down"))]), "https://example.org/x");
+  it("a list that fails is unchecked and logged by name; with every source failing the tier is unavailable", async () => {
+    const warnings: string[] = [];
+    const d = { ...deps({ registered: "2015-01-01T00:00:00Z" }, [listed("urlhaus", Object.assign(new Error("forbidden"), { status: 403 }))]), log: { warn: (m: string) => warnings.push(m) } };
+    const r = await checkLink(d, "https://example.org/x");
     expect(r.tier).toBe("nothing_known");
     expect(r.unchecked).toEqual(["blocklists"]);
+    expect(warnings).toEqual(["blocklist urlhaus failed: Error 403: forbidden"]);
     const all = await checkLink(deps({ headFails: true, rdapFails: true }, [listed("urlhaus", new Error("down"))]), "https://example.org/x");
     expect(all.tier).toBe("unavailable");
     expect(all.unchecked.sort()).toEqual(["age", "blocklists", "destination"]);

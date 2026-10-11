@@ -46,7 +46,7 @@ export async function buildApp(env: Env, opts: BuildOptions = {}) {
     prefix: "/trpc",
     trpcOptions: {
       router: appRouter,
-      createContext: makeCreateContext({ db, env }),
+      createContext: makeCreateContext({ db, env, log: { warn: (m) => app.log.warn(m) } }),
       onError({ path, error }) {
         app.log.warn({ path, code: error.code }, "trpc error");
       },

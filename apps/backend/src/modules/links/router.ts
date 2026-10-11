@@ -9,5 +9,5 @@ const resolve = async (host: string) => (await lookup(host, { all: true })).map(
 export const linksRouter = router({
   check: publicProcedure
     .input(z.object({ url: z.string().trim().min(4).max(2048) }))
-    .mutation(({ ctx, input }) => checkLink({ fetch, now: () => new Date(), resolve, blocklists: configuredBlocklists(fetch, ctx.env) }, input.url)),
+    .mutation(({ ctx, input }) => checkLink({ fetch, now: () => new Date(), resolve, blocklists: configuredBlocklists(fetch, ctx.env), log: ctx.log }, input.url)),
 });
