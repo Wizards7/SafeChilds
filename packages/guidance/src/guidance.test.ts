@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ITEMS, composePlan, emptyProfile, matches, questionFor, stopCardFor } from "./index";
+import { ITEMS, composePlan, emptyProfile, matches, questionFor, stopCardFor, type Profile } from "./index";
 
 describe("showWhen", () => {
   const p = { ...emptyProfile("fake_photo"), platform: "instagram" as const, flags: { ongoing: true } };
@@ -67,5 +67,89 @@ describe("category pieces", () => {
       expect(t.ru.trim()).not.toBe("");
       expect(t.tg.trim()).not.toBe("");
     }
+  });
+});
+
+describe("fraud", () => {
+  it("offers the link check only when a profile asks for money or a code, and no stop card", () => {
+    const asks = emptyProfile("profile_asks_money_or_code");
+    const q = questionFor(ITEMS, asks);
+    expect(q?.id).toBe("fraud.link");
+    expect(q?.answers.find((a) => a.id === "yes")?.next).toBe("link");
+    expect(questionFor(ITEMS, emptyProfile("already_sent"))).toBeNull();
+    expect(stopCardFor(ITEMS, asks)).toBeNull();
+    expect(stopCardFor(ITEMS, emptyProfile("already_sent"))).toBeNull();
+  });
+  it("splits the two doors: nothing sent vs already sent", () => {
+    const asks = composePlan(ITEMS, emptyProfile("profile_asks_money_or_code"));
+    const asksIds = [...asks.now, ...asks.later].map((s) => s.id);
+    expect(asks.now[0]?.id).toBe("fraud.dont_send");
+    expect(asksIds).not.toContain("fraud.bank");
+    expect(asksIds).toContain("fraud.tell_adult");
+
+    const sent = composePlan(ITEMS, emptyProfile("already_sent"));
+    const sentIds = [...sent.now, ...sent.later].map((s) => s.id);
+    expect(sent.now.map((s) => s.id)).toEqual(["fraud.dont_send_more", "fraud.bank", "fraud.passwords"]);
+    expect(sentIds).not.toContain("fraud.dont_send");
+    expect(sentIds).toContain("fraud.tell_adult_now");
+    expect(sentIds).toContain("fraud.police");
+  });
+  it("the alreadySent flag opens the already-sent door from the other situation", () => {
+    const p = { ...emptyProfile("profile_asks_money_or_code"), flags: { alreadySent: true } };
+    expect(composePlan(ITEMS, p).now[0]?.id).toBe("fraud.dont_send_more");
+  });
+  it("shows only the platform's report step", () => {
+    const p = { ...emptyProfile("profile_asks_money_or_code"), platform: "telegram" as const };
+    const ids = [...composePlan(ITEMS, p).now, ...composePlan(ITEMS, p).later].map((s) => s.id);
+    expect(ids).toContain("fraud.report.telegram");
+    expect(ids).not.toContain("fraud.report.instagram");
+  });
+});
+
+describe("cyberbullying", () => {
+  it("asks the one question and sets ongoing", () => {
+    const q = questionFor(ITEMS, emptyProfile("group_against_me"));
+    expect(q?.id).toBe("cb.ongoing");
+    expect(q?.answers.find((a) => a.id === "ongoing")?.sets).toEqual({ ongoing: true });
+    expect(stopCardFor(ITEMS, emptyProfile("group_against_me"))).toBeNull();
+  });
+  it("moves 'tell an adult' to step 2 when ongoing, keeps it later otherwise", () => {
+    const ongoing = { ...emptyProfile("persistent_messages"), safety: "safe" as const, flags: { ongoing: true } };
+    const once = { ...emptyProfile("persistent_messages"), safety: "safe" as const };
+    expect(composePlan(ITEMS, ongoing).now[1]?.id).toBe("cb.tell_adult_early");
+    expect(composePlan(ITEMS, once).now.map((s) => s.id)).not.toContain("cb.tell_adult_early");
+    expect([...composePlan(ITEMS, once).now, ...composePlan(ITEMS, once).later].map((s) => s.id)).toContain("cb.tell_adult");
+  });
+  it("adds the group step only for a group and the photo step only for public humiliation", () => {
+    const ids = (s: Parameters<typeof emptyProfile>[0]) => {
+      const plan = composePlan(ITEMS, emptyProfile(s));
+      return [...plan.now, ...plan.later].map((x) => x.id);
+    };
+    expect(ids("group_against_me")).toContain("cb.group");
+    expect(ids("persistent_messages")).not.toContain("cb.group");
+    expect(ids("public_humiliation")).toContain("cb.photo");
+    expect(ids("group_against_me")).not.toContain("cb.photo");
+  });
+  it("restricts on Instagram and blocks elsewhere", () => {
+    const ig = { ...emptyProfile("persistent_messages"), platform: "instagram" as const };
+    const tg = { ...emptyProfile("persistent_messages"), platform: "telegram" as const };
+    const idsOf = (p: Profile) => [...composePlan(ITEMS, p).now, ...composePlan(ITEMS, p).later].map((s) => s.id);
+    expect(idsOf(ig)).toContain("cb.restrict.instagram");
+    expect(idsOf(ig)).not.toContain("cb.block");
+    expect(idsOf(tg)).toContain("cb.block");
+    expect(idsOf(tg)).toContain("cb.report.telegram");
+  });
+});
+
+describe("every situation has a plan", () => {
+  it("no Home tile reaches an empty plan", () => {
+    for (const s of ["fake_photo", "fake_video", "impersonation", "threat_to_publish", "demand_money_or_photos", "profile_asks_money_or_code", "already_sent", "public_humiliation", "persistent_messages", "group_against_me"] as const) {
+      const plan = composePlan(ITEMS, emptyProfile(s));
+      expect(plan.now.length, s).toBeGreaterThanOrEqual(3);
+    }
+  });
+  it("item ids are unique", () => {
+    const ids = ITEMS.map((i) => i.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
