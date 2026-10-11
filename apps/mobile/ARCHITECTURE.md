@@ -33,7 +33,7 @@ lib/
   client-checks.ts      EXIF + C2PA
   trpc.ts               tRPC client + TanStack Query provider
 messages/ru.json, tg.json
-public/manifest.json, icons/, qr.svg
+public/manifest.json, icons/, qr.svg   (static QR for the production URL + ?from=qr; regenerate with segno: python3 -c "import segno; segno.make('https://mobile-production-ea38.up.railway.app/?from=qr', error='m').save('public/qr.svg', scale=4, border=4, dark='#0b1220', light='#ffffff', xmldecl=False)")
 ```
 
 ## Environment
@@ -41,7 +41,7 @@ public/manifest.json, icons/, qr.svg
 | Var | Purpose |
 |---|---|
 | `NEXT_PUBLIC_API_URL` | backend origin for the tRPC client |
-| `NEXT_PUBLIC_APP_URL` | the app's own origin, used to generate the QR in the desktop shell |
+| `NEXT_PUBLIC_APP_URL` | the app's own origin, shown as text under the QR in the desktop shell (the QR itself is static, see `public/qr.svg`) |
 
 No secrets exist in this app. Anything prefixed `NEXT_PUBLIC_` ships to every visitor.
 
