@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ITEMS, composePlan, emptyProfile, matches, questionFor, stopCardFor, type Profile } from "./index";
+import { ABOUT, ITEMS, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile } from "./index";
 
 describe("showWhen", () => {
   const p = { ...emptyProfile("fake_photo"), platform: "instagram" as const, flags: { ongoing: true } };
@@ -151,5 +151,39 @@ describe("every situation has a plan", () => {
   it("item ids are unique", () => {
     const ids = ITEMS.map((i) => i.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe("learn-the-signs cards", () => {
+  it("has five cards per category, unique ids, and a marker for every sign in both languages", () => {
+    const ids: string[] = [];
+    for (const c of SIGN_CATEGORIES) {
+      expect(SIGNS[c], c).toHaveLength(5);
+      for (const card of SIGNS[c]) {
+        ids.push(card.id);
+        const expected = card.signs.map((_, i) => i + 1);
+        expect(cardMarkers(card, "ru"), card.id).toEqual(expected);
+        expect(cardMarkers(card, "tg"), card.id).toEqual(expected);
+        if (card.mock.kind === "photo") {
+          expect(card.mock.lines).toHaveLength(0);
+          expect(card.signs.length).toBeLessThanOrEqual(4);
+        } else {
+          expect(card.mock.lines.length).toBeGreaterThan(0);
+        }
+        for (const text of [card.title, ...card.signs, ...card.mock.lines.map((l) => l.text)]) {
+          expect(text.ru.trim()).not.toBe("");
+          expect(text.tg.trim()).not.toBe("");
+        }
+      }
+      expect(ABOUT[c].what.ru.trim()).not.toBe("");
+      expect(ABOUT[c].what.tg.trim()).not.toBe("");
+      expect(ABOUT[c].silent.length).toBeGreaterThanOrEqual(3);
+    }
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+  it("splits marker tokens out of a line", () => {
+    expect(splitMarkers("Привет [1], это ты? [2]")).toEqual(["Привет ", 1, ", это ты? ", 2]);
+    expect(splitMarkers("[фото Мадины]")).toEqual(["[фото Мадины]"]);
+    expect(markerNumbers("[3] a [1]")).toEqual([3, 1]);
   });
 });

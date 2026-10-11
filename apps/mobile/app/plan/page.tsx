@@ -105,6 +105,10 @@ export default function PlanPage() {
           <Icon name="chevron-right" className="i chev" />
         </Link>
 
+        {incident.profile.category !== "unknown" && (
+          <Link className="btn btn-quiet" href={`/signs?c=${incident.profile.category}`}>{t("learnMore")}</Link>
+        )}
+
         <InstallPrompt ready={Object.values(incident.steps).some((s) => s.done)} />
       </main>
     </>

@@ -34,7 +34,7 @@ Every item has an `id`, `kind`, `showWhen`, `order`, and strings in `ru` and `tg
 | `support` | a support offer | feelings first when `situation = group_against_me` |
 | `directory` | a directory filter or entry | school psychologist when `category = cyberbullying` |
 | `urgent` | a line for the urgent screen | "Это преступление против тебя, не твоя ошибка." when `category = extortion` |
-| `sign` | a learn-the-signs card with markers | the scam-profile card |
+| `sign` | a learn-the-signs card with markers — not an item: `SIGNS[category]` in `content/signs.ts` (five per category, markers as `[n]` tokens in the mock lines), with `ABOUT[category]` for что это and почему ребёнок молчит | the scam-profile card |
 
 `showWhen` is a small predicate language over the profile: equality on category / situation / platform / safety, truthiness on flags, `and` / `or`. No code in content.
 

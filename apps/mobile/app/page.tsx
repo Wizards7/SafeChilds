@@ -47,6 +47,7 @@ export default async function Home() {
             <Icon name="chevron-right" className="i chev" />
           </StartIncident>
         </div>
+        <Link className="btn btn-quiet" href="/signs"><Icon name="search" size={20} />{t("signs")}</Link>
         <footer style={{ textAlign: "center" }}>
           <Link href="/privacy" className="small">{t("privacy")}</Link>
         </footer>

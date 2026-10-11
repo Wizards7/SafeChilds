@@ -1,0 +1,40 @@
+/* Learn-the-signs: category chips as links, one card per sign with a mock + reveal, the "why silent" list. */
+.chips a.chip { display: inline-flex; align-items: center; text-decoration: none; }
+.chips a.chip[aria-current="page"] { background: var(--text); color: var(--surface); border-color: var(--text); }
+
+.about p { margin-top: var(--space-2); color: var(--text-secondary); }
+
+.sign { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+.sign .reveal { min-height: 44px; }
+
+/* The mock: an ordinary-looking piece of a chat, a profile, a post, a notice or a link */
+.mock { background: var(--neutral-bg); border-radius: var(--radius-control); padding: var(--space-3); display: flex; flex-direction: column; gap: 6px; font-size: var(--text-small); line-height: 1.4; }
+.mock .line { position: relative; }
+.mock .meta { color: var(--text-secondary); font-size: 13px; }
+.mock-chat .line:not(.meta) { max-width: 88%; padding: 8px 12px; border-radius: 14px 14px 14px 4px; background: var(--surface); }
+.mock-chat .line.me { align-self: flex-end; border-radius: 14px 14px 4px 14px; background: var(--support-bg-selected); }
+.mock-chat .line.meta { align-self: center; }
+.mock-profile .phead { display: flex; align-items: center; gap: var(--space-3); }
+.mock-profile .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(160deg, #cbd5e1, #94a3b8); flex: none; }
+.mock-profile .phead .line { font-weight: 600; }
+.mock-post .line:not(.meta) { font-weight: 500; }
+.mock-notice { border: 1px solid var(--border); background: var(--surface); }
+.mock-notice .line:first-child { font-weight: 600; }
+.mock-link .line:not(.meta) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+
+/* The drawn photo for the edited-photo card; markers from app.css .mark, positioned in % */
+.mock-photo { position: relative; padding: 0; overflow: hidden; aspect-ratio: 4 / 3; }
+.mock-photo svg { display: block; width: 100%; height: 100%; }
+.mock-photo .mark { transform: translate(-50%, -50%); }
+
+/* Inline numbered marker inside a mock line and in the explanation list */
+.mk { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--warning); color: #fff; font-weight: 700; font-size: 12px; margin: 0 4px; vertical-align: middle; flex: none; }
+
+.signs { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.signs li { display: flex; gap: var(--space-2); align-items: flex-start; font-size: var(--text-small); }
+.signs li .mk { margin: 1px 0 0; }
+
+.silent ul { list-style: none; padding: 0; margin-top: var(--space-2); display: flex; flex-direction: column; gap: var(--space-2); }
+.silent li { background: var(--support-bg); border-radius: var(--radius-control); padding: var(--space-3) var(--space-4); display: flex; flex-direction: column; gap: 4px; }
+.silent li b { color: var(--support); font-weight: 600; }
+.silent li span { font-size: var(--text-small); color: var(--text-secondary); }
