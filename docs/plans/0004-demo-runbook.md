@@ -45,6 +45,7 @@ Projector: the laptop shows the app in the phone frame with the QR beside it. Ju
 5. **"Поговорить с человеком" → People.** Say: demo cards, labelled; two paths; no account, no identity until the moment of contact.
 6. **Bottom nav → Мой случай.** Say: everything lives on the phone, nothing on our server.
 7. **Home → "Узнать признаки" → Мошенничество**, reveal one card. Say: the organizers' "как это выглядит", twenty cards, built from their own workshop examples.
+7a. **Optional, Home → "Опиши своими словами".** Type "мне пишет человек из банка и просит код из смс". Say: the model turns the words into codes, the steps on screen are the reviewed plan, not generated text; a kid who writes about hurting themselves goes straight to the urgent screen without any model. Plan 0005.
 8. **Phone 2, Telegram.** `/start` → Русский → Мошенничество → situation → safety → plan (20 s). Then paste `https://testsafebrowsing.appspot.com/s/phishing.html` → red, Safe Browsing named, coverage line. Say: the same guidance, a second door, the link never opens on the kid's phone.
 9. **Close:** "Мы не определяем фейки. Мы помогаем сделать следующий безопасный шаг и дойти до настоящего человека."
 

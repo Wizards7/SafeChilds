@@ -23,9 +23,11 @@ import {
   urgentLinesFor,
   type Category,
   type Profile,
+  type SituationId,
+  type StepItem,
   type Text,
 } from "@safechilds/guidance";
-import { coverageLine, LINK_SOURCE_TEXT, LINK_SOURCES, LINK_TIER_TEXT, type LinkSource, type LinkTier } from "@safechilds/analysis";
+import { coverageLine, LINK_SOURCE_TEXT, LINK_SOURCES, LINK_TIER_TEXT, type LinkSource, type LinkTier, type TriageRoute } from "@safechilds/analysis";
 import type { Locale } from "./state";
 
 export const UI: Record<string, Text> = {
@@ -59,6 +61,10 @@ export const UI: Record<string, Text> = {
   neverAsk: { ru: "Мы никогда не просим коды, пароли или деньги. Настоящий бот — только @{username}.", tg: "Мо ҳеҷ гоҳ рамз, парол ё пул намепурсем. Боти аслӣ — танҳо @{username}.", verify: true },
   leadsTo: { ru: "Ведёт на", tg: "Мебарад ба", verify: true },
   hiddenLink: { ru: "Внимание: текст ссылки показывает «{shown}», а ведёт на «{real}». Так прячут настоящий адрес.", tg: "Диққат: матни пайванд «{shown}»-ро нишон медиҳад, аммо ба «{real}» мебарад. Суроғаи аслиро ҳамин тавр пинҳон мекунанд.", verify: true },
+  triageFound: { ru: "Похоже, вот что сейчас важно:", tg: "Гӯё ҳоло ин муҳим аст:", verify: true },
+  triageAsk: { ru: "Пока не понял(а). Напиши чуть подробнее или выбери ситуацию кнопками.", tg: "Ҳоло нафаҳмидам. Каме муфассалтар навис ё ҳолатро бо тугмаҳо интихоб кун.", verify: true },
+  triageConfirm: { ru: "Да, это моя ситуация", tg: "Ҳа, ин ҳолати ман", verify: true },
+  triageOther: { ru: "Нет, выбрать другую", tg: "Не, дигареро интихоб кардан", verify: true },
   apkDisguised: { ru: "Файл называется как фото, документ или приглашение, но это программа для Android (.apk). Так маскируют приложения, которые читают СМС с кодами. Не устанавливай. Настоящие приложения — только из Play Store.", tg: "Файл мисли акс, ҳуҷҷат ё даъватнома ном дорад, аммо ин барномаи Android аст (.apk). Барномаҳоеро, ки СМС-и рамздорро мехонанд, ҳамин тавр пинҳон мекунанд. Насб накун. Барномаҳои аслӣ — танҳо аз Play Store.", verify: true },
 };
 
@@ -213,3 +219,20 @@ export function fileReply(fileName: string | undefined, mime: string | undefined
 }
 
 export { FEELINGS_HINT };
+
+// The guided chat in the bot: the kid's free text became codes. Steps as titles only, then one confirm button that starts
+// the normal flow for the matched situation, or the start buttons when nothing matched. Urgent is handled by the caller.
+export function triageMessage(result: { situation: SituationId | null; category: Category | null; items: string[]; route: TriageRoute }, locale: Locale): Message {
+  const steps = result.items.map((id) => ITEMS.find((i): i is StepItem => i.kind === "step" && i.id === id)).filter((s): s is StepItem => !!s);
+  if (!result.situation && !steps.length) {
+    const m = result.category ? situationsMessage(result.category, locale) : startMessage(locale);
+    return { text: `${t("triageAsk", locale)}\n\n${m.text}`, buttons: m.buttons };
+  }
+  const lines = [t("triageFound", locale), ...steps.map((s) => `• ${pick(s.title, locale)}`)];
+  if (result.situation) lines.push("", pick(SITUATION_LABEL[result.situation], locale));
+  const buttons: Button[][] = [];
+  if (result.situation) buttons.push([{ text: t("triageConfirm", locale), data: `sit:${result.situation}` }]);
+  if (result.route === "people") buttons.push([{ text: t("talkToPerson", locale), data: "people" }]);
+  buttons.push([{ text: t("triageOther", locale), data: "restart" }]);
+  return { text: lines.join("\n"), buttons };
+}

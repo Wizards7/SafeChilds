@@ -3,7 +3,7 @@
 
 import { openDB, type IDBPDatabase } from "idb";
 import type { Feeling, Platform, Profile, SafetyAnswer } from "@safechilds/guidance";
-import type { Decision } from "@safechilds/analysis";
+import type { Decision, TriageRoute } from "@safechilds/analysis";
 
 export interface Evidence {
   id: string;
@@ -12,12 +12,24 @@ export interface Evidence {
   createdAt: string;
 }
 
+// One turn of the guided chat. "me" carries the kid's words; "app" carries step ids and a route, never generated text.
+export interface ChatTurn {
+  id: string;
+  role: "me" | "app";
+  text?: string;
+  items?: string[];
+  route?: TriageRoute;
+  failed?: boolean;
+  at: string;
+}
+
 export interface Incident {
   incidentKey: string;
   profile: Profile;
   analysis: (Decision & { at: string }) | null;
   evidence: Evidence[];
   steps: Record<string, { done: boolean; at: string }>;
+  chat: ChatTurn[]; // older incidents on a phone may lack it: read with `?? []`
   createdAt: string;
   updatedAt: string;
 }
@@ -73,7 +85,7 @@ export const incidentStore = {
 
   async start(profile: Profile): Promise<Incident> {
     const now = new Date().toISOString();
-    const incident: Incident = { incidentKey: randomKey(), profile, analysis: null, evidence: [], steps: {}, createdAt: now, updatedAt: now };
+    const incident: Incident = { incidentKey: randomKey(), profile, analysis: null, evidence: [], steps: {}, chat: [], createdAt: now, updatedAt: now };
     await put(INCIDENT, incident);
     return incident;
   },
@@ -95,6 +107,15 @@ export const incidentStore = {
     incidentStore.update((i) => ({ ...i, steps: { ...i.steps, [stepId]: { done: !(i.steps[stepId]?.done ?? false), at: new Date().toISOString() } } })),
   addEvidence: (e: Omit<Evidence, "id" | "createdAt">) =>
     incidentStore.update((i) => ({ ...i, evidence: [...i.evidence, { ...e, id: randomKey(), createdAt: new Date().toISOString() }] })),
+  addChat: (turn: Omit<ChatTurn, "id" | "at">) =>
+    incidentStore.update((i) => ({ ...i, chat: [...(i.chat ?? []), { ...turn, id: randomKey(), at: new Date().toISOString() }] })),
+  // The chat's codes become the profile only when they are more specific than what the kid already picked.
+  setProfileFromCodes: (codes: { category: Profile["category"] | null; situation: Profile["situation"] | null; flags: Profile["flags"]; platform: Platform | null }) =>
+    incidentStore.update((i) => {
+      const situation = codes.situation ?? i.profile.situation;
+      const category = codes.situation ? (codes.category ?? i.profile.category) : i.profile.category === "unknown" ? (codes.category ?? i.profile.category) : i.profile.category;
+      return { ...i, profile: { ...i.profile, category, situation, flags: { ...i.profile.flags, ...codes.flags }, platform: codes.platform ?? i.profile.platform } };
+    }),
 
   async clear() {
     const d = await db();

@@ -1,0 +1,21 @@
+/* Guided chat: a thread of bubbles and a composer pinned to the bottom. The kid's words on the right in the support tint,
+   the reviewed guidance on the left on a surface. */
+main.chat { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+.chat .thread { display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+.chat .bubble { max-width: 92%; padding: var(--space-3) var(--space-4); border-radius: 18px; line-height: 1.4; }
+.chat .bubble.me { align-self: flex-end; background: var(--support-bg-selected); border-bottom-right-radius: 6px; white-space: pre-wrap; word-break: break-word; }
+.chat .bubble.app { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 6px; display: flex; flex-direction: column; gap: var(--space-2); }
+.chat .bubble.app p { margin: 0; }
+.chat .bubble.app .lead { font-weight: 600; }
+.chat .bubble.pending { color: var(--text-secondary); }
+.chat .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-2); }
+.chat .steps li { display: flex; flex-direction: column; gap: 2px; }
+.chat .steps li span { font-size: var(--text-small); color: var(--text-secondary); }
+.chat .actions { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-1); }
+.chat .actions .btn { min-height: 44px; }
+.chat .composer { position: sticky; bottom: calc(var(--space-3) + env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1fr auto; gap: var(--space-2); align-items: end; background: var(--background); padding-top: var(--space-2); }
+.chat .composer textarea { width: 100%; min-height: 52px; padding: var(--space-3); border: 1px solid var(--input-border); border-radius: var(--radius-control); font: inherit; background: var(--surface); color: var(--text); resize: none; }
+.chat .composer textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgb(37 99 235 / 0.2); }
+.chat .composer .send { width: 52px; min-height: 52px; padding: 0; }
+.chat .composer .consent { grid-column: 1 / -1; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

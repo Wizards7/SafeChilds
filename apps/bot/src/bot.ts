@@ -4,7 +4,7 @@
 import { Bot, InlineKeyboard } from "grammy";
 import { PLATFORMS, SITUATIONS, URGENT_SAFETY, type Platform, type SafetyAnswer, type SituationId, SAFETY_ANSWERS, CATEGORIES, type Category, ITEMS, questionFor } from "@safechilds/guidance";
 import type { Env } from "./env";
-import { fileReply, hiddenLink, linkReply, NO_COVERAGE, pick, planMessage, platformMessage, questionMessage, safetyMessage, situationsMessage, startMessage, stopMessage, t, urgentMessage, UI, type Message } from "./render";
+import { fileReply, hiddenLink, linkReply, NO_COVERAGE, pick, planMessage, triageMessage, platformMessage, questionMessage, safetyMessage, situationsMessage, startMessage, stopMessage, t, urgentMessage, UI, type Message } from "./render";
 import { getState, reset, startIncident, type Locale } from "./state";
 import { makeApi } from "./trpc";
 
@@ -157,10 +157,24 @@ export function createBot(env: Env) {
     await ctx.reply(t("noFiles", s.locale), { reply_markup: new InlineKeyboard().url(t("checkImage", s.locale), `${env.APP_URL}/?from=bot`) });
   });
 
-  // Free text: never interpreted. Re-show the start buttons.
+  // Free text: the guided chat (plan 0005). Codes come back; crisis words go to the urgent message; the kid confirms the
+  // matched situation with a button and the normal flow continues. If nothing matched, the start buttons.
   bot.on("message:text", async (ctx) => {
     const s = getState(ctx.chat.id);
-    await send(ctx, startMessage(s.locale));
+    let r: Awaited<ReturnType<typeof api.triage.reply.mutate>>;
+    try {
+      r = await api.triage.reply.mutate({ messages: [ctx.message.text.slice(0, 600)] });
+    } catch {
+      return send(ctx, startMessage(s.locale));
+    }
+    if (r.status === "failed") return send(ctx, startMessage(s.locale));
+    if (r.safety !== "ok") {
+      const profile = startIncident(ctx.chat.id, r.situation ?? "unknown");
+      profile.safety = r.safety;
+      profile.flags.threatened = true;
+      return send(ctx, urgentMessage(profile, s.locale, env.APP_URL));
+    }
+    await send(ctx, triageMessage(r, s.locale));
   });
 
   bot.catch((err) => {

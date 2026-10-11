@@ -6,15 +6,17 @@ import { createDb, type Db } from "@safechilds/db";
 import { sql } from "drizzle-orm";
 import Fastify, { type FastifyError } from "fastify";
 import type { Env } from "./env";
-import { createAnthropicClient } from "./modules/analysis/anthropic";
+import { createAnthropicClient, createTextModel } from "./modules/analysis/anthropic";
 import { registerAnalysisRoute } from "./modules/analysis/route";
 import type { ModelClient } from "./modules/analysis/service";
+import type { TextModelClient } from "./modules/triage/service";
 import { makeCreateContext } from "./trpc/context";
 import { appRouter, type AppRouter } from "./trpc/router";
 
 export interface BuildOptions {
   db?: Db;
   model?: ModelClient | null;
+  triage?: TextModelClient | null;
 }
 
 export async function buildApp(env: Env, opts: BuildOptions = {}) {
@@ -26,6 +28,7 @@ export async function buildApp(env: Env, opts: BuildOptions = {}) {
 
   const db = opts.db ?? createDb(env.DATABASE_URL);
   const model = opts.model !== undefined ? opts.model : env.ANTHROPIC_API_KEY ? createAnthropicClient(env.ANTHROPIC_API_KEY, env.ANTHROPIC_MODEL) : null;
+  const triage = opts.triage !== undefined ? opts.triage : env.ANTHROPIC_API_KEY ? createTextModel(env.ANTHROPIC_API_KEY, env.ANTHROPIC_MODEL) : null;
 
   await app.register(cors, { origin: env.CORS_ORIGINS, credentials: false });
   await app.register(rateLimit, { max: 60, timeWindow: "1 minute", allowList: [] });
@@ -46,7 +49,7 @@ export async function buildApp(env: Env, opts: BuildOptions = {}) {
     prefix: "/trpc",
     trpcOptions: {
       router: appRouter,
-      createContext: makeCreateContext({ db, env, log: { warn: (m) => app.log.warn(m) } }),
+      createContext: makeCreateContext({ db, env, log: { warn: (m) => app.log.warn(m) }, triage }),
       onError({ path, error }) {
         app.log.warn({ path, code: error.code }, "trpc error");
       },

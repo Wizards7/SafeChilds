@@ -46,6 +46,11 @@ export default async function Home() {
             <span className="body"><span className="t">{pick(CATEGORY_LABEL.unknown, locale)}</span></span>
             <Icon name="chevron-right" className="i chev" />
           </StartIncident>
+          <Link className="option support" href="/chat">
+            <span className="ic"><Icon name="message-circle" /></span>
+            <span className="body"><span className="t">{t("chat.title")}</span><span className="d">{t("chat.sub")}</span></span>
+            <Icon name="chevron-right" className="i chev" />
+          </Link>
         </div>
         <Link className="btn btn-quiet" href="/signs"><Icon name="search" size={20} />{t("signs")}</Link>
         <footer style={{ textAlign: "center" }}>

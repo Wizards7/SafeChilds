@@ -10,7 +10,7 @@ export default async function PrivacyPage() {
   const sections = [
     { icon: "lock", color: "var(--support)", title: t("noReg.title"), items: [t("noReg.a"), t("noReg.b")] },
     { icon: "folder", color: "var(--support)", title: t("onPhone.title"), items: [t("onPhone.a"), t("onPhone.b")] },
-    { icon: "share", color: "var(--primary)", title: t("leaves.title"), items: [t("leaves.a"), t("leaves.b"), t("leaves.c")] },
+    { icon: "share", color: "var(--primary)", title: t("leaves.title"), items: [t("leaves.a"), t("leaves.b"), t("leaves.c"), t("leaves.d")] },
     { icon: "info", color: "var(--warning)", title: t("limits.title"), items: [t("limits.a"), t("limits.b"), t("limits.c")] },
   ];
   return (

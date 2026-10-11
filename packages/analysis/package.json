@@ -12,6 +12,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@safechilds/guidance": "workspace:*",
     "zod": "^4.0.0"
   },
   "devDependencies": {

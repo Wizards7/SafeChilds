@@ -4,6 +4,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { ModelClient } from "./service";
 import { SYSTEM_PROMPT } from "./service";
+import type { TextModelClient } from "../triage/service";
 
 const MEDIA = new Set(["image/jpeg", "image/png", "image/webp"] as const);
 type Media = "image/jpeg" | "image/png" | "image/webp";
@@ -30,6 +31,25 @@ export function createAnthropicClient(apiKey: string, model: string): ModelClien
           ],
         },
         { timeout: 20_000 },
+      );
+      if (response.stop_reason === "refusal") throw new Error("model refused");
+      if (response.stop_reason === "max_tokens") throw new Error("model hit max_tokens before finishing the JSON");
+      return response.content
+        .filter((b): b is Anthropic.TextBlock => b.type === "text")
+        .map((b) => b.text)
+        .join("");
+    },
+  };
+}
+
+// The guided chat: a system prompt and the kid's text, codes back. Short output, low effort, 15 s.
+export function createTextModel(apiKey: string, model: string): TextModelClient {
+  const client = new Anthropic({ apiKey, maxRetries: 1 });
+  return {
+    async reply(system, user) {
+      const response = await client.messages.create(
+        { model, max_tokens: 400, system, output_config: { effort: "low" }, messages: [{ role: "user", content: user }] },
+        { timeout: 15_000 },
       );
       if (response.stop_reason === "refusal") throw new Error("model refused");
       if (response.stop_reason === "max_tokens") throw new Error("model hit max_tokens before finishing the JSON");

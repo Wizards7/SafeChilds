@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emptyProfile } from "@safechilds/guidance";
-import { defang, fileReply, hiddenLink, linkReply, planMessage, questionMessage, safetyMessage, startMessage, stopMessage, urgentMessage } from "./render";
+import { defang, fileReply, hiddenLink, linkReply, planMessage, questionMessage, safetyMessage, startMessage, stopMessage, triageMessage, urgentMessage } from "./render";
 
 const APP = "https://app.example";
 
@@ -68,5 +68,15 @@ describe("bot renders the same guidance as the app", () => {
     expect(fileReply("Свадьба_приглашение.apk", undefined, "ru")).toContain("маскируют");
     expect(fileReply("сурат.jpg.apk", undefined, "tg")).toContain("Play Store");
     expect(fileReply("bank.apk", undefined, "ru")).not.toContain("маскируют");
+  });
+  it("free text that became codes shows step titles and a confirm button; nothing matched shows the start buttons", () => {
+    const m = triageMessage({ situation: "already_sent", category: "fraud", items: ["fraud.bank", "fraud.passwords"], route: "plan" }, "ru");
+    expect(m.text).toContain("• Позвони в банк и заблокируй карту");
+    expect(m.text).toContain("Я уже отправил(а) деньги или код");
+    expect(m.buttons[0]?.[0]?.data).toBe("sit:already_sent");
+    const none = triageMessage({ situation: null, category: null, items: [], route: "ask" }, "tg");
+    expect(none.buttons).toHaveLength(5);
+    const cat = triageMessage({ situation: null, category: "cyberbullying", items: [], route: "ask" }, "ru");
+    expect(cat.buttons.flat().some((b) => b.data === "sit:group_against_me")).toBe(true);
   });
 });
