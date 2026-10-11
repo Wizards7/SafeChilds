@@ -12,7 +12,7 @@ what the team does on Sunday, Monday and Tuesday, and how bugs get fixed on the 
 | API | https://backend-production-e657.up.railway.app — analysis (Anthropic key set), link check with redirects, lookalikes, domain age, Safe Browsing and URLhaus (both keys set), SSRF-safe |
 | Bot | live with its token; situation → safety → plan → people; link check with hidden-link warning, defanged domains, coverage line; files judged by type; never-ask line with its @username |
 | Honesty | every image and link result ends with "Проверено: … Не проверено: …" |
-| Tests | 7 typecheck tasks, 125 unit tests, CI green on `main` |
+| Tests | 7 typecheck tasks, 123 unit tests, CI green on `main` |
 | Deploy | push to `main` → Railway rebuilds all three services in 2–3 minutes |
 
 Not in the app on purpose: accounts, chat, server-side file scanning, our own fake detector, percentages, the word "безопасно".
@@ -83,7 +83,7 @@ One idea per slide, the demo carries the rest.
 9. **What is next.** Scam-text rules in ru and tg with a labelled corpus and measured precision; a partner organisation receiving contact requests; Content Credentials validation; a school pilot with a research-ethics protocol.
 10. **Ask.** One partner organisation in Tajikistan that can receive a teenager's request. One helpline that confirms its number.
 
-Numbers for the deck, true tonight: 16 routes, 20 signs cards, 11 situations, 4 categories, 2 languages, 125 tests, 3 services, 0 child records on the server.
+Numbers for the deck, true tonight: 16 routes, 20 signs cards, 11 situations, 4 categories, 2 languages, 123 tests, 3 services, 0 child records on the server.
 
 ## 6. Known limits to say if asked
 
