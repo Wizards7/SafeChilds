@@ -176,6 +176,9 @@ importers:
 
   packages/analysis:
     dependencies:
+      '@safechilds/guidance':
+        specifier: workspace:*
+        version: link:../guidance
       zod:
         specifier: ^4.0.0
         version: 4.6.5
