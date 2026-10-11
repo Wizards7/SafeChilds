@@ -4,7 +4,7 @@ AI-assisted online safety and human support for teenagers in Tajikistan (UNICEF 
 
 **Authority on any conflict:** [`docs/plans/0001-hackathon-scope.md`](./docs/plans/0001-hackathon-scope.md). Then each app's spec files. Then this map.
 
-**Status (2026-10-10):** specs written, all 16 screens sketched on the design board, scaffold in progress. Order: root → packages → backend → mobile → bot → Railway.
+**Status (2026-10-11):** built and deployed on Railway (mobile https://mobile-production-ea38.up.railway.app, API https://backend-production-e657.up.railway.app). What is left and how to run: [`docs/plans/0002-handoff-2026-10-11.md`](./docs/plans/0002-handoff-2026-10-11.md) — read it first in a new session.
 
 ## Layout
 

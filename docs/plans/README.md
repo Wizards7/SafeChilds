@@ -7,6 +7,7 @@ Numbered decision documents. On any conflict with other text in the repo — app
 | # | Title | Status |
 |---|---|---|
 | [0001](./0001-hackathon-scope.md) | Hackathon scope, decisions, team, schedule, demo | Approved 2026-10-09 |
+| [0002](./0002-handoff-2026-10-11.md) | Status and handoff: what is live, what is left (code and not), how to run | Approved 2026-10-11 |
 
 ## Naming
 
