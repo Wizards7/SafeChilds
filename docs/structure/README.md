@@ -34,6 +34,11 @@ Every folder in the repo gets an entry the day it is created: what it is for, wh
 - **Contains:** `config/`, `ui/`, `guidance/`, `analysis/`, `directory/`, `db/`
 - **Do NOT put here:** `utils/` or `common/`; anything only one app uses
 
+### `scripts/`
+- **Purpose:** repo-level one-off tools run by a person, never by an app
+- **Contains:** `tajik-review.ts` (collects every AI-written Tajik string next to its Russian source into `docs/tajik-review.{csv,md}` for the native speaker; run with `pnpm --filter @safechilds/backend exec tsx ../../scripts/tajik-review.ts`)
+- **Do NOT put here:** anything an app imports; build or deploy steps (those live in each app's `package.json` and Dockerfile)
+
 ## `apps/`
 
 ### `apps/backend/`
