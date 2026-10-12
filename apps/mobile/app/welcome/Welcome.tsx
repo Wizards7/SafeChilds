@@ -1,6 +1,7 @@
 "use client";
 
-// First open only: three beats, one illustration and one sentence each. Skippable from the first beat. The flag
+// First open only: three beats, one illustration and one sentence each. Skip sits beside Next on every beat but
+// the last, where Start stands alone (Skip and Start would do the same thing there). The flag
 // lives on the device. Language is never a step: the server picks it from the phone (i18n/request.ts); the toggle
 // lives on Home and in the top bar (removed from the welcome 2026-10-12 at Ali's call).
 
@@ -46,12 +47,6 @@ export function Welcome() {
 
   return (
     <>
-      <header className="top wtop">
-        <span className="spacer" />
-        <button className="skip" onClick={finish}>
-          {t("skip")}
-        </button>
-      </header>
       <main className="no-nav welcome">
         <div className="slides" ref={slides}>
           {BEATS.map((beat, i) => (
@@ -69,19 +64,25 @@ export function Welcome() {
               <div className="sheet">
                 <h1>{t(`${beat}.title`)}</h1>
                 <p>{t(`${beat}.sub`)}</p>
-                <div className="row">
-                  <div className="dots" aria-hidden="true">
-                    {BEATS.map((b, k) => (
-                      <i key={b} className={k === index ? "on" : undefined} />
-                    ))}
-                  </div>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => (i === last ? finish() : goTo(i + 1))}
-                  >
-                    {i === last ? t("start") : t("next")}
-                  </button>
+                <div className="dots" aria-hidden="true">
+                  {BEATS.map((b, k) => (
+                    <i key={b} className={k === index ? "on" : undefined} />
+                  ))}
                 </div>
+                {i === last ? (
+                  <button className="btn btn-primary" onClick={finish}>
+                    {t("start")}
+                  </button>
+                ) : (
+                  <div className="row">
+                    <button className="btn btn-secondary" onClick={finish}>
+                      {t("skip")}
+                    </button>
+                    <button className="btn btn-primary" onClick={() => goTo(i + 1)}>
+                      {t("next")}
+                    </button>
+                  </div>
+                )}
               </div>
             </section>
           ))}
