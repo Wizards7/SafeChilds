@@ -16,7 +16,7 @@ export function TopBar({ title, back = true, backHref, right }: { title?: ReactN
           <Icon name="arrow-left" />
         </button>
       ) : (
-        <span className="brand">SafeChilds</span>
+        <span className="brand brandmark"><img src="/icon.svg" width={28} height={28} alt="" />SafeChilds</span>
       )}
       <span className="title">{title}</span>
       {right}
