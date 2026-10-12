@@ -1,15 +1,13 @@
 "use client";
 
 // First open only: three beats, one illustration and one sentence each. Skippable from the first beat. The flag
-// lives on the device. Language is never a step: the server picked it from the phone (i18n/request.ts) and the
-// toggle in the header of beat 1 is the one-tap override.
+// lives on the device. Language is never a step: the server picks it from the phone (i18n/request.ts); the toggle
+// lives on Home and in the top bar (removed from the welcome 2026-10-12 at Ali's call).
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LanguageToggle } from "../LanguageToggle";
 import { meta } from "../../lib/incident-store";
-import type { Locale } from "../../lib/locale";
 import "./welcome.css";
 
 const BEATS = ["role", "trust", "human"] as const;
@@ -19,7 +17,7 @@ const ART = {
   human: { src: "/welcome/3.webp", w: 660, h: 667 },
 } as const;
 
-export function Welcome({ initialLocale }: { initialLocale: Locale }) {
+export function Welcome() {
   const t = useTranslations("welcome");
   const router = useRouter();
   const slides = useRef<HTMLDivElement>(null);
@@ -48,8 +46,7 @@ export function Welcome({ initialLocale }: { initialLocale: Locale }) {
 
   return (
     <>
-      <header className={`top wtop${index === 0 ? " on-first" : ""}`}>
-        <LanguageToggle current={initialLocale} long />
+      <header className="top wtop">
         <span className="spacer" />
         <button className="skip" onClick={finish}>
           {t("skip")}

@@ -8,15 +8,6 @@
   margin-bottom: -64px;
   padding: calc(env(safe-area-inset-top) + 8px) var(--space-4) 0;
 }
-.top.wtop .lang {
-  background: rgb(255 255 255 / 0.7);
-  backdrop-filter: blur(8px);
-  border-color: rgb(37 99 235 / 0.18);
-  visibility: hidden;
-}
-.top.wtop.on-first .lang {
-  visibility: visible;
-}
 .top.wtop .skip {
   width: auto;
   min-height: 44px;
