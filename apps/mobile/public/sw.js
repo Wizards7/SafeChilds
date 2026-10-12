@@ -5,11 +5,12 @@
    - navigations: network-first, fall back to the cached page, then /offline
    - API calls (another origin) are never cached: analysis and directory results must be live or honestly unavailable
 */
-const VERSION = "sc-v1";
+const VERSION = "sc-v2";
 const SHELL = [
   "/", "/welcome", "/situation", "/safety", "/urgent", "/question", "/stop", "/analyze", "/link",
   "/plan", "/feelings", "/breathe", "/people", "/request", "/incident", "/privacy", "/offline",
   "/manifest.json", "/icons.svg", "/icon.svg",
+  "/welcome/1.webp", "/welcome/2.webp", "/welcome/3.webp",
 ];
 
 async function precache() {

@@ -35,7 +35,7 @@ Every item in `packages/guidance` — a step, a tool, a support option, a direct
 
 | # | Route | What's on it | Shown when |
 |---|---|---|---|
-| 0 | `/welcome` | Four steps, first open only: **1** Тоҷикӣ / Русский · **2** "Что-то случилось в интернете? Поможем понять, что делать — шаг за шагом." · **3** "Без регистрации. Ничего не храним. Всё остаётся на твоём телефоне." · **4** "Ты не один. Здесь есть путь к настоящему человеку." → [Начать]. "Пропустить" on every step from step 1; one sentence per step; dots + Далее + swipe | first open only; deep links (`?from=bot`, the QR) bypass it; "Start over" keeps the flag; re-readable from Privacy |
+| 0 | `/welcome` | Three beats, first open only, each one illustration + one sentence: **1** "Что-то случилось в интернете? Поможем понять, что делать. Шаг за шагом." · **2** "Без регистрации. Ничего не храним. Всё остаётся на твоём телефоне." · **3** "Ты не один. Здесь есть путь к настоящему человеку." → [Начать]. Language is never a step: the phone's system language decides (tg → тоҷикӣ, else русский) and the Тоҷикӣ / Русский toggle sits in the header of beat 1. "Пропустить" top-right on every beat; dots + Далее + swipe; illustrations enter in 250 ms (updated 2026-10-12) | first open only; deep links (`?from=bot`, the QR) bypass it; "Start over" keeps the flag; re-readable from Privacy |
 | 1 | `/` Home | "Что-то случилось?" + four category cards + "не знаю, что произошло" · "Continue" card on top if an incident exists · small "Узнать признаки" entry · footer: Privacy | always |
 | 2 | `/situation` | 2–3 situations of the chosen category, one per row | after a category |
 | 3 | `/safety` | one question, four answers, nothing else — no nav, no skip, no progress dots | always, right after the situation |
