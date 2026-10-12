@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { composePlan, ITEMS, PLATFORM_LABEL, SAFETY_LABEL, SITUATION_LABEL } from "@safechilds/guidance";
 import { TIER_TEXT } from "@safechilds/analysis";
-import { Icon } from "../../components/Icon";
+import { Icon, ICONS_URL } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
 import { LanguageToggle } from "../LanguageToggle";
 import { incidentStore, type Evidence } from "../../lib/incident-store";
@@ -141,7 +141,7 @@ export default function IncidentPage() {
               const isDone = incident.steps[s.id]?.done ?? false;
               return (
                 <div key={s.id} className={`row${isDone ? " done" : ""}`}>
-                  <span className="box">{isDone && <svg><use href="/icons.svg#check" /></svg>}</span>
+                  <span className="box">{isDone && <svg><use href={`${ICONS_URL}#check`} /></svg>}</span>
                   <span className="t">{pick(s.title, locale)}</span>
                 </div>
               );

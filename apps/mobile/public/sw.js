@@ -5,11 +5,11 @@
    - navigations: network-first, fall back to the cached page, then /offline
    - API calls (another origin) are never cached: analysis and directory results must be live or honestly unavailable
 */
-const VERSION = "sc-v2";
+const VERSION = "sc-v3";
 const SHELL = [
   "/", "/welcome", "/situation", "/safety", "/urgent", "/question", "/stop", "/analyze", "/link",
   "/plan", "/feelings", "/breathe", "/people", "/request", "/incident", "/privacy", "/offline",
-  "/manifest.json", "/icons.svg", "/icon.svg",
+  "/manifest.json", "/icons.svg?v=3", "/icon.svg",
   "/welcome/1.webp", "/welcome/2.webp", "/welcome/3.webp",
 ];
 
@@ -67,7 +67,8 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (SHELL.includes(url.pathname)) {
+  // Shell assets are keyed with their query (the sprite carries its version there, see components/Icon.tsx).
+  if (SHELL.includes(url.pathname + url.search)) {
     event.respondWith(caches.match(req).then((hit) => hit || fetch(req)));
   }
 });

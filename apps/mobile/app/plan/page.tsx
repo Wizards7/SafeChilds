@@ -6,7 +6,7 @@
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { composePlan, ITEMS, PLATFORM_LABEL, PLATFORMS, SITUATION_LABEL, type Platform, type StepItem } from "@safechilds/guidance";
-import { Icon } from "../../components/Icon";
+import { Icon, ICONS_URL } from "../../components/Icon";
 import { InstallPrompt } from "../../components/InstallPrompt";
 import { MessageButton } from "../../components/MessageButton";
 import { TopBar } from "../../components/TopBar";
@@ -33,7 +33,7 @@ function Step({ step, incident, locale, onToggle }: { step: StepItem; incident: 
             onToggle();
           }}
         >
-          <svg><use href="/icons.svg#check" /></svg>
+          <svg><use href={`${ICONS_URL}#check`} /></svg>
         </button>
         <span className="t">{pick(step.title, locale)}</span>
         <Icon name="chevron-down" className="i chev" />
