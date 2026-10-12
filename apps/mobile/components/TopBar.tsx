@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Icon } from "./Icon";
+import { UrgentLink } from "./UrgentLink";
 
 export function TopBar({ title, back = true, backHref, right }: { title?: ReactNode; back?: boolean; backHref?: string | undefined; right?: ReactNode }) {
   const t = useTranslations("common");
@@ -19,6 +20,7 @@ export function TopBar({ title, back = true, backHref, right }: { title?: ReactN
       )}
       <span className="title">{title}</span>
       {right}
+      <UrgentLink />
     </header>
   );
 }

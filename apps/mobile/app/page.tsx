@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CATEGORIES, CATEGORY_LABEL } from "@safechilds/guidance";
 import { Icon } from "../components/Icon";
+import { UrgentLink } from "../components/UrgentLink";
 import { pick, type Locale } from "../lib/locale";
 import { ContinueCard } from "./ContinueCard";
 import { WelcomeGate } from "./WelcomeGate";
@@ -23,6 +24,7 @@ export default async function Home() {
       <WelcomeGate />
       <header className="top">
         <span className="brand brandmark"><img src="/icon.svg" width={28} height={28} alt="" />SafeChilds</span>
+        <UrgentLink />
       </header>
       <main>
         <ContinueCard />

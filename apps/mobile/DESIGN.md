@@ -54,7 +54,7 @@ Every item in `packages/guidance` — a step, a tool, a support option, a direct
 | 16 | `/privacy` | what we store (nothing), what we send (one image / one link, deleted), confidentiality limits, Telegram is the kid's own channel, the model provider's policy line · "О приложении" re-opens the welcome | from Профиль (Настройки) and the welcome's second beat |
 | 17 | `/signs` | learn-the-signs cards, five per category, Лупа-style reveal with numbered markers | Phase 1; from Home only, never inside a journey |
 
-Not pages: the **floating help button** (every screen → `/urgent`; the only element that ignores the profile) and the **desktop shell** (≥ 768 px: phone frame + QR + pitch line + "what is real / what is prototype").
+Not pages: the **help control** (every screen → `/urgent`; the only element that ignores the profile). Since 2026-10-12 it is a small red shield at the right of every header; the floating red pill with the words shows once per open, on the first screen, for three seconds, then slides away and the **desktop shell** (≥ 768 px: phone frame + QR + pitch line + "what is real / what is prototype").
 
 Out for the hackathon: `/about` (parent / teacher "browse everything") — re-add trigger: pilot, a parents/schools page. `/lock` (PIN on "Мой случай") — Phase 2 if cheap, else pilot.
 
