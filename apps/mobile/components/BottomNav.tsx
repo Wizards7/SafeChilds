@@ -16,7 +16,7 @@ export function BottomNav() {
   if (HIDDEN.some((p) => path === p || path.startsWith(p + "/"))) return null;
   const items = [
     { href: "/", icon: "house", label: t("home") },
-    { href: "/feelings", icon: "heart", label: t("support") },
+    { href: "/feelings", icon: "life-buoy", label: t("support") },
     { href: "/incident", icon: "user", label: t("profile") },
   ];
   return (

@@ -4,16 +4,7 @@ import { CATEGORIES, CATEGORY_LABEL } from "@safechilds/guidance";
 import { Icon } from "../components/Icon";
 import { UrgentLink } from "../components/UrgentLink";
 import { pick, type Locale } from "../lib/locale";
-import { ContinueCard } from "./ContinueCard";
 import { WelcomeGate } from "./WelcomeGate";
-
-// Lucide placeholders in the tile spots until the illustrated set lands (same style as the welcome).
-const CATEGORY_ICON: Record<string, string> = {
-  fake_content: "image",
-  extortion: "shield-alert",
-  fraud: "banknote",
-  cyberbullying: "message-warning",
-};
 
 export default async function Home() {
   const t = await getTranslations("home");
@@ -23,24 +14,31 @@ export default async function Home() {
     <>
       <WelcomeGate />
       <header className="top">
-        <span className="brand brandmark"><img src="/icon.svg" width={28} height={28} alt="" />SafeChilds</span>
+        <span className="brand brandmark">
+          <img src="/icon.svg" width={28} height={28} alt="" />
+          SafeChilds
+        </span>
         <UrgentLink />
       </header>
       <main>
-        <ContinueCard />
-        <h1>{t("headline")}</h1>
+        <div>
+          <h1>{t("headline")}</h1>
+          <p className="sub">{t("sub")}</p>
+        </div>
         <div className="tiles">
           {cats.map((c) => (
-            <Link key={c} className={`tile${c === "extortion" ? " danger" : ""}`} href={`/situation?c=${c}`}>
-              <span className="head">
-                <span className="spot"><Icon name={CATEGORY_ICON[c] ?? "circle-help"} /></span>
-                <span className="go"><Icon name="chevron-right" /></span>
-              </span>
+            <Link key={c} className="tile" href={`/situation?c=${c}`}>
+              <img src={`/home/${c}.webp`} width={640} height={640} alt="" />
               <span className="t">{pick(CATEGORY_LABEL[c], locale)}</span>
+              <span className="d">{t(`desc.${c}`)}</span>
+              <Icon name="chevron-right" className="i go" />
             </Link>
           ))}
         </div>
-        <Link className="btn btn-quiet" href="/signs"><Icon name="search" size={20} />{t("signs")}</Link>
+        <Link className="btn btn-quiet" href="/signs">
+          <Icon name="search" size={20} />
+          {t("signs")}
+        </Link>
       </main>
     </>
   );

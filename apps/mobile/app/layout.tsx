@@ -7,7 +7,6 @@ import "@safechilds/ui/app.css";
 import "./shell.css";
 import { BottomNav } from "../components/BottomNav";
 import { DeviceShell } from "../components/DeviceShell";
-import { HelpButton } from "../components/HelpButton";
 import { OfflineBanner } from "../components/OfflineBanner";
 import { Providers } from "../components/Providers";
 import { ServiceWorker } from "../components/ServiceWorker";
@@ -36,7 +35,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <DeviceShell>
               <OfflineBanner />
               {children}
-              <HelpButton />
               <BottomNav />
             </DeviceShell>
             <ServiceWorker />
