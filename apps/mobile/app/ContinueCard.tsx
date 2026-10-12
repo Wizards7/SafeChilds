@@ -1,11 +1,13 @@
 "use client";
 
-// "Continue" on Home when an incident exists on this device. Reads IndexedDB; renders nothing otherwise.
+// One row on Home when a case exists on this device: the situation and "Продолжить" → the plan. Reads IndexedDB;
+// renders nothing otherwise. The full case lives in Профиль.
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { PLATFORM_LABEL, SITUATION_LABEL } from "@safechilds/guidance";
+import { Icon } from "../components/Icon";
 import { incidentStore, type Incident } from "../lib/incident-store";
 import { pick, type Locale } from "../lib/locale";
 
@@ -23,14 +25,19 @@ export function ContinueCard() {
     };
   }, []);
   if (!incident) return null;
-  const done = Object.values(incident.steps).filter((s) => s.done).length;
-  const title = pick(SITUATION_LABEL[incident.profile.situation], locale) + (incident.profile.platform ? ` · ${PLATFORM_LABEL[incident.profile.platform]}` : "");
+  const title =
+    pick(SITUATION_LABEL[incident.profile.situation], locale) +
+    (incident.profile.platform ? ` · ${PLATFORM_LABEL[incident.profile.platform]}` : "");
   return (
-    <section className="card continue">
-      <div className="small">{t("continue.label")}</div>
-      <h3>{title}</h3>
-      <div><span className="badge badge-ok">{t("continue.steps", { done })}</span></div>
-      <Link className="btn btn-primary" href="/plan">{t("continue.button")}</Link>
-    </section>
+    <Link className="continue-row" href="/plan">
+      <span className="body">
+        <span className="small">{t("continue.label")}</span>
+        <span className="t">{title}</span>
+      </span>
+      <span className="go">
+        {t("continue.button")}
+        <Icon name="chevron-right" size={18} />
+      </span>
+    </Link>
   );
 }
