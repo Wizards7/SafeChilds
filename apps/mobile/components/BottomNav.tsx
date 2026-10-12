@@ -8,8 +8,9 @@ import { Icon } from "./Icon";
 // Hidden on the screens where a nav would be a distraction or an escape hatch (DESIGN.md).
 const HIDDEN = ["/welcome", "/safety", "/urgent", "/stop", "/breathe"];
 
-// A floating pill with three tabs, and a separate round button for "Опиши своими словами" (plan 0005: a door into
-// the plan, not a section of the app, so it is an action beside the bar, not a tab in it).
+// A floating pill with three tabs, full width: Главная · Поддержка · Мой случай. The round "Опиши своими словами" button
+// beside it was removed 2026-10-12 evening (Ali): the chat door is the "Не знаю, что произошло" row on Home (plan 0005).
+// "Профиль" became "Мой случай": there is no profile, only the one case and its settings.
 export function BottomNav() {
   const t = useTranslations("nav");
   const path = usePathname();
@@ -17,23 +18,16 @@ export function BottomNav() {
   const items = [
     { href: "/", icon: "house", label: t("home") },
     { href: "/feelings", icon: "life-buoy", label: t("support") },
-    { href: "/incident", icon: "user", label: t("profile") },
+    { href: "/incident", icon: "notepad-text", label: t("case") },
   ];
   return (
-    <>
-      <nav className="nav" aria-label={t("label")}>
-        {items.map((it) => (
-          <Link key={it.href} href={it.href} aria-current={path === it.href ? "page" : undefined}>
-            <Icon name={it.icon} />
-            <span>{it.label}</span>
-          </Link>
-        ))}
-      </nav>
-      {path !== "/chat" && (
-        <Link className="nav-chat" href="/chat" aria-label={t("chat")}>
-          <Icon name="message-circle" />
+    <nav className="nav" aria-label={t("label")}>
+      {items.map((it) => (
+        <Link key={it.href} href={it.href} aria-current={path === it.href ? "page" : undefined}>
+          <Icon name={it.icon} />
+          <span>{it.label}</span>
         </Link>
-      )}
-    </>
+      ))}
+    </nav>
   );
 }

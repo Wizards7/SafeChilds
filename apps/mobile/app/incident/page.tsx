@@ -1,6 +1,6 @@
 "use client";
 
-// The Профиль tab (route /incident, unchanged): the one incident — summary, evidence (on this phone only), steps —
+// The "Мой случай" tab (route /incident, unchanged; the tab was "Профиль" until 2026-10-12 evening): the one incident — summary, evidence (on this phone only), steps —
 // then Настройки (language, privacy), the privacy line, start over with confirmation. No account anywhere.
 
 import Link from "next/link";
@@ -52,7 +52,7 @@ export default function IncidentPage() {
   if (!incident) {
     return (
       <>
-        <TopBar title={t("profileTitle")} back={false} />
+        <TopBar title={t("title")} back={false} />
         <main>
           <section className="card card-neutral col empty">
             <div className="head"><Icon name="folder" />{t("empty.title")}</div>
@@ -98,7 +98,7 @@ export default function IncidentPage() {
 
   return (
     <>
-      <TopBar title={t("profileTitle")} back={false} />
+      <TopBar title={t("title")} back={false} />
       <main>
         <section className="card summary">
           <div className="small">{t("started", { date: started })}</div>

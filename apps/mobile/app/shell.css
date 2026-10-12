@@ -13,7 +13,7 @@ body { margin: 0; }
 .rules li { display: flex; gap: var(--space-2); align-items: flex-start; padding: var(--space-2) 0; }
 .rules li .i { color: var(--text-secondary); margin-top: 2px; }
 
-/* Home (2026-10-12, Ali's mockup): four category tiles, picture + title + one line + chevron. The case lives in Профиль. */
+/* Home (2026-10-12, Ali's mockup): four category tiles, picture + title + one line + chevron. The case lives in "Мой случай". */
 .tiles { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); }
 .tile { position: relative; display: flex; flex-direction: column; gap: 4px; padding: var(--space-3) var(--space-3) calc(var(--space-3) + 10px); border-radius: var(--radius-card); background: color-mix(in srgb, var(--primary) 6%, #ffffff); border: 1px solid rgb(37 99 235 / 0.12); color: var(--text); text-decoration: none; transition: background-color 120ms ease, transform 120ms ease; }
 .tile:active { background: color-mix(in srgb, var(--primary) 12%, #ffffff); transform: scale(0.985); }
@@ -43,7 +43,7 @@ body { margin: 0; }
   .shell-frame { width: 390px; height: 844px; border-radius: 44px; background: #0b1220; padding: 12px; box-shadow: 0 30px 80px rgb(0 0 0 / 0.5); }
   .shell-screen { height: 100%; min-height: 0; border-radius: 34px; overflow: hidden; background: var(--background); }
   /* fixed elements become frame-relative inside the phone */
-  .shell-screen .nav, .shell-screen .nav-chat, .shell-screen .help, .shell-screen .top { position: absolute; }
+  .shell-screen .nav, .shell-screen .help, .shell-screen .top { position: absolute; }
   .shell-screen .top { position: sticky; }
   .shell-screen main { overflow-y: auto; }
 }

@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { setLocale } from "../lib/set-locale";
 import type { Locale } from "../lib/locale";
 
-// `long` shows the language names themselves (the Профиль row); the short form is for tight spots.
+// `long` shows the language names themselves (the "Мой случай" settings row); the short form is for tight spots.
 export function LanguageToggle({ current, long = false }: { current: Locale; long?: boolean }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();

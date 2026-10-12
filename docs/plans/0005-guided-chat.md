@@ -21,7 +21,7 @@ the kid reads.** That is what keeps 0001's reason intact: every word on a screen
 
 - `packages/analysis/src/triage.ts`: the prompt built from the one guidance catalogue, the Zod contract, `parseTriage` (unknown step ids dropped, a situation forces its category, a non-ok safety forces the urgent route), `crisisLevel` with the word lists (VERIFY the Tajik entries with a native speaker; add, never remove).
 - `apps/backend/src/modules/triage/`: `triage.reply` — rules, then the model, validated; nothing stored; the log carries the outcome and the error name, never the text. The text model client sits next to the image one in `modules/analysis/anthropic.ts`.
-- `apps/mobile/app/chat/`: the thread and the composer; `incident.chat` in IndexedDB; Home entry "Опиши своими словами"; the privacy page lists the text as the fourth thing that leaves the phone.
+- `apps/mobile/app/chat/`: the thread and the composer; `incident.chat` in IndexedDB; Home entry: the "Не знаю, что произошло" row (the round bar button beside the nav was removed 2026-10-12 evening, one door, on Home); the privacy page lists the text as the fourth thing that leaves the phone.
 - `apps/bot/src/bot.ts`: free text → `triage.reply` → step titles + "Да, это моя ситуация" (starts the normal flow) or the start buttons; a non-ok safety sends the urgent message.
 
 ## Routing by the codes
