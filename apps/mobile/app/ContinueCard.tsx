@@ -29,8 +29,8 @@ export function ContinueCard() {
     <section className="card continue">
       <div className="small">{t("continue.label")}</div>
       <h3>{title}</h3>
-      <div className="small">{t("continue.steps", { done })}</div>
-      <Link className="btn" href="/plan">{t("continue.button")}</Link>
+      <div><span className="badge badge-ok">{t("continue.steps", { done })}</span></div>
+      <Link className="btn btn-primary" href="/plan">{t("continue.button")}</Link>
     </section>
   );
 }

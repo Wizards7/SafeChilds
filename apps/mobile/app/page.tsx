@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { CATEGORIES, CATEGORY_DESCRIPTION, CATEGORY_LABEL } from "@safechilds/guidance";
+import { CATEGORIES, CATEGORY_LABEL } from "@safechilds/guidance";
 import { Icon } from "../components/Icon";
-import { StartIncident } from "../components/StartIncident";
 import { pick, type Locale } from "../lib/locale";
 import { ContinueCard } from "./ContinueCard";
 import { WelcomeGate } from "./WelcomeGate";
 
+// Lucide placeholders in the tile spots until the illustrated set lands (same style as the welcome).
 const CATEGORY_ICON: Record<string, string> = {
   fake_content: "image",
   extortion: "shield-alert",
   fraud: "banknote",
   cyberbullying: "message-warning",
-  unknown: "circle-help",
 };
 
 export default async function Home() {
@@ -28,32 +27,18 @@ export default async function Home() {
       <main>
         <ContinueCard />
         <h1>{t("headline")}</h1>
-        <div className="stack">
+        <div className="tiles">
           {cats.map((c) => (
-            <Link key={c} className={`option${c === "extortion" ? " danger" : ""}`} href={`/situation?c=${c}`}>
-              <span className="ic"><Icon name={CATEGORY_ICON[c] ?? "circle-help"} /></span>
-              <span className="body">
-                <span className="t">{pick(CATEGORY_LABEL[c], locale)}</span>
-                <span className="d">{pick(CATEGORY_DESCRIPTION[c], locale)}</span>
+            <Link key={c} className={`tile${c === "extortion" ? " danger" : ""}`} href={`/situation?c=${c}`}>
+              <span className="head">
+                <span className="spot"><Icon name={CATEGORY_ICON[c] ?? "circle-help"} /></span>
+                <span className="go"><Icon name="chevron-right" /></span>
               </span>
-              <Icon name="chevron-right" className="i chev" />
+              <span className="t">{pick(CATEGORY_LABEL[c], locale)}</span>
             </Link>
           ))}
-          <StartIncident situation="unknown" className="option">
-            <span className="ic"><Icon name="circle-help" /></span>
-            <span className="body"><span className="t">{pick(CATEGORY_LABEL.unknown, locale)}</span></span>
-            <Icon name="chevron-right" className="i chev" />
-          </StartIncident>
-          <Link className="option support" href="/chat">
-            <span className="ic"><Icon name="message-circle" /></span>
-            <span className="body"><span className="t">{t("chat.title")}</span><span className="d">{t("chat.sub")}</span></span>
-            <Icon name="chevron-right" className="i chev" />
-          </Link>
         </div>
         <Link className="btn btn-quiet" href="/signs"><Icon name="search" size={20} />{t("signs")}</Link>
-        <footer style={{ textAlign: "center" }}>
-          <Link href="/privacy" className="small">{t("privacy")}</Link>
-        </footer>
       </main>
     </>
   );
