@@ -27,7 +27,7 @@ app/
   incident/
   people/
   privacy/
-components/             DeviceShell, BottomNav, ResultCard, StepChecklist, SafetyBanner, DemoBanner
+components/             Splash (opening logo, see RULES), DeviceShell, BottomNav, ResultCard, StepChecklist, SafetyBanner, DemoBanner
 lib/
   incident-store.ts     IndexedDB access — the one incident
   client-checks.ts      EXIF + C2PA

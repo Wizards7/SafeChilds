@@ -10,6 +10,7 @@ import { DeviceShell } from "../components/DeviceShell";
 import { OfflineBanner } from "../components/OfflineBanner";
 import { Providers } from "../components/Providers";
 import { ServiceWorker } from "../components/ServiceWorker";
+import { Splash } from "../components/Splash";
 
 export const metadata: Metadata = {
   title: "SafeChilds",
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <NextIntlClientProvider>
           <Providers>
             <DeviceShell>
+              <Splash />
               <OfflineBanner />
               {children}
               <BottomNav />

@@ -27,6 +27,16 @@ body { margin: 0; }
 .exit .t { flex: 1; min-width: 0; }
 .exit .chev { color: var(--primary); }
 
+/* Opening splash (components/Splash.tsx): the mark on the app background from the first paint until the first screen is
+   in place. Same surface as the manifest launch screen, so the installed app shows one continuous splash, not two. */
+.splash { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; align-content: center; grid-auto-rows: max-content; gap: var(--space-4); padding: var(--space-4); background: var(--background); transition: opacity 200ms ease; }
+.splash.is-hidden { opacity: 0; pointer-events: none; }
+.splash.is-gone { display: none; }
+.splash-mark { width: 96px; height: 96px; display: block; }
+.splash-error { display: none; }
+.splash.is-error .splash-error { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); max-width: 320px; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .splash { transition: none; } }
+
 .shell-screen { min-height: 100dvh; display: flex; flex-direction: column; position: relative; }
 
 @media (min-width: 768px) {
@@ -44,6 +54,7 @@ body { margin: 0; }
   .shell-screen { height: 100%; min-height: 0; border-radius: 34px; overflow: hidden; background: var(--background); }
   /* fixed elements become frame-relative inside the phone */
   .shell-screen .nav, .shell-screen .help, .shell-screen .top { position: absolute; }
+  .shell-screen .splash { position: absolute; }
   .shell-screen .top { position: sticky; }
   .shell-screen main { overflow-y: auto; }
 }

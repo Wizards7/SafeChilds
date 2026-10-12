@@ -36,6 +36,6 @@ Invariants. A change that breaks one of these is wrong even if it works.
 - Touch targets 44px minimum. No hover-only interaction. Pressed states on every button.
 - Slow network and offline are designed states on every screen that calls the backend. Guidance content never needs the network after first load.
 - The install prompt appears after the first completed plan step, never on first open.
-- The welcome is shown once, skippable from its first step, bypassed by deep links, and never again — "Start over" wipes the incident, not the welcome flag. No splash of our own; the manifest splash is the only one.
+- The welcome is shown once, skippable from its first step, bypassed by deep links, and never again — "Start over" wipes the incident, not the welcome flag. An opening logo splash (`components/Splash.tsx`, Ali 2026-10-12; until then the rule was "no splash of our own") covers only the window from first paint to the first screen being in place: it fades in 200 ms (none with reduced motion), gives up at a 3 s cap because the server-rendered page is usable before the JS arrives, shows an error with retry when a script fails to load, and is never shown between screens or on a tab return. The manifest launch screen stays the installed app's first frame; the splash uses the same background so the two read as one.
 - A screen shows only what the situation profile matches. Showing a step, tool or category the profile didn't select is a bug, not extra help. The floating help button is the one exception.
 - Zoom is never disabled.

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { meta } from "../../lib/incident-store";
+import { markSplashReady } from "../../lib/splash";
 import "./welcome.css";
 
 const BEATS = ["role", "trust", "human"] as const;
@@ -38,6 +39,11 @@ export function Welcome() {
     const onScroll = () => setIndex(Math.round(el.scrollLeft / width()));
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // The opening splash waits for this screen on a first open (WelcomeGate redirected under it).
+  useEffect(() => {
+    markSplashReady();
   }, []);
 
   const finish = async () => {

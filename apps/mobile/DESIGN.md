@@ -54,7 +54,7 @@ Every item in `packages/guidance` — a step, a tool, a support option, a direct
 | 16 | `/privacy` | what we store (nothing), what we send (one image / one link, deleted), confidentiality limits, Telegram is the kid's own channel, the model provider's policy line · "О приложении" re-opens the welcome | from "Мой случай" (Настройки) and the welcome's second beat |
 | 17 | `/signs` | learn-the-signs cards, five per category, Лупа-style reveal with numbered markers | Phase 1; from Home only, never inside a journey |
 
-Not pages: the **help control** (every screen → `/urgent`; the only element that ignores the profile). Since 2026-10-12 evening it is a red "Помощь" pill at the right of every header, always visible; the floating pill is gone and the **desktop shell** (≥ 768 px: phone frame + QR + pitch line + "what is real / what is prototype").
+Not pages: the **help control** (every screen → `/urgent`; the only element that ignores the profile). Since 2026-10-12 evening it is a red "Помощь" pill at the right of every header, always visible; the floating pill is gone and the **desktop shell** (≥ 768 px: phone frame + QR + pitch line + "what is real / what is prototype"). The **opening splash** (`components/Splash.tsx`, 2026-10-12): the mark on the app background from the first paint until the first screen is in place, 200 ms fade, 3 s cap, never between screens.
 
 Out for the hackathon: `/about` (parent / teacher "browse everything") — re-add trigger: pilot, a parents/schools page. `/lock` (PIN on "Мой случай") — Phase 2 if cheap, else pilot.
 
