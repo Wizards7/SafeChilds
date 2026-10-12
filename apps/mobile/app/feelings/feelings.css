@@ -1,8 +1,4 @@
 /* Поддержка tab: page title, the human path as a teal card, six illustrated feeling tiles, the breathing card. */
-.feelings h1.page {
-  font-size: 30px;
-  margin-top: -4px;
-}
 .feelings .hint {
   margin-top: var(--space-1);
 }

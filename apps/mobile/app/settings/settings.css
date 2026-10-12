@@ -1,0 +1,6 @@
+/* Настройки: two rows. Moved out of the incident page on 2026-10-12 night. */
+.settings { display: flex; flex-direction: column; }
+.settings .row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: 56px; padding: var(--space-2) 0; border-top: 1px solid var(--border); color: var(--text); text-decoration: none; }
+.settings .row:first-child { border-top: 0; }
+.settings .row .t { font-weight: 500; }
+.settings .row .chev { color: var(--text-disabled); }

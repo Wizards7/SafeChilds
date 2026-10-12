@@ -27,6 +27,7 @@ app/
   incident/
   people/
   privacy/
+  settings/             language + privacy, behind the gear on /incident
 components/             Splash (opening logo, see RULES), DeviceShell, BottomNav, ResultCard, StepChecklist, SafetyBanner, DemoBanner
 lib/
   incident-store.ts     IndexedDB access — the one incident
