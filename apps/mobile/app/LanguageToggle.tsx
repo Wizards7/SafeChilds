@@ -5,7 +5,8 @@ import { useTransition } from "react";
 import { setLocale } from "../lib/set-locale";
 import type { Locale } from "../lib/locale";
 
-export function LanguageToggle({ current }: { current: Locale }) {
+// `long` shows the language names themselves (the Профиль row); the short form is for tight spots.
+export function LanguageToggle({ current, long = false }: { current: Locale; long?: boolean }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const choose = (l: Locale) => {
@@ -17,8 +18,8 @@ export function LanguageToggle({ current }: { current: Locale }) {
   };
   return (
     <div className="lang" role="group" aria-label="Language">
-      <button aria-pressed={current === "tg"} disabled={pending} onClick={() => choose("tg")}>TJ</button>
-      <button aria-pressed={current === "ru"} disabled={pending} onClick={() => choose("ru")}>RU</button>
+      <button aria-pressed={current === "tg"} disabled={pending} onClick={() => choose("tg")}>{long ? "Тоҷикӣ" : "TJ"}</button>
+      <button aria-pressed={current === "ru"} disabled={pending} onClick={() => choose("ru")}>{long ? "Русский" : "RU"}</button>
     </div>
   );
 }

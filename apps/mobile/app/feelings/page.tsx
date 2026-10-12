@@ -1,11 +1,12 @@
 "use client";
 
-// Eight answers, "не хочу отвечать" is a first-class one. Never diagnoses: the answer only picks which support to offer.
+// The Поддержка tab: the human path first ("Поговорить с человеком" → /people), then eight feelings ("не хочу отвечать"
+// is a first-class one; never diagnoses), then breathing. The answer only picks which support to offer.
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { BREATHE_FOR, FEELING_LABEL, FEELINGS, FEELINGS_HINT, FEELINGS_QUESTION, type Feeling } from "@safechilds/guidance";
+import { FEELING_LABEL, FEELINGS, FEELINGS_HINT, FEELINGS_QUESTION, type Feeling } from "@safechilds/guidance";
 import { Icon } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore } from "../../lib/incident-store";
@@ -22,12 +23,16 @@ export default function FeelingsPage() {
     setFeeling(f);
     if (incident) await incidentStore.setFeeling(f);
   };
-  const breatheFirst = feeling ? BREATHE_FOR.has(feeling) : true;
 
   return (
     <>
       <TopBar title={t("title")} back={false} />
       <main>
+        <Link className="option support" href="/people">
+          <span className="ic"><Icon name="users" /></span>
+          <span className="body"><span className="t">{t("person")}</span><span className="d">{t("personSub")}</span></span>
+          <Icon name="chevron-right" className="i chev" />
+        </Link>
         <div>
           <h1>{pick(FEELINGS_QUESTION, locale)}</h1>
           <p className="sub" style={{ marginTop: "var(--space-2)" }}>{pick(FEELINGS_HINT, locale)}</p>
@@ -38,17 +43,7 @@ export default function FeelingsPage() {
           ))}
         </div>
         <div className="stack" style={{ marginTop: "var(--space-2)" }}>
-          {breatheFirst ? (
-            <>
-              <Link className="btn btn-support" href="/breathe"><Icon name="heart" size={20} />{t("breathe")}</Link>
-              <Link className="btn btn-secondary" href="/people">{t("person")}</Link>
-            </>
-          ) : (
-            <>
-              <Link className="btn btn-support" href="/people"><Icon name="heart" size={20} />{t("person")}</Link>
-              <Link className="btn btn-secondary" href="/breathe">{t("breathe")}</Link>
-            </>
-          )}
+          <Link className="btn btn-support" href="/breathe"><Icon name="heart" size={20} />{t("breathe")}</Link>
           <Link className="btn btn-quiet" href={incident ? "/plan" : "/"}>{incident ? t("backToPlan") : t("backHome")}</Link>
         </div>
       </main>

@@ -45,12 +45,12 @@ Every item in `packages/guidance` — a step, a tool, a support option, a direct
 | 7 | `/analyze` | four steps: rules → local checks + compare with the original → markers + "где смотреть" → tier + next step. Optional, skippable at every step | fake photo / video, or `photoShared` |
 | 8 | `/link` | paste a link → four tiers + "где смотреть" + next step | category = fraud |
 | 9 | `/plan` | platform picker at the top only if a step needs it → **three steps "сейчас", the rest under "потом"** (opens when the three are ticked, or on demand) · each step one line, "как / почему" collapsed · ready-message button on the "tell an adult" step · "Узнать больше" link to the category's что это / как выглядит | always — the heart |
-| 10 | `/feelings` | eight answers incl. "не хочу отвечать" | offered after the plan; first for "группа против меня"; from the nav |
+| 10 | `/feelings` | "Поговорить с человеком" row first (→ `/people`), then eight answers incl. "не хочу отвечать", then breathing | the Поддержка tab; offered after the plan; first for "группа против меня" |
 | 11 | `/breathe` | 60-second expanding circle + one generated ambient sound; skippable any second; ends with "Готов(а) к следующему шагу?" | feelings = scared / anxious / overwhelmed, or extortion door 2 |
 | 12 | `/thoughts` | "pop the anxious thoughts" — bubbles with an answer under each | Phase 2; feelings = ashamed / sad, or cyberbullying |
 | 13 | `/people` | filters: language / city / online–in person / works with teens · DEMO banner · school psychologist entry for cyberbullying · per card: **Свяжусь сам(а)** / **Пусть со мной свяжутся** · "report listing" | from the plan and the nav |
 | 14 | `/request` | the contact request: обращение · один контакт · язык · возраст (bracket) · онлайн / лично · когда удобно · кто может ответить вместо тебя · consent. Prototype label in the hackathon | from a professional's card, second path only |
-| 15 | `/incident` | the one incident: category, situation, platform, saved links / screenshots, ticked steps, analysis tier · "Start over" with confirm | from the nav |
+| 15 | `/incident` | the Профиль tab: the one incident (category, situation, platform, saved links / screenshots, ticked steps, analysis tier) · Настройки: language toggle, privacy · "Start over" with confirm. Settings show in the empty state too | from the nav |
 | 16 | `/privacy` | what we store (nothing), what we send (one image / one link, deleted), confidentiality limits, Telegram is the kid's own channel, the model provider's policy line · "О приложении" re-opens the welcome | from Home footer and the nav |
 | 17 | `/signs` | learn-the-signs cards, five per category, Лупа-style reveal with numbered markers | Phase 1; from Home only, never inside a journey |
 
@@ -69,7 +69,7 @@ Brackets = shown only when the profile says so.
 
 ## Nav
 
-Four items: **Главная · Мой случай · Поддержка · Люди**. Hidden on `/welcome`, `/safety`, `/urgent`, `/stop`, `/breathe`. Analyze, link, stop, question, request — inside the journey, never in the nav. "Поддержка" opens `/feelings` directly for a kid who comes back just to breathe.
+A floating pill with three tabs, **Главная · Поддержка · Профиль**, plus a separate round button beside it that opens "Опиши своими словами" (`/chat`): an action, not a section (updated 2026-10-12). Hidden on `/welcome`, `/safety`, `/urgent`, `/stop`, `/breathe`. Analyze, link, stop, question, request — inside the journey, never in the nav. "Поддержка" opens `/feelings`, whose first row is "Поговорить с человеком" → `/people`; "Профиль" opens `/incident`, which carries the case and the settings (language, privacy). The language toggle lives only there. No tab is an account.
 
 ## What keeps a screen light
 

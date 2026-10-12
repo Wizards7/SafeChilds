@@ -1,6 +1,7 @@
 "use client";
 
-// The one incident: summary, evidence (on this phone only), steps, the privacy line, start over with confirmation.
+// The Профиль tab (route /incident, unchanged): the one incident — summary, evidence (on this phone only), steps —
+// then Настройки (language, privacy), the privacy line, start over with confirmation. No account anywhere.
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
@@ -9,10 +10,23 @@ import { composePlan, ITEMS, PLATFORM_LABEL, SAFETY_LABEL, SITUATION_LABEL } fro
 import { TIER_TEXT } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
+import { LanguageToggle } from "../LanguageToggle";
 import { incidentStore, type Evidence } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
 import { useIncident } from "../../lib/use-incident";
 import "./incident.css";
+
+function Settings({ locale, t }: { locale: Locale; t: ReturnType<typeof useTranslations<"incident">> }) {
+  return (
+    <section className="stack">
+      <div className="sec"><h3>{t("settings.title")}</h3></div>
+      <div className="settings">
+        <div className="row"><span className="t">{t("settings.language")}</span><LanguageToggle current={locale} long /></div>
+        <Link className="row" href="/privacy"><span className="t">{t("settings.privacy")}</span><Icon name="chevron-right" className="i chev" /></Link>
+      </div>
+    </section>
+  );
+}
 
 function Thumb({ e }: { e: Evidence }) {
   const [url, setUrl] = useState<string | null>(null);
@@ -38,13 +52,14 @@ export default function IncidentPage() {
   if (!incident) {
     return (
       <>
-        <TopBar title={t("title")} back={false} />
+        <TopBar title={t("profileTitle")} back={false} />
         <main>
           <section className="card card-neutral col empty">
             <div className="head"><Icon name="folder" />{t("empty.title")}</div>
             <p className="small">{t("empty.body")}</p>
             <Link className="btn btn-primary" href="/">{t("empty.cta")}</Link>
           </section>
+          <Settings locale={locale} t={t} />
         </main>
       </>
     );
@@ -83,7 +98,7 @@ export default function IncidentPage() {
 
   return (
     <>
-      <TopBar title={t("title")} back={false} />
+      <TopBar title={t("profileTitle")} back={false} />
       <main>
         <section className="card summary">
           <div className="small">{t("started", { date: started })}</div>
@@ -93,7 +108,7 @@ export default function IncidentPage() {
             {incident.analysis && <span className="badge">{t("analysis")}: {pick(TIER_TEXT[incident.analysis.tier].title, locale)}</span>}
             <span className="badge">{t("steps", { done, total: steps.length })}</span>
           </div>
-          <Link className="btn" href="/plan">{t("continue")}</Link>
+          <Link className="btn btn-primary" href="/plan">{t("continue")}</Link>
         </section>
 
         <section className="stack">
@@ -133,6 +148,8 @@ export default function IncidentPage() {
             })}
           </div>
         </section>
+
+        <Settings locale={locale} t={t} />
 
         <div className="privacy"><Icon name="lock" size={18} />{t("privacy")}</div>
 

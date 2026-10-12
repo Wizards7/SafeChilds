@@ -5,7 +5,6 @@ import { Icon } from "../components/Icon";
 import { StartIncident } from "../components/StartIncident";
 import { pick, type Locale } from "../lib/locale";
 import { ContinueCard } from "./ContinueCard";
-import { LanguageToggle } from "./LanguageToggle";
 import { WelcomeGate } from "./WelcomeGate";
 
 const CATEGORY_ICON: Record<string, string> = {
@@ -24,8 +23,7 @@ export default async function Home() {
     <>
       <WelcomeGate />
       <header className="top">
-        <span className="brand">SafeChilds</span>
-        <LanguageToggle current={locale} />
+        <span className="brand brandmark"><img src="/icon.svg" width={28} height={28} alt="" />SafeChilds</span>
       </header>
       <main>
         <ContinueCard />
