@@ -35,10 +35,22 @@ export default async function Home() {
             </Link>
           ))}
         </div>
+        <Link className="exit" href="/chat">
+          <span className="ic">
+            <Icon name="circle-help" />
+          </span>
+          <span className="t">{pick(CATEGORY_LABEL.unknown, locale)}</span>
+          <Icon name="chevron-right" className="i chev" />
+        </Link>
         <Link className="btn btn-quiet" href="/signs">
           <Icon name="search" size={20} />
           {t("signs")}
         </Link>
+        <footer style={{ textAlign: "center" }}>
+          <Link href="/privacy" className="small">
+            {t("privacy")}
+          </Link>
+        </footer>
       </main>
     </>
   );
