@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { ITEMS, emptyProfile, type StepItem } from "@safechilds/guidance";
+import { CATEGORY_LABEL, ITEMS, emptyProfile, type StepItem } from "@safechilds/guidance";
 import type { Triage, TriageRoute } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
@@ -111,6 +111,13 @@ export default function ChatPage() {
     await refresh();
   };
 
+  // "Не знаю, что произошло": the one-tap door that used to be a row on Home. No typing, no model, straight to the
+  // safety check with an unknown situation; an existing case is kept.
+  const dontKnow = async () => {
+    if (!incident) await incidentStore.start(emptyProfile("unknown"));
+    router.push("/safety");
+  };
+
   if (loading) return null;
 
   return (
@@ -121,6 +128,9 @@ export default function ChatPage() {
           <div className="bubble app intro">
             <p>{t("intro")}</p>
             <p className="small">{t("notHuman")}</p>
+            <div className="actions">
+              <button className="btn btn-secondary" onClick={dontKnow}>{pick(CATEGORY_LABEL.unknown, locale)}</button>
+            </div>
           </div>
           {chat.map((c) => (c.role === "me" ? <div key={c.id} className="bubble me">{c.text}</div> : <AppTurn key={c.id} turn={c} locale={locale} />))}
           {reply.isPending && <div className="bubble app pending" aria-live="polite">{t("thinking")}</div>}
