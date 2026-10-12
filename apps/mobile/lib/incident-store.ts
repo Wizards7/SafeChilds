@@ -107,6 +107,7 @@ export const incidentStore = {
     incidentStore.update((i) => ({ ...i, steps: { ...i.steps, [stepId]: { done: !(i.steps[stepId]?.done ?? false), at: new Date().toISOString() } } })),
   addEvidence: (e: Omit<Evidence, "id" | "createdAt">) =>
     incidentStore.update((i) => ({ ...i, evidence: [...i.evidence, { ...e, id: randomKey(), createdAt: new Date().toISOString() }] })),
+  removeEvidence: (id: string) => incidentStore.update((i) => ({ ...i, evidence: i.evidence.filter((e) => e.id !== id) })),
   addChat: (turn: Omit<ChatTurn, "id" | "at">) =>
     incidentStore.update((i) => ({ ...i, chat: [...(i.chat ?? []), { ...turn, id: randomKey(), at: new Date().toISOString() }] })),
   // The chat's codes become the profile only when they are more specific than what the kid already picked.
