@@ -56,7 +56,8 @@ export default function PlanPage() {
   if (loading || !incident) return null;
 
   const plan = composePlan(ITEMS, incident.profile);
-  const needsPlatform = ITEMS.some((i) => i.kind === "step" && JSON.stringify(i.showWhen).includes('"platform"'));
+  // «Не знаю» has no platform step, so a picker there would change nothing.
+  const needsPlatform = incident.profile.category !== "unknown" && ITEMS.some((i) => i.kind === "step" && JSON.stringify(i.showWhen).includes('"platform"'));
   const toggle = async (id: string) => {
     await incidentStore.toggleStep(id);
     await refresh();

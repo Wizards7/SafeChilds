@@ -60,4 +60,4 @@ Steps carry an `order`. The renderer shows the first three matching steps as "с
 3. Learn-the-signs cards, five per category.
 4. Tajik pass over everything.
 
-A category ships with a shorter plan rather than a missing one.
+A category ships with a shorter plan rather than a missing one. `unknown` («Не знаю, что произошло») is no exception (2026-10-13): `content/unknown.ts` gives it four steps that hold for any situation, built from the reviewed text of the category steps (the same objects, so a Tajik correction lands in both); the plan screen shows no platform picker there.

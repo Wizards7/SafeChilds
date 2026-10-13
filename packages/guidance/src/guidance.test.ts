@@ -142,11 +142,18 @@ describe("cyberbullying", () => {
 });
 
 describe("every situation has a plan", () => {
-  it("no Home tile reaches an empty plan", () => {
-    for (const s of ["fake_photo", "fake_video", "impersonation", "threat_to_publish", "demand_money_or_photos", "profile_asks_money_or_code", "already_sent", "public_humiliation", "persistent_messages", "group_against_me"] as const) {
+  it("no Home tile and no «не знаю» door reaches an empty plan", () => {
+    for (const s of ["fake_photo", "fake_video", "impersonation", "threat_to_publish", "demand_money_or_photos", "profile_asks_money_or_code", "already_sent", "public_humiliation", "persistent_messages", "group_against_me", "unknown"] as const) {
       const plan = composePlan(ITEMS, emptyProfile(s));
       expect(plan.now.length, s).toBeGreaterThanOrEqual(3);
     }
+  });
+  it("«не знаю» gets the four steps that hold for any situation, with its own ready message", () => {
+    const plan = composePlan(ITEMS, emptyProfile("unknown"));
+    expect(plan.now.map((s) => s.id)).toEqual(["unknown.dont_send", "unknown.save", "unknown.dont_reply", "unknown.tell_adult"]);
+    expect(plan.later).toEqual([]);
+    expect(plan.now.find((s) => s.id === "unknown.tell_adult")?.message?.ru).toMatch(/что-то случилось/);
+    expect(plan.now.every((s) => s.title.ru && s.title.tg)).toBe(true);
   });
   it("item ids are unique", () => {
     const ids = ITEMS.map((i) => i.id);

@@ -9,5 +9,6 @@ import { FAKE_CONTENT } from "./content/fake_content";
 import { EXTORTION } from "./content/extortion";
 import { FRAUD } from "./content/fraud";
 import { CYBERBULLYING } from "./content/cyberbullying";
+import { UNKNOWN } from "./content/unknown";
 
-export const ITEMS: readonly Item[] = [...FAKE_CONTENT, ...EXTORTION, ...FRAUD, ...CYBERBULLYING];
+export const ITEMS: readonly Item[] = [...FAKE_CONTENT, ...EXTORTION, ...FRAUD, ...CYBERBULLYING, ...UNKNOWN];
