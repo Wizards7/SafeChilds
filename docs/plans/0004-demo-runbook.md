@@ -38,6 +38,8 @@ Nothing new ships after Sunday night. Monday and Tuesday are fixes only.
 
 Projector: the laptop shows the app in the phone frame with the QR beside it. Judges scan it while you talk.
 
+**Before every run** (each rehearsal and the stage run), on the projector laptop and on every phone: Мой случай → «Удалить этот случай» → «Удалить». A case left from the last run makes step 1 ask «У тебя уже есть случай» instead of opening the safety check, and step 7a rewrites that case.
+
 1. **Home → "Кто-то сделал фейковое фото со мной".** Say: four categories from the organizers' scheme, each with concrete situations.
 2. **Safety: "Да, я в безопасности".** Say: this screen is always next; "мне угрожают" skips everything and opens the urgent screen.
 3. **Question: "Да, проверить"** → the prepared demo image → wait for the result. Say: metadata and Content Credentials are checked on the phone; one image goes to the model and is deleted; the model only points, it never judges. Point at the **"Проверено / Не проверено"** line: "we tell the kid what we could not check". If the tier comes back "не удалось определить", say that out loud: the honesty is the feature, and show the six self-check signs.
@@ -45,7 +47,7 @@ Projector: the laptop shows the app in the phone frame with the QR beside it. Ju
 5. **"Поговорить с человеком" → People.** Say: demo cards, labelled; two paths; no account, no identity until the moment of contact.
 6. **Bottom nav → Мой случай.** Say: everything lives on the phone, nothing on our server.
 7. **Home → "Узнать признаки" → Мошенничество**, reveal one card. Say: the organizers' "как это выглядит", twenty cards, built from their own workshop examples.
-7a. **Optional, Home → "Опиши своими словами".** Type "мне пишет человек из банка и просит код из смс". Say: the model turns the words into codes, the steps on screen are the reviewed plan, not generated text; a kid who writes about hurting themselves goes straight to the urgent screen without any model. Plan 0005.
+7a. **Optional, Home → «Не знаю, что произошло»** (opens «Своими словами»). Type in the box at the bottom: "мне пишет человек из банка и просит код из смс". Do not tap the «Не знаю, что произошло» button inside the first bubble: it leaves the chat for the safety check. Say: the model turns the words into codes, the steps on screen are the reviewed plan, not generated text; a kid who writes about hurting themselves goes straight to the urgent screen without any model. Plan 0005.
 8. **Phone 2, Telegram.** `/start` → Русский → Мошенничество → situation → safety → plan (20 s). Then paste `https://testsafebrowsing.appspot.com/s/phishing.html` → red, Safe Browsing named, coverage line. Say: the same guidance, a second door, the link never opens on the kid's phone.
 9. **Close:** "Мы не определяем фейки. Мы помогаем сделать следующий безопасный шаг и дойти до настоящего человека."
 
