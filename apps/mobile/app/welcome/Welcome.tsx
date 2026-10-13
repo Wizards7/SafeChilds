@@ -46,8 +46,9 @@ export function Welcome() {
     markSplashReady();
   }, []);
 
+  // A store that cannot save the flag (StorageUnavailable) still lets the kid in; the welcome may show again next open.
   const finish = async () => {
-    await meta.set({ welcomeSeen: true });
+    await meta.set({ welcomeSeen: true }).catch(() => undefined);
     router.replace("/");
   };
 

@@ -51,4 +51,4 @@ Railway service `mobile` at the root domain. The backend is on `api.<domain>`; i
 
 ## Testing
 
-Hackathon scope: typecheck + lint in CI from the first commit of this app; unit tests live in `packages/analysis` (the status rules), not here. Manual verification on three real phones (one iPhone, two Android) is the definition of done for every screen. Playwright journeys are a pilot-phase re-add.
+Hackathon scope: typecheck + lint in CI from the first commit of this app; unit tests live in `packages/analysis` (the status rules). The one exception here is `lib/incident-store.test.ts` (Vitest, `idb` mocked): the store must turn a hung or refused IndexedDB open into `StorageUnavailable` (2026-10-13). Manual verification on three real phones (one iPhone, two Android) is the definition of done for every screen. Playwright journeys are a pilot-phase re-add.

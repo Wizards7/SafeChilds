@@ -13,6 +13,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { composePlan, ITEMS, PLATFORM_LABEL, SITUATION_LABEL } from "@safechilds/guidance";
 import { TIER_TEXT } from "@safechilds/analysis";
 import { Icon, ICONS_URL } from "../../components/Icon";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Evidence } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
@@ -170,12 +171,13 @@ export default function IncidentPage() {
   const locale = useLocale() as Locale;
   const t = useTranslations("incident");
   const ts = useTranslations("settings");
-  const { incident, loading, refresh } = useIncident();
+  const { incident, loading, failed, refresh } = useIncident();
   const [confirming, setConfirming] = useState(false);
   const [linkInput, setLinkInput] = useState("");
   const [linkError, setLinkError] = useState<string | null>(null);
   const [viewing, setViewing] = useState<Evidence | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  if (failed) return <StoreFailed />;
   if (loading) return null;
 
   // The gear: the only way to Настройки. Sits left of the "Помощь" pill, which stays on every screen (0001 § 5).

@@ -13,16 +13,23 @@ export function WelcomeGate() {
   const params = useSearchParams();
   useEffect(() => {
     let cancelled = false;
+    // The store can fail (StorageUnavailable in lib/incident-store.ts): with no flag to read or write, Home stays and the
+    // splash lets go; the welcome is not forced on a phone that cannot remember it was seen.
     if (params.get("from")) {
-      void meta.set({ welcomeSeen: true });
+      void meta.set({ welcomeSeen: true }).catch(() => undefined);
       markSplashReady();
       return;
     }
-    void meta.get().then((m) => {
-      if (cancelled) return;
-      if (m.welcomeSeen) markSplashReady();
-      else router.replace("/welcome");
-    });
+    void meta.get().then(
+      (m) => {
+        if (cancelled) return;
+        if (m.welcomeSeen) markSplashReady();
+        else router.replace("/welcome");
+      },
+      () => {
+        if (!cancelled) markSplashReady();
+      },
+    );
     return () => {
       cancelled = true;
     };

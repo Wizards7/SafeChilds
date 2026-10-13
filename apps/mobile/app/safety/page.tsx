@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { SAFETY_ANSWERS, SAFETY_HINT, SAFETY_LABEL, SAFETY_QUESTION, URGENT_SAFETY, type SafetyAnswer } from "@safechilds/guidance";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
@@ -17,8 +18,9 @@ export default function SafetyPage() {
   const router = useRouter();
   const locale = useLocale() as Locale;
   const t = useTranslations("common");
-  const { incident, loading } = useIncident({ requireIncident: true });
+  const { incident, loading, failed } = useIncident({ requireIncident: true });
   const [busy, setBusy] = useState(false);
+  if (failed) return <StoreFailed />;
   if (loading || !incident) return null;
 
   const answer = async (a: SafetyAnswer) => {

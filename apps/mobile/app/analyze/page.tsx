@@ -23,6 +23,7 @@ import {
   type Explanation,
 } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { analyzeImage } from "../../lib/analysis-api";
 import { c2paEvidence, compareWithOriginal, exifEvidence } from "../../lib/client-checks";
@@ -55,7 +56,7 @@ export default function AnalyzePage() {
   const t = useTranslations("analyze");
   const locale = useLocale() as Locale;
   const router = useRouter();
-  const { incident, loading } = useIncident({ requireIncident: true });
+  const { incident, loading, failed } = useIncident({ requireIncident: true });
   const [step, setStep] = useState<Step>("rules");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -105,6 +106,7 @@ export default function AnalyzePage() {
     setSaved(true);
   };
 
+  if (failed) return <StoreFailed />;
   if (loading || !incident) return null;
 
   return (

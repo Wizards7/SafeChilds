@@ -9,6 +9,7 @@ import { composePlan, ITEMS, PLATFORM_LABEL, PLATFORMS, SITUATION_LABEL, type Pl
 import { Icon, ICONS_URL } from "../../components/Icon";
 import { InstallPrompt } from "../../components/InstallPrompt";
 import { MessageButton } from "../../components/MessageButton";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Incident } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
@@ -50,7 +51,8 @@ function Step({ step, incident, locale, onToggle }: { step: StepItem; incident: 
 export default function PlanPage() {
   const locale = useLocale() as Locale;
   const t = useTranslations("plan");
-  const { incident, loading, refresh } = useIncident({ requireIncident: true });
+  const { incident, loading, failed, refresh } = useIncident({ requireIncident: true });
+  if (failed) return <StoreFailed />;
   if (loading || !incident) return null;
 
   const plan = composePlan(ITEMS, incident.profile);

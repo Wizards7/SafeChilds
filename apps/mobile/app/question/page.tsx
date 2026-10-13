@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { ITEMS, questionFor } from "@safechilds/guidance";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
@@ -16,7 +17,7 @@ import "../safety/safety.css";
 export default function QuestionPage() {
   const router = useRouter();
   const locale = useLocale() as Locale;
-  const { incident, loading } = useIncident({ requireIncident: true });
+  const { incident, loading, failed } = useIncident({ requireIncident: true });
   const [busy, setBusy] = useState(false);
   const question = incident ? questionFor(ITEMS, incident.profile) : null;
 
@@ -24,6 +25,7 @@ export default function QuestionPage() {
     if (!loading && incident && !question) router.replace(afterQuestion(incident.profile, undefined));
   }, [loading, incident, question, router]);
 
+  if (failed) return <StoreFailed />;
   if (loading || !incident || !question) return null;
 
   return (

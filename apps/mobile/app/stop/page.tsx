@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { ITEMS, stopCardFor } from "@safechilds/guidance";
 import { Icon } from "../../components/Icon";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { pick, type Locale } from "../../lib/locale";
 import { useIncident } from "../../lib/use-incident";
@@ -17,11 +18,12 @@ export default function StopPage() {
   const router = useRouter();
   const locale = useLocale() as Locale;
   const t = useTranslations("stop");
-  const { incident, loading } = useIncident({ requireIncident: true });
+  const { incident, loading, failed } = useIncident({ requireIncident: true });
   const card = incident ? stopCardFor(ITEMS, incident.profile) : null;
   useEffect(() => {
     if (!loading && incident && !card) router.replace("/plan");
   }, [loading, incident, card, router]);
+  if (failed) return <StoreFailed />;
   if (loading || !incident || !card) return null;
 
   return (

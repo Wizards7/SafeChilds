@@ -21,13 +21,36 @@ export function StartIncident({
   children: ReactNode;
 }) {
   const t = useTranslations("start");
+  const te = useTranslations("error");
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  // The store can fail (StorageUnavailable in lib/incident-store.ts): the button comes back and the error stays under it.
+  const storeFailed = () => {
+    setBusy(false);
+    setFailed(true);
+  };
+  const storeError = failed && (
+    <div className="banner error" role="alert">
+      <Icon name="triangle-alert" />
+      <span>
+        <b>{te("title")}</b>
+        <br />
+        {te("body")}
+      </span>
+    </div>
+  );
 
   const start = async () => {
     setBusy(true);
-    await incidentStore.start(emptyProfile(situation));
+    setFailed(false);
+    try {
+      await incidentStore.start(emptyProfile(situation));
+    } catch {
+      return storeFailed();
+    }
     router.push("/safety");
   };
 
@@ -47,26 +70,36 @@ export function StartIncident({
             {t("new")}
           </button>
         </div>
+        {storeError}
       </div>
     );
   }
 
   return (
-    <button
-      className={className}
-      disabled={busy}
-      onClick={async () => {
-        setBusy(true);
-        const existing = await incidentStore.get();
-        if (existing) {
-          setBusy(false);
-          setConfirming(true);
-          return;
-        }
-        await start();
-      }}
-    >
-      {children}
-    </button>
+    <>
+      <button
+        className={className}
+        disabled={busy}
+        onClick={async () => {
+          setBusy(true);
+          setFailed(false);
+          let existing;
+          try {
+            existing = await incidentStore.get();
+          } catch {
+            return storeFailed();
+          }
+          if (existing) {
+            setBusy(false);
+            setConfirming(true);
+            return;
+          }
+          await start();
+        }}
+      >
+        {children}
+      </button>
+      {storeError}
+    </>
   );
 }

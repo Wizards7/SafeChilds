@@ -44,13 +44,49 @@ const STORE = "kv";
 const INCIDENT = "incident";
 const META = "meta";
 
+// IndexedDB can hang (a stuck origin, an older WebKit) or refuse (storage blocked or full). The open gives up after the
+// same 3 s cap as the opening splash, so no screen waits forever; callers get StorageUnavailable and the next call
+// opens again. A connection that arrives after the give-up is closed, never used.
+export const OPEN_TIMEOUT_MS = 3000;
+
+export class StorageUnavailable extends Error {
+  constructor(cause?: unknown) {
+    super("IndexedDB did not open", { cause });
+    this.name = "StorageUnavailable";
+  }
+}
+
+function open(): Promise<IDBPDatabase> {
+  return new Promise((resolve, reject) => {
+    let gaveUp = false;
+    const timer = setTimeout(() => {
+      gaveUp = true;
+      reject(new StorageUnavailable());
+    }, OPEN_TIMEOUT_MS);
+    openDB(DB, 1, {
+      upgrade(d) {
+        d.createObjectStore(STORE);
+      },
+    }).then(
+      (d) => {
+        clearTimeout(timer);
+        if (gaveUp) d.close();
+        else resolve(d);
+      },
+      (e: unknown) => {
+        clearTimeout(timer);
+        reject(new StorageUnavailable(e));
+      },
+    );
+  });
+}
+
 let dbPromise: Promise<IDBPDatabase> | null = null;
 function db() {
   if (typeof indexedDB === "undefined") return null;
-  dbPromise ??= openDB(DB, 1, {
-    upgrade(d) {
-      d.createObjectStore(STORE);
-    },
+  dbPromise ??= open().catch((e: unknown) => {
+    dbPromise = null;
+    throw e;
   });
   return dbPromise;
 }

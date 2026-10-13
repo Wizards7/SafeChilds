@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { CATEGORY_LABEL, ITEMS, emptyProfile, type StepItem } from "@safechilds/guidance";
 import type { Triage, TriageRoute } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
+import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type ChatTurn } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
@@ -68,7 +69,7 @@ export default function ChatPage() {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const trpc = useTRPC();
-  const { incident, loading, refresh } = useIncident();
+  const { incident, loading, failed, refresh } = useIncident();
   const [text, setText] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
   const reply = useMutation(trpc.triage.reply.mutationOptions());
@@ -118,6 +119,7 @@ export default function ChatPage() {
     router.push("/safety");
   };
 
+  if (failed) return <StoreFailed />;
   if (loading) return null;
 
   return (
