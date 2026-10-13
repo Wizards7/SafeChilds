@@ -118,7 +118,7 @@ Every answer ends with the next step: don't enter codes, don't install anything,
 
 Why no content scan: uploading a kid's file to a scanner shares it with dozens of AV vendors; a clean scan still can't say "safe" (fresh scam APKs are in no database); and it's a day we don't have. Re-add trigger: pilot, a hash-only lookup (download to memory, hash, discard, ask "is this hash known bad?") if type rules prove insufficient.
 
-**Owner split:** Ali writes `links.check` Saturday morning; the bot person wires the flow and the file-type replies.
+**Owner split:** Ali writes `links.check` 11 Oct morning; the bot person wires the flow and the file-type replies.
 
 ## Cyberbullying — detail (saved 2026-10-10)
 

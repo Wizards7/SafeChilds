@@ -27,4 +27,4 @@ Built by the floater on 11 Oct against typed backend procedures; done 12 Oct.
 
 ## Open questions
 
-- Does the floater build this in Next.js (shared `packages/ui`) or is a plain server-rendered page faster for them? Decide Saturday morning based on who is actually building it.
+- Does the floater build this in Next.js (shared `packages/ui`) or is a plain server-rendered page faster for them? Decide 11 Oct morning based on who is actually building it.

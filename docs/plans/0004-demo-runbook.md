@@ -82,7 +82,7 @@ One idea per slide, the demo carries the rest.
 5. **Honesty by construction.** The model returns codes, never a verdict, never a number. The tier is decided by code. Every result ends with "Проверено / Не проверено". No "безопасно" anywhere.
 6. **Privacy by construction.** No accounts. No incident data on the server. One image for one request, then deleted. Identity only as an expiring contact request at the moment of reaching a professional.
 7. **What is real today.** The plans for all four categories, the signs cards, image analysis with local checks plus the model, link check with Safe Browsing and URLhaus, the bot, installable PWA, two languages.
-8. **What is a prototype.** Demo directory cards, the contact request, helpline numbers only after a human verified them (say how many are verified by Tuesday).
+8. **What is a prototype.** Demo directory cards, the contact request, helpline numbers only after a human verified them (say how many are verified by 14 Oct).
 9. **What is next.** Scam-text rules in ru and tg with a labelled corpus and measured precision; a partner organisation receiving contact requests; Content Credentials validation; a school pilot with a research-ethics protocol.
 10. **Ask.** One partner organisation in Tajikistan that can receive a teenager's request. One helpline that confirms its number.
 

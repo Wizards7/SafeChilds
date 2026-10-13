@@ -16,7 +16,7 @@ We don't detect fakes. We help a teenager take the next safe step and reach a re
 | Decision | Choice | Why | Re-open trigger |
 |---|---|---|---|
 | Surface | One mobile-first installable **PWA** (Next.js). On a laptop it renders inside a phone frame with a QR and the pitch line beside it — that is the landing page | Judges scan a QR and it opens in seconds; installed it is indistinguishable from native; no Expo Go, no store, no two platforms in five days. A separate website would be a fifth deploy nobody opens after the event | Push alerts or on-device secure storage at pilot → Expo. SEO or a parents/schools page at pilot → website |
-| Backend | **`apps/backend`: Fastify + tRPC**, one Postgres, the only app that touches the DB | One typed API, three clients; the public/admin procedure split is defined once. Copied from the RentTimeReal P0 pipeline, costs half a day on Saturday | — (this is the playbook lock; nothing to re-open) |
+| Backend | **`apps/backend`: Fastify + tRPC**, one Postgres, the only app that touches the DB | One typed API, three clients; the public/admin procedure split is defined once. Copied from the RentTimeReal P0 pipeline, costs half a day on 11 Oct | — (this is the playbook lock; nothing to re-open) |
 | Accounts | **None at the door.** An anonymous key on the device. Identity is asked once, at the moment of contacting a professional, as an **expiring encrypted contact request** (name or nickname, one contact, language, age bracket) — never a full name, never a birth date, never an account (saved 2026-10-10) | Users are minors; a database of identified victims is the most dangerous table a small team can own; data minimisation is the pitch. A professional needs a way to reach the kid, not an identity | Live requests when a partner organisation receives them; in-app chat only with on-duty professionals + safeguarding protocol + legal review |
 | Evidence | **Local-first**, IndexedDB on the phone. The server stores no incident data of any kind | Nothing sensitive sits in our database; the only bytes that leave the phone are one image for analysis, discarded after the response | A trusted-adult shared view, after a legal review for minors' data |
 | Analysis | Four tiers decided by code rules in `packages/analysis`: verifiable evidence (C2PA, metadata contradictions, differs from the kid's own original) → model indicators as *возможно* markers → inconclusive → unavailable. Every result shows **where to look**. Human check is a hand-off to a verified organisation, never our own queue (saved 2026-10-10, detail in `apps/mobile/PRD.md`) | Honest by construction: the model never picks a tier, never writes user-facing text, never outputs a number; the kid can verify every claim with their own eyes | A validated detector with a published evaluation on manipulated faces; a partner organisation that receives review cases |
@@ -69,7 +69,7 @@ Deliberately absent: `infra/` (Railway, until a VPS), `e2e/` (Playwright at pilo
 | Person 3 | `apps/bot` | `packages/guidance` strings, 10 Oct |
 | Person 4 (floater) | guidance copy ru → tg, per-platform report paths, demo directory data, testing on three phones, pitch deck, helpline VERIFY | — |
 
-Design came first (Thursday) because three people were blocked on it.
+Design came first (9 Oct) because three people were blocked on it.
 
 ## 7. Schedule
 

@@ -20,4 +20,4 @@ Same as the product: HTML sketch in `assets/design/crm/` for the professionals p
 
 ## Open design questions
 
-- None that block Saturday. The floater may simplify freely as long as the field errors stay per-field and the verification note stays required.
+- None that block 11 Oct. The floater may simplify freely as long as the field errors stay per-field and the verification note stays required.
