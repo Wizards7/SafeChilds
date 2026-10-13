@@ -8,11 +8,11 @@ what the team does on 12, 13 and 14 October, and how bugs get fixed on the spot 
 
 | Thing | State |
 |---|---|
-| App | https://mobile-production-ea38.up.railway.app — all 16 routes + `/signs`, installable, offline shell |
+| App | https://mobile-production-ea38.up.railway.app — 19 screens (with `/signs`) + `/offline`, installable, offline shell |
 | API | https://backend-production-e657.up.railway.app — analysis (Anthropic key set), link check with redirects, lookalikes, domain age, Safe Browsing and URLhaus (both keys set), SSRF-safe |
 | Bot | live with its token; situation → safety → plan → people; link check with hidden-link warning, defanged domains, coverage line; files judged by type; never-ask line with its @username |
 | Honesty | every image and link result ends with "Проверено: … Не проверено: …" |
-| Tests | 7 typecheck tasks, 123 unit tests, CI green on `main` |
+| Tests | 7 typecheck tasks, 142 tests (138 in CI; 4 need a database), CI green on `main` |
 | Deploy | push to `main` → Railway rebuilds all three services in 2–3 minutes |
 
 Not in the app on purpose: accounts, chat, server-side file scanning, our own fake detector, percentages, the word "безопасно".
@@ -25,7 +25,7 @@ Not in the app on purpose: accounts, chat, server-side file scanning, our own fa
 | 11 Oct night | Ali | ask one team member for the demo photo: their own picture, one edited copy with metadata stripped, the untouched original on the demo phone | assigned |
 | 11 Oct night | Ali | assign the four helpline calls to the floater | assigned |
 | 12 Oct | floater | call the lines in `packages/directory/src/seed.helplines.ts`: number, hours, languages, do they take teenagers; send the four answers to Ali | four answers in chat |
-| 12 Oct | native speaker | the review: 679 strings, "ту", the six Tajik letters, brands untouched, braces and `[n]` untouched | CSV back |
+| 12 Oct | native speaker | the review: 715 strings, "ту", the six Tajik letters, brands untouched, braces and `[n]` untouched | CSV back |
 | 12 Oct | team | install the app on three phones from the QR; run the script in § 3 once each; write every oddity in one chat thread with phone model + screen + what happened | thread exists |
 | 12 Oct | Ali | design and the deck (§ 5); nothing in code | — |
 | 12–13 Oct | Claude (with Ali's go) | helpline answers into the seed; Tajik corrections into guidance, analysis, directory, bot and `tg.json`; `verify: true` dropped only on reviewed strings; every bug from the thread | pushed, Railway green |
@@ -48,7 +48,7 @@ Projector: the laptop shows the app in the phone frame with the QR beside it. Ju
 6. **Bottom nav → Мой случай.** Say: everything lives on the phone, nothing on our server.
 7. **Home → "Узнать признаки" → Мошенничество**, reveal one card. Say: the organizers' "как это выглядит", twenty cards, built from their own workshop examples.
 7a. **Optional, Home → «Не знаю, что произошло»** (opens «Своими словами»). Type in the box at the bottom: "мне пишет человек из банка и просит код из смс". Do not tap the «Не знаю, что произошло» button inside the first bubble: it leaves the chat for the safety check. Say: the model turns the words into codes, the steps on screen are the reviewed plan, not generated text; a kid who writes about hurting themselves goes straight to the urgent screen without any model. Plan 0005.
-8. **Phone 2, Telegram.** `/start` → Русский → Мошенничество → situation → safety → plan (20 s). Then paste `https://testsafebrowsing.appspot.com/s/phishing.html` → red, Safe Browsing named, coverage line. Say: the same guidance, a second door, the link never opens on the kid's phone.
+8. **Phone 2, Telegram.** `/start` → Русский → Мошенничество → «Профиль просит деньги или код» → «Да, я в безопасности» → «Нет, сразу к плану» → platform → plan (20 s). Then paste `https://testsafebrowsing.appspot.com/s/phishing.html` → «Известная опасная ссылка», «Она есть в списке опасных сайтов. Не открывай.», the host written as `testsafebrowsing[.]appspot[.]com`, and the coverage line with «списки опасных сайтов» under «Проверено». Say: the list that matched is Google Safe Browsing (the bot shows the verdict, not the list's name); the same guidance, a second door, the link never opens on the kid's phone.
 9. **Close:** "Мы не определяем фейки. Мы помогаем сделать следующий безопасный шаг и дойти до настоящего человека."
 
 Backup links for the bot if you want a second one: `https://alif-tj.com/bonus` gives "признаки обмана" (lookalike + bonus word) without the site existing. A hidden link: type `alif.tj`, select it, "Add link", paste `https://alif-tj.com/login`.
@@ -86,7 +86,7 @@ One idea per slide, the demo carries the rest.
 9. **What is next.** Scam-text rules in ru and tg with a labelled corpus and measured precision; a partner organisation receiving contact requests; Content Credentials validation; a school pilot with a research-ethics protocol.
 10. **Ask.** One partner organisation in Tajikistan that can receive a teenager's request. One helpline that confirms its number.
 
-Numbers for the deck, true tonight: 16 routes, 20 signs cards, 11 situations, 4 categories, 2 languages, 123 tests, 3 services, 0 child records on the server.
+Numbers for the deck, true on 13 Oct: 19 screens, 20 signs cards, 11 situations, 4 categories, 2 languages, 142 tests, 3 services, 0 child records on the server.
 
 ## 6. Known limits to say if asked
 
