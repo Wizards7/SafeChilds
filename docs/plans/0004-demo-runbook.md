@@ -2,7 +2,7 @@
 
 **Status:** Approved 2026-10-11 (supplements 0001 and 0002; highest number wins on conflict)
 **Purpose:** code is complete for the demo as of this evening. From here Ali works on design and the deck; this page is
-what the team does on Sunday, Monday and Tuesday, and how bugs get fixed on the spot instead of waiting.
+what the team does on 12, 13 and 14 October, and how bugs get fixed on the spot instead of waiting.
 
 ## 1. Where we are tonight
 
@@ -21,18 +21,18 @@ Not in the app on purpose: accounts, chat, server-side file scanning, our own fa
 
 | When | Who | What | Done when |
 |---|---|---|---|
-| Sat night | Ali | send `docs/tajik-review.csv` (or the review page) to the native speaker; ask for it back Sunday evening | sent |
-| Sat night | Ali | ask one team member for the demo photo: their own picture, one edited copy with metadata stripped, the untouched original on the demo phone | assigned |
-| Sat night | Ali | assign the four helpline calls to the floater | assigned |
-| Sun | floater | call the lines in `packages/directory/src/seed.helplines.ts`: number, hours, languages, do they take teenagers; send the four answers to Ali | four answers in chat |
-| Sun | native speaker | the review: 679 strings, "ту", the six Tajik letters, brands untouched, braces and `[n]` untouched | CSV back |
-| Sun | team | install the app on three phones from the QR; run the script in § 3 once each; write every oddity in one chat thread with phone model + screen + what happened | thread exists |
-| Sun | Ali | design and the deck (§ 5); nothing in code | — |
-| Sun / Mon | Claude (with Ali's go) | helpline answers into the seed; Tajik corrections into guidance, analysis, directory, bot and `tg.json`; `verify: true` dropped only on reviewed strings; every bug from the thread | pushed, Railway green |
-| Mon | everyone | five full runs of § 3 on three phones, two of them in Tajik | the script runs clean twice in a row |
-| Tue morning | everyone | one last run on the demo phone and the projector laptop; phone on charger; mobile data on, Wi-Fi off during the run | — |
+| 11 Oct night | Ali | send `docs/tajik-review.csv` (or the review page) to the native speaker; ask for it back 12 Oct evening | sent |
+| 11 Oct night | Ali | ask one team member for the demo photo: their own picture, one edited copy with metadata stripped, the untouched original on the demo phone | assigned |
+| 11 Oct night | Ali | assign the four helpline calls to the floater | assigned |
+| 12 Oct | floater | call the lines in `packages/directory/src/seed.helplines.ts`: number, hours, languages, do they take teenagers; send the four answers to Ali | four answers in chat |
+| 12 Oct | native speaker | the review: 679 strings, "ту", the six Tajik letters, brands untouched, braces and `[n]` untouched | CSV back |
+| 12 Oct | team | install the app on three phones from the QR; run the script in § 3 once each; write every oddity in one chat thread with phone model + screen + what happened | thread exists |
+| 12 Oct | Ali | design and the deck (§ 5); nothing in code | — |
+| 12–13 Oct | Claude (with Ali's go) | helpline answers into the seed; Tajik corrections into guidance, analysis, directory, bot and `tg.json`; `verify: true` dropped only on reviewed strings; every bug from the thread | pushed, Railway green |
+| 13 Oct | everyone | five full runs of § 3 on three phones, two of them in Tajik | the script runs clean twice in a row |
+| 14 Oct morning | everyone | one last run on the demo phone and the projector laptop; phone on charger; mobile data on, Wi-Fi off during the run | — |
 
-Nothing new ships after Sunday night. Monday and Tuesday are fixes only.
+Nothing new ships after the night of 12 Oct. 13 and 14 Oct are fixes only.
 
 ## 3. The three-minute script, with what to say
 
@@ -53,14 +53,14 @@ Projector: the laptop shows the app in the phone frame with the QR beside it. Ju
 
 Backup links for the bot if you want a second one: `https://alif-tj.com/bonus` gives "признаки обмана" (lookalike + bonus word) without the site existing. A hidden link: type `alif.tj`, select it, "Add link", paste `https://alif-tj.com/login`.
 
-## 4. If something breaks, Sunday to Tuesday
+## 4. If something breaks, 12 to 14 October
 
 1. **Report in the thread, one message:** phone model, which screen, what you tapped, what you saw, a screenshot. Nothing else is needed.
 2. **Ali pings Claude** with the message. Fix → test → push → Railway rebuilds in 2–3 minutes → the thread gets "try again". Typical turnaround: under 30 minutes.
 3. **If a fix makes things worse:** `git revert <commit>` and push; Railway rebuilds the previous state. Nothing is ever patched by hand on the server.
 4. **If a service is red on Railway:** open the service → Deployments → the latest one → View logs. The log says why: the bot prints "Invalid environment" when a variable is missing, the backend prints the model or blocklist error by name.
 5. **If analysis says "недоступна" on every image:** check the Anthropic balance (platform.claude.com → Billing) and the backend log for `model call failed: … 401`.
-6. **Never on demo day:** new features, dependency updates, variable changes you do not need. The app that ran clean on Monday is the app on stage.
+6. **Never on demo day:** new features, dependency updates, variable changes you do not need. The app that ran clean on 13 Oct is the app on stage.
 
 Useful commands from the repo folder:
 

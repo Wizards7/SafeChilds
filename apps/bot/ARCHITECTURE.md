@@ -37,4 +37,4 @@ Railway service `bot`, a single long-running Node process. No port needed in lon
 
 ## Testing
 
-Typecheck + lint. Flows are exercised by hand in Telegram on Sunday with the demo script; the guidance content they render is the same package the app renders, so the content is tested once.
+Typecheck + lint. Flows are exercised by hand in Telegram on 12 Oct with the demo script; the guidance content they render is the same package the app renders, so the content is tested once.

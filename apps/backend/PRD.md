@@ -16,7 +16,7 @@ Four public capabilities, nothing else for the hackathon. The admin surface is s
 
 ## Phase
 
-Everything above is hackathon Phase 0 — the mobile spine needs `analysis.run` on Saturday and `directory.list` on Sunday; the CRM needs the admin procedures on Saturday for the floater to build against.
+Everything above is hackathon Phase 0 — the mobile spine needs `analysis.run` on 11 Oct and `directory.list` on 12 Oct; the CRM needs the admin procedures on 11 Oct for the floater to build against.
 
 ## Skipped, with the trigger that re-adds it
 
@@ -29,5 +29,5 @@ Everything above is hackathon Phase 0 — the mobile spine needs `analysis.run` 
 
 ## Open questions
 
-- Rate limit for `analysis.run`: per IP is the only option without accounts. Number to be set after measuring one demo run (VERIFY on Monday, not guessed now).
+- Rate limit for `analysis.run`: per IP is the only option without accounts. Number to be set after measuring one demo run (VERIFY on 13 Oct, not guessed now).
 - Admin auth: deferred with the CRM. When it comes back: Better Auth plugin or the custom DB-session escape hatch, one-hour time-box.

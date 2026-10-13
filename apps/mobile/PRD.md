@@ -158,7 +158,7 @@ Not in it: "поговори с ним / с ней", "не обращай вни
 | 9a | Request | One screen, asked only here, only after tapping a professional, only on the second path: как к тебе обращаться (name or nickname) · один контакт (phone **or** Telegram) · язык · возраст (bracket: младше 18 / 18–24, never a birth date) · онлайн (Telegram / видео) или лично · когда удобно (optional) · кто может ответить вместо тебя (optional, a trusted adult) · one-sentence consent. **Prototype in the hackathon**: the form is real, the confirmation says "Прототип — в демо запрос никуда не отправляется" and shows how a professional would receive it; nothing persists. Saved 2026-10-10 |
 | 10 | Privacy | Plain language: what we store (nothing), what we send (one image, deleted after), limits of confidentiality |
 
-## Phase 2 — only if P0 + P1 are green on three phones by Sunday night
+## Phase 2 — only if P0 + P1 are green on three phones by the night of 12 Oct
 
 - "Pop the anxious thoughts" (`/thoughts`) as the second coping option — replaces the grounding exercise; fits cyberbullying best
 - `/lock` — PIN or biometric on "Мой случай", if testing shows kids worry about parents reading the phone
@@ -199,8 +199,8 @@ Re-add triggers: real requests when a partner organisation agrees to receive the
 
 ## Open questions
 
-- Which four platforms matter most for teens in Tajikistan — is VK still relevant, is Likee? Owner: floater, Friday.
+- Which four platforms matter most for teens in Tajikistan — is VK still relevant, is Likee? Owner: floater, 10 Oct.
 - Which organisation in Tajikistan can look at evidence of a fake (for the "ask a real person" hand-off)? Owner: floater, with the helpline calls.
-- Take It Down (NCMEC) — does it work from Tajikistan, which platforms participate as of today? Owner: Ali, Friday. Nothing about it reaches a screen until verified.
+- Take It Down (NCMEC) — does it work from Tajikistan, which platforms participate as of today? Owner: Ali, 10 Oct. Nothing about it reaches a screen until verified.
 - `/about` (parent / teacher "browse everything") — out for the hackathon (2026-10-10); re-add at pilot with a parents/schools page.
 - Does the teen pick a situation first or the safety check first for a user who arrives via the bot link? Current answer: situation, then safety, same as the app.

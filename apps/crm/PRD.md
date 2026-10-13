@@ -14,7 +14,7 @@ The directory is the project's local differentiator and it must be honest: every
 | Professionals | list with status badges; add; edit; set `demo` / `unverified` / `verified` with `last_verified_at` |
 | Reports | queue of listing reports with the professional they refer to; mark handled |
 
-Built by the floater on Saturday against typed backend procedures; done Sunday.
+Built by the floater on 11 Oct against typed backend procedures; done 12 Oct.
 
 ## Skipped, with the trigger that re-adds it
 

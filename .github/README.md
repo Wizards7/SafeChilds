@@ -13,8 +13,8 @@ Pipelines exist for what can actually fail today. The hackathon repo starts with
 
 | Pipeline | Trigger |
 |---|---|
-| `checks.yml` — typecheck + lint + test + build | first app with a `typecheck` script lands (Fri 10 Oct) |
-| Railway deploy on merge to `main` | first deployable app (Mon 13 Oct); Railway's GitHub integration covers it without a workflow |
+| `checks.yml` — typecheck + lint + test + build | first app with a `typecheck` script lands (10 Oct) |
+| Railway deploy on merge to `main` | first deployable app (13 Oct); Railway's GitHub integration covers it without a workflow |
 | Lighthouse CI on `apps/mobile` | after the hackathon, if the PWA goes to pilot |
 
 ## Templates

@@ -18,7 +18,7 @@ Telegram is where teenagers in Tajikistan already are. A bot removes the "open a
 | Link check | a forwarded link → `links.check` → one of four tiers with "где смотреть" and the next step; the kid never opens it (saved 2026-10-10) |
 | File by type | a forwarded file is never downloaded; the bot answers from Telegram's metadata (name, extension, MIME): `.apk` / `.exe` → never install from a chat; documents → we can't see inside, don't press "enable"; photo / video → the danger is the link with it; archives → don't unpack. Table in `apps/mobile/PRD.md` § Fraud |
 
-Built by the bot person Thursday to Sunday; deployed Monday.
+Built by the bot person 9–12 Oct; deployed 13 Oct.
 
 ## Skipped, with the trigger that re-adds it
 

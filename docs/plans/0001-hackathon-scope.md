@@ -65,8 +65,8 @@ Deliberately absent: `infra/` (Railway, until a VPS), `e2e/` (Playwright at pilo
 | Person | Owns | Blocked on |
 |---|---|---|
 | Ali | `apps/mobile`, `apps/backend`, `packages/*`, design, DB schema | — |
-| Person 2 | guidance content with the floater (ru), then testing on three phones (CRM deferred 2026-10-10) | `packages/guidance` vocabulary from Ali, Friday |
-| Person 3 | `apps/bot` | `packages/guidance` strings, Friday |
+| Person 2 | guidance content with the floater (ru), then testing on three phones (CRM deferred 2026-10-10) | `packages/guidance` vocabulary from Ali, 10 Oct |
+| Person 3 | `apps/bot` | `packages/guidance` strings, 10 Oct |
 | Person 4 (floater) | guidance copy ru → tg, per-platform report paths, demo directory data, testing on three phones, pitch deck, helpline VERIFY | — |
 
 Design came first (Thursday) because three people were blocked on it.
@@ -75,18 +75,18 @@ Design came first (Thursday) because three people were blocked on it.
 
 | Day | Ali | Person 2 (content) | Bot | Floater |
 |---|---|---|---|---|
-| Thu 9 | Repo, specs, tokens + foundation sheet — done | Read specs | BotFather, grammY hello-world | Collect report paths for Instagram / TikTok / Telegram / VK; draft ru guidance copy |
-| Fri 10 | HTML sketches of the screens with state switchers, on a real phone; scaffold monorepo + backend skeleton | Fake content + extortion plans (ru) with the floater | Conversation tree against `packages/guidance` | Finish guidance JSON (ru); demo directory dataset; call the helpline |
-| Sat 11 | Backend: four public procedures + seeds; mobile: home, situation, safety, analyze end to end | Fraud + cyberbullying plans (ru); learn-the-signs cards | Safety check + plan + people | Tajik translation pass |
-| Sun 12 | Mobile: urgent, feelings, breathe, plan, people, incident | Test every journey on three phones; file bugs | Link to app, urgent path | Test on three phones; Figma import of approved sketches |
-| Mon 13 | PWA install + offline + i18n polish; deploy; install on the demo phone | Deploy | Deploy | Run the demo script five times; fix what breaks |
-| Tue 14 | Rehearsal in the morning. Nothing new ships | Pitch deck | — | — |
+| 9 Oct | Repo, specs, tokens + foundation sheet — done | Read specs | BotFather, grammY hello-world | Collect report paths for Instagram / TikTok / Telegram / VK; draft ru guidance copy |
+| 10 Oct | HTML sketches of the screens with state switchers, on a real phone; scaffold monorepo + backend skeleton | Fake content + extortion plans (ru) with the floater | Conversation tree against `packages/guidance` | Finish guidance JSON (ru); demo directory dataset; call the helpline |
+| 11 Oct | Backend: four public procedures + seeds; mobile: home, situation, safety, analyze end to end | Fraud + cyberbullying plans (ru); learn-the-signs cards | Safety check + plan + people | Tajik translation pass |
+| 12 Oct | Mobile: urgent, feelings, breathe, plan, people, incident | Test every journey on three phones; file bugs | Link to app, urgent path | Test on three phones; Figma import of approved sketches |
+| 13 Oct | PWA install + offline + i18n polish; deploy; install on the demo phone | Deploy | Deploy | Run the demo script five times; fix what breaks |
+| 14 Oct | Rehearsal in the morning. Nothing new ships | Pitch deck | — | — |
 
-Nothing new after Sunday night. Monday is polish and deploy.
+Nothing new after the night of 12 Oct. 13 Oct is polish and deploy.
 
 ## 7a. Build phases (approved 2026-10-10)
 
-Root, packages and backend are built, tested, pushed; CI is green. Each phase below ends green (typecheck + tests), verified in a browser at 375px, committed and pushed. Nothing new after Sunday night.
+Root, packages and backend are built, tested, pushed; CI is green. Each phase below ends green (typecheck + tests), verified in a browser at 375px, committed and pushed. Nothing new after the night of 12 Oct.
 
 | Phase | What | Done when |
 |---|---|---|
@@ -99,7 +99,7 @@ Root, packages and backend are built, tested, pushed; CI is green. Each phase be
 | R Railway | Postgres + backend + mobile + bot, env, migrations as release step, seeds, domain, QR | the public URL opens on a phone over mobile data |
 | D demo | content merged, Tajik reviewed, demo image, five rehearsals on three phones | the script runs clean twice in a row |
 
-Small library picks taken without a separate decision: `exifr` (EXIF), `idb` (IndexedDB). Two VERIFYs failed on install and were replaced (2026-10-10): the official `c2pa` package needs WASM + worker assets wired through the bundler — the client detects Content Credentials *presence* only (`c2pa_present_unverified`), validation is a pilot item; `@serwist/next` is a webpack plugin and the app builds with Turbopack — the service worker is hand-written (`apps/mobile/public/sw.js`: shell precache + route chunks, cache-first static, network-first navigation with `/offline`). The embedded Browser pane cannot run service workers, so the worker is **verified on a real phone or desktop Chrome**, not in the pane — a Monday checklist item.
+Small library picks taken without a separate decision: `exifr` (EXIF), `idb` (IndexedDB). Two VERIFYs failed on install and were replaced (2026-10-10): the official `c2pa` package needs WASM + worker assets wired through the bundler — the client detects Content Credentials *presence* only (`c2pa_present_unverified`), validation is a pilot item; `@serwist/next` is a webpack plugin and the app builds with Turbopack — the service worker is hand-written (`apps/mobile/public/sw.js`: shell precache + route chunks, cache-first static, network-first navigation with `/offline`). The embedded Browser pane cannot run service workers, so the worker is **verified on a real phone or desktop Chrome**, not in the pane — a 13 Oct checklist item.
 
 **Demo image (decided 2026-10-10):** a team member's own photo, edited by that team member, with their consent. Never a stranger's photo, never a generated face presented as a person. One version with metadata stripped and visible indicators for the model path; the untouched original on the demo phone for the compare path.
 
@@ -123,16 +123,16 @@ One slide lists what is real, what is prototype, what is next.
 
 | Item | Owner | By |
 |---|---|---|
-| Tajikistan child helpline: exists, number, hours, languages — a team member calls it | floater | Fri |
-| Current in-app report paths for Instagram, TikTok, Telegram, VK | floater | Fri |
-| Which platforms teens in Tajikistan actually use (VK? Likee?) | floater | Fri |
-| Every Tajik string written by AI — native review | floater | Sat |
-| Sightengine free signup from Tajikistan | Ali | Sun, only if NICE is reached |
-| Anthropic API data policy text at the time of the pitch | Ali | Mon |
-| Take It Down (NCMEC) works from Tajikistan; participating platforms today | Ali | Fri |
-| Google Safe Browsing + URLhaus free access and limits for `links.check` | Ali | Sat |
-| Bank hotline numbers for "уже отправил(а)": Alif, Eskhata, Амонатбанк, Душанбе Сити | floater | Fri |
-| School psychologists in Tajik schools — how common, how a teen reaches one | floater | Sat |
-| An organisation in Tajikistan that can look at evidence of a fake (the "ask a real person" hand-off) | floater | Fri |
-| grammY conversation plugin fits the inline-keyboard tree | bot | Thu |
-| Better Auth setup within a one-hour time-box, else the custom session fallback | Ali | Sat |
+| Tajikistan child helpline: exists, number, hours, languages — a team member calls it | floater | 10 Oct |
+| Current in-app report paths for Instagram, TikTok, Telegram, VK | floater | 10 Oct |
+| Which platforms teens in Tajikistan actually use (VK? Likee?) | floater | 10 Oct |
+| Every Tajik string written by AI — native review | floater | 11 Oct |
+| Sightengine free signup from Tajikistan | Ali | 12 Oct, only if NICE is reached |
+| Anthropic API data policy text at the time of the pitch | Ali | 13 Oct |
+| Take It Down (NCMEC) works from Tajikistan; participating platforms today | Ali | 10 Oct |
+| Google Safe Browsing + URLhaus free access and limits for `links.check` | Ali | 11 Oct |
+| Bank hotline numbers for "уже отправил(а)": Alif, Eskhata, Амонатбанк, Душанбе Сити | floater | 10 Oct |
+| School psychologists in Tajik schools — how common, how a teen reaches one | floater | 11 Oct |
+| An organisation in Tajikistan that can look at evidence of a fake (the "ask a real person" hand-off) | floater | 10 Oct |
+| grammY conversation plugin fits the inline-keyboard tree | bot | 9 Oct |
+| Better Auth setup within a one-hour time-box, else the custom session fallback | Ali | 11 Oct |
