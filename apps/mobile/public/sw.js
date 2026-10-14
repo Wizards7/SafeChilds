@@ -5,7 +5,7 @@
    - navigations: network-first, fall back to the cached page, then /offline
    - API calls (another origin) are never cached: analysis and directory results must be live or honestly unavailable
 */
-const VERSION = "sc-v13";
+const VERSION = "sc-v14";
 const SHELL = [
   "/", "/welcome", "/situation", "/safety", "/urgent", "/question", "/stop", "/analyze", "/link",
   "/plan", "/feelings", "/breathe", "/people", "/request", "/incident", "/settings", "/privacy", "/offline",
@@ -14,6 +14,7 @@ const SHELL = [
   "/home/fake_content.webp", "/home/extortion.webp", "/home/fraud.webp", "/home/cyberbullying.webp",
   "/situation/fake_photo.webp", "/situation/fake_video.webp", "/situation/impersonation.webp",
   "/situation/threat_to_publish.webp", "/situation/demand_money_or_photos.webp",
+  "/situation/public_humiliation.webp", "/situation/persistent_messages.webp", "/situation/group_against_me.webp",
   "/feelings/person.webp", "/feelings/scared.webp", "/feelings/anxious.webp", "/feelings/angry.webp", "/feelings/sad.webp", "/feelings/ashamed.webp", "/feelings/overwhelmed.webp",
 ];
 
