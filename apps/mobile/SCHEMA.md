@@ -17,6 +17,8 @@ Incident
   analysis        { status, indicatorCodes[], at } | null       the result as returned; no image
   evidence        Evidence[]
   steps           { stepId: string, done: boolean, at: string }[]
+  feelings?       { feeling, at }[]                 every pick on Поддержка (2026-10-14); «Твои отметки» reads it
+  breaths?        { seconds, at }[]                 every breathing minute ended with «Закончить» or run to the end, after 30 s or more; the weekly count reads it
   createdAt, updatedAt   ISO strings, UTC
 ```
 

@@ -160,15 +160,6 @@ dialog:not([open]) { display: none; }
 .consent label { font-size: var(--text-small); color: var(--text-secondary); }
 .consent.has-error label { color: var(--danger); }
 
-/* Breathing circle */
-.breath { display: grid; place-items: center; min-height: 320px; }
-.breath .ring { width: 180px; height: 180px; border-radius: 50%; background: var(--support-bg-selected); display: grid; place-items: center; position: relative; }
-.breath .ring::before { content: ""; position: absolute; inset: 24px; border-radius: 50%; background: var(--support); opacity: 0.9; }
-.breath .ring span { position: relative; color: #fff; font-weight: 700; font-size: var(--text-h3); }
-.breath.is-running .ring { animation: breathe 8s ease-in-out infinite; }
-@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
-@media (prefers-reduced-motion: reduce) { .breath.is-running .ring { animation: none; } }
-.timer { font-variant-numeric: tabular-nums; font-size: var(--text-h2); font-weight: 700; text-align: center; }
 
 /* Big stop list */
 .stoplist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }

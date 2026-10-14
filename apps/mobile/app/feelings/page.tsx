@@ -34,21 +34,26 @@ import { MessageButton } from "../../components/MessageButton";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Incident } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
+import { dayKey, stripDays } from "../../lib/timeline";
 import { useIncident } from "../../lib/use-incident";
+import { minutesThisWeek, picksByDay, type Pick } from "../../lib/wellbeing";
+import { formatDay } from "../incident/format";
 import "./feelings.css";
 
 const SHOWN: readonly Feeling[] = ["scared", "anxious", "angry", "sad", "ashamed", "overwhelmed"];
 
-function BreatheCard() {
+// The breathing card, with this week's finished minutes when there are any: a count, no goal, no streak (2026-10-14).
+function BreatheCard({ minutes }: { minutes: number }) {
   const t = useTranslations("feelings");
   return (
     <Link className="breathe" href="/breathe?from=feelings">
       <span className="ic">
-        <Icon name="heart" />
+        <Icon name="waves" />
       </span>
       <span className="body">
         <span className="t">{t("breatheTitle")}</span>
         <span className="d">{t("breatheSub")}</span>
+        {minutes > 0 && <span className="m">{t("minutes", { n: minutes })}</span>}
       </span>
       <Icon name="chevron-right" className="i chev" />
     </Link>
@@ -61,7 +66,45 @@ function nextStep(incident: Incident) {
   return [...plan.now, ...plan.later].find((s) => !incident.steps[s.id]?.done);
 }
 
-function Reply({ feeling, incident, locale }: { feeling: Feeling; incident: Incident | null; locale: Locale }) {
+// «Твои отметки»: Monday-first day cards, each with the picture of the last feeling picked that day. No colour per feeling,
+// no score, no trend; read to screen readers as the day and the feelings by name.
+function FeelingMarks({ picks, now, locale }: { picks: readonly Pick[]; now: Date; locale: Locale }) {
+  const t = useTranslations("feelings");
+  const tp = useTranslations("people");
+  const days = picksByDay(picks);
+  const cells = stripDays(new Set(days.keys()), now);
+  const track = useRef<HTMLUListElement>(null);
+  const today = dayKey(now);
+  // Open on this week: earlier weeks sit to the left, a swipe away.
+  useEffect(() => {
+    const el = track.current;
+    if (el) el.scrollLeft = el.scrollWidth;
+  }, [cells.length]);
+  const WEEKDAY = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
+  return (
+    <section className="marks" aria-labelledby="marks-title">
+      <h2 id="marks-title">{t("marks.title")}</h2>
+      <p className="sub hint">{t("marks.hint")}</p>
+      <ul className="fs-strip" ref={track}>
+        {cells.map((c) => {
+          const picked = days.get(c.key) ?? [];
+          const last = picked[picked.length - 1];
+          const date = formatDay(c.date, now);
+          const label = picked.length ? t("marks.day", { date, feelings: picked.map((f) => pick(FEELING_LABEL[f], locale)).join(", ") }) : t("marks.none", { date });
+          return (
+            <li key={c.key} className={`fs-day${c.key === today ? " today" : ""}${c.future ? " future" : ""}`} aria-label={label}>
+              <span className="wd" aria-hidden="true">{tp(`day.${WEEKDAY[c.date.getDay()]}`)}</span>
+              <span className="n" aria-hidden="true">{c.date.getDate()}</span>
+              {last ? <span className="face"><img src={`/feelings/${last}.webp`} width={640} height={470} alt="" /></span> : <span className="none" aria-hidden="true" />}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function Reply({ feeling, incident, locale, minutes }: { feeling: Feeling; incident: Incident | null; locale: Locale; minutes: number }) {
   const ti = useTranslations("incident");
   const ts = useTranslations("signs");
   const category = incident?.profile.category ?? "unknown";
@@ -74,7 +117,7 @@ function Reply({ feeling, incident, locale }: { feeling: Feeling; incident: Inci
   let action: ReactNode;
   if (BREATHE_FOR.has(feeling)) {
     line = pick(feeling === "scared" ? FEELING_REPLY.scared : FEELING_REPLY.overwhelmed, locale);
-    action = <BreatheCard />;
+    action = <BreatheCard minutes={minutes} />;
   } else if (feeling === "anxious") {
     const next = incident ? nextStep(incident) : undefined;
     if (!incident) {
@@ -91,7 +134,7 @@ function Reply({ feeling, incident, locale }: { feeling: Feeling; incident: Inci
       action = <Link className="btn btn-primary" href="/plan">{ti("continue")}</Link>;
     } else {
       line = pick(FEELING_REPLY.anxious.allDone, locale);
-      action = <BreatheCard />;
+      action = <BreatheCard minutes={minutes} />;
     }
   } else if (feeling === "sad") {
     line = pick(FEELING_REPLY.sad, locale);
@@ -137,7 +180,9 @@ function Reply({ feeling, incident, locale }: { feeling: Feeling; incident: Inci
 export default function FeelingsPage() {
   const t = useTranslations("feelings");
   const locale = useLocale() as Locale;
-  const { incident } = useIncident();
+  const { incident, refresh } = useIncident();
+  const now = new Date();
+  const minutes = incident ? minutesThisWeek(incident.breaths ?? [], now) : 0;
   // The tap of this visit; before any tap the saved pick (once the case has loaded) keeps its tile highlighted.
   const [picked, setPicked] = useState<Feeling | null>(null);
   const selected = picked ?? incident?.profile.feeling ?? null;
@@ -150,9 +195,17 @@ export default function FeelingsPage() {
     return () => clearTimeout(id);
   }, [picked]);
 
+  // The reply answers at once; the pick is then logged in the case and the strip re-read. If the phone's storage refuses,
+  // the reply still stands and only the mark is missing from «Твои отметки».
   const choose = async (f: Feeling) => {
     setPicked(f);
-    if (incident) await incidentStore.setFeeling(f);
+    if (!incident) return;
+    try {
+      await incidentStore.setFeeling(f);
+      await refresh();
+    } catch {
+      return;
+    }
   };
   const breathingInReply = picked !== null && (BREATHE_FOR.has(picked) || (picked === "anxious" && !!incident && !nextStep(incident)));
 
@@ -188,10 +241,12 @@ export default function FeelingsPage() {
         </div>
 
         <section ref={replyRef} className={`reply${picked ? "" : " empty"}`} aria-live="polite">
-          {picked && <Reply feeling={picked} incident={incident ?? null} locale={locale} />}
+          {picked && <Reply feeling={picked} incident={incident ?? null} locale={locale} minutes={minutes} />}
         </section>
 
-        {!breathingInReply && <BreatheCard />}
+        {!breathingInReply && <BreatheCard minutes={minutes} />}
+
+        {incident && (incident.feelings?.length ?? 0) > 0 && <FeelingMarks picks={incident.feelings ?? []} now={now} locale={locale} />}
 
         {incident && (
           <div className="center">

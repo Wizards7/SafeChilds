@@ -60,7 +60,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-2);
-  min-height: 160px;
+  min-height: 124px;
   padding: var(--space-2) var(--space-2) var(--space-3);
   border-radius: var(--radius-card);
   border: 1px solid var(--border);
@@ -80,7 +80,7 @@
 }
 .mood img {
   width: 100%;
-  height: 104px;
+  height: 76px;
   object-fit: contain;
   display: block;
 }
@@ -152,3 +152,19 @@
 .urgent-row span { flex: 1; }
 .urgent-row.strong { min-height: 52px; padding: 0 var(--space-3); border-radius: var(--radius-control); background: var(--danger-bg); color: var(--danger); font-size: var(--text-body); font-weight: 600; }
 .urgent-row .chev { flex: none; }
+/* «Твои отметки» (2026-10-14): Monday-first day cards with the picture of the day's last feeling; today outlined in teal.
+   Swipe for earlier weeks. Not buttons: the strip only shows. */
+.marks .hint { margin-top: var(--space-1); }
+.fs-strip { list-style: none; margin: var(--space-3) calc(-1 * var(--space-4)) 0; padding: 2px var(--space-3) 6px; display: grid; grid-auto-flow: column; grid-auto-columns: max(44px, calc((100% - 6 * 4px) / 7)); gap: 4px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.fs-strip::-webkit-scrollbar { display: none; }
+.fs-day { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 84px; padding: var(--space-2) 0; border-radius: 14px; border: 1px solid rgb(15 23 42 / 0.08); background: var(--surface); box-shadow: 0 1px 2px rgb(15 23 42 / 0.04); }
+.fs-day:nth-child(7n + 1) { scroll-snap-align: start; }
+.fs-day .wd { font-size: var(--text-small); color: var(--text-secondary); text-transform: capitalize; }
+.fs-day .n { font-weight: 600; font-variant-numeric: tabular-nums; }
+/* The tile picture is the whole teen; the mark zooms onto the head so the expression reads at 32 px */
+.fs-day .face { width: 32px; height: 32px; margin-top: 2px; border-radius: 50%; overflow: hidden; background: var(--support-bg); }
+.fs-day .face img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(2.3); transform-origin: 50% 24%; }
+.fs-day .none { width: 32px; height: 32px; margin-top: 2px; border-radius: 50%; background: var(--neutral-bg); }
+.fs-day.today { border-color: var(--support); box-shadow: 0 0 0 1px var(--support); }
+.fs-day.future .wd, .fs-day.future .n { color: var(--text-disabled); }
+.breathe .m { display: block; margin-top: 2px; font-size: var(--text-small); color: var(--text-secondary); }

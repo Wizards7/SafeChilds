@@ -38,6 +38,10 @@ export interface Incident {
   evidence: Evidence[];
   steps: Record<string, { done: boolean; at: string }>;
   chat: ChatTurn[]; // older incidents on a phone may lack it: read with `?? []`
+  // The kid's own log on the Поддержка tab (2026-10-14): every feeling picked and every finished minute of breathing,
+  // with its time. On the phone only, wiped with the case. Older incidents lack both: read with `?? []`.
+  feelings?: { feeling: Feeling; at: string }[];
+  breaths?: { seconds: number; at: string }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -144,7 +148,9 @@ export const incidentStore = {
 
   setSafety: (safety: SafetyAnswer) => incidentStore.update((i) => ({ ...i, profile: { ...i.profile, safety, flags: { ...i.profile.flags, threatened: safety === "threatened" || i.profile.flags.threatened === true } } })),
   setPlatform: (platform: Platform) => incidentStore.update((i) => ({ ...i, profile: { ...i.profile, platform } })),
-  setFeeling: (feeling: Feeling) => incidentStore.update((i) => ({ ...i, profile: { ...i.profile, feeling } })),
+  setFeeling: (feeling: Feeling) =>
+    incidentStore.update((i) => ({ ...i, profile: { ...i.profile, feeling }, feelings: [...(i.feelings ?? []), { feeling, at: new Date().toISOString() }] })),
+  addBreath: (seconds: number) => incidentStore.update((i) => ({ ...i, breaths: [...(i.breaths ?? []), { seconds, at: new Date().toISOString() }] })),
   setFlags: (flags: Profile["flags"]) => incidentStore.update((i) => ({ ...i, profile: { ...i.profile, flags: { ...i.profile.flags, ...flags } } })),
   setAnalysis: (decision: Decision) => incidentStore.update((i) => ({ ...i, analysis: { ...decision, at: new Date().toISOString() } })),
   toggleStep: (stepId: string) =>

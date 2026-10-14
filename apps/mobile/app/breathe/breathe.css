@@ -1,3 +1,51 @@
-main.breathe-page { justify-content: center; text-align: center; }
-main.breathe-page .cta { display: flex; flex-direction: column; gap: var(--space-2); }
-main.breathe-page .done-check { position: relative; stroke: #fff; width: 40px; height: 40px; }
+/* Guided breathing (redesigned 2026-10-14): two soft teal circles that grow for 4 s and shrink for 6 s, the words and
+   the count on top (not scaled), a quiet timer + bar, a round pause button. The breathing cycle is the content, so its
+   10 s loop is the stated exception to the 300 ms motion rule (DESIGN.md). Transform and opacity only. */
+main.breathe-page { justify-content: center; align-items: center; text-align: center; }
+main.breathe-page .cta { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-2); width: 100%; }
+
+.br-ring { --br-ease: cubic-bezier(0.77, 0, 0.175, 1); position: relative; width: 248px; height: 248px; display: grid; place-items: center; margin: var(--space-3) auto; }
+.br-ring .outer, .br-ring .inner { position: absolute; border-radius: 50%; transform: scale(0.84); }
+.br-ring .outer { inset: 0; background: var(--support-bg-selected); }
+.br-ring .inner { inset: 30px; background: var(--support); } /* room for the longest word («Нафас барор») at the smallest scale */
+.br-ring .label { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #ffffff; }
+.br-ring .phase { font-size: var(--text-h2); font-weight: 700; }
+.br-ring .count { font-size: 44px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.br-ring .done-check { width: 40px; height: 40px; stroke: #ffffff; }
+.br-ring.is-running .outer, .br-ring.is-running .inner { animation: br-breathe 10s infinite; }
+.br-ring.is-paused .outer, .br-ring.is-paused .inner { animation-play-state: paused; }
+/* in: 0–40 % (4 s), out: 40–100 % (6 s) */
+@keyframes br-breathe {
+  0% { transform: scale(0.84); animation-timing-function: var(--br-ease); }
+  40% { transform: scale(1); animation-timing-function: var(--br-ease); }
+  100% { transform: scale(0.84); }
+}
+
+.br-time { width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.br-time .left { font-size: var(--text-body); font-weight: 600; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.br-time .bar { display: block; width: 100%; height: 6px; border-radius: var(--radius-chip); background: var(--disabled-bg); overflow: hidden; }
+.br-time .bar span { display: block; height: 100%; background: var(--support); border-radius: inherit; transition: width 200ms linear; }
+
+.br-toggle { width: 64px; height: 64px; border-radius: 50%; border: 0; display: grid; place-items: center; background: var(--support); color: #ffffff; box-shadow: 0 6px 18px rgb(15 118 110 / 0.28); cursor: pointer; transition: transform 120ms ease; }
+.br-toggle:active { transform: scale(0.96); }
+.br-toggle svg { width: 28px; height: 28px; fill: currentColor; }
+
+.br-vib { display: flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: var(--touch-min); font-size: var(--text-small); color: var(--text-secondary); }
+.br-vib input { appearance: none; width: 44px; height: 26px; border-radius: var(--radius-chip); background: var(--disabled-bg); position: relative; margin: 0; cursor: pointer; transition: background-color 150ms ease; }
+.br-vib input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 2px rgb(15 23 42 / 0.2); transition: transform 150ms var(--br-ease, ease); }
+.br-vib input:checked { background: var(--support); }
+.br-vib input:checked::after { transform: translateX(18px); }
+.br-vib input:focus-visible { outline: 2px solid var(--focus-outline); outline-offset: 2px; }
+
+/* Reduced motion: the ring does not grow; the outer halo brightens on the in-breath and dims on the out-breath. The inner
+   circle stays fully opaque: the white words sit on it and must keep their contrast. */
+@media (prefers-reduced-motion: reduce) {
+  .br-ring.is-running .outer { animation-name: br-glow; transform: none; }
+  .br-ring.is-running .inner { animation: none; transform: none; }
+  @keyframes br-glow {
+    0% { opacity: 0.6; }
+    40% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  .br-time .bar span, .br-toggle, .br-vib input, .br-vib input::after { transition: none; }
+}
