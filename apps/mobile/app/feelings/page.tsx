@@ -1,7 +1,7 @@
 "use client";
 
-// The Поддержка tab (Ali's mockup, 2026-10-12): the human path first as a card, then "Как ты сейчас?" with six
-// illustrated feelings, then the breathing card. Nothing on the tab waits for an answer: the hint says so, and
+// The Поддержка tab (Ali's mockup, 2026-10-12): the human path first as a card, then "Как ты сейчас?" with four
+// illustrated feelings (FEELING_TILES; six until 2026-10-14), then the breathing card. Nothing on the tab waits for an answer: the hint says so, and
 // "dont_know" / "prefer_not" stay in the guidance list for the bot without a button here. Never diagnoses: the
 // answer only picks which support to offer.
 // A tap answers (Ali, 2026-10-14, after a safety / coping / honesty review): a reply card under the grid with one
@@ -16,12 +16,11 @@ import {
   ABOUT,
   ADULT_MESSAGE,
   BREATHE_FOR,
-  composePlan,
   FEELING_LABEL,
   FEELING_REPLY,
+  FEELING_TILES,
   FEELING_URGENT,
   FEELINGS_QUESTION,
-  ITEMS,
   NOT_YOUR_FAULT,
   SHAME_SILENT,
   SIGN_CATEGORIES,
@@ -40,8 +39,6 @@ import { minutesThisWeek, picksByDay, type Pick } from "../../lib/wellbeing";
 import { formatDay } from "../incident/format";
 import "./feelings.css";
 
-const SHOWN: readonly Feeling[] = ["scared", "anxious", "angry", "sad", "ashamed", "overwhelmed"];
-
 // The breathing card, with this week's finished minutes when there are any: a count, no goal, no streak (2026-10-14).
 function BreatheCard({ minutes }: { minutes: number }) {
   const t = useTranslations("feelings");
@@ -58,12 +55,6 @@ function BreatheCard({ minutes }: { minutes: number }) {
       <Icon name="chevron-right" className="i chev" />
     </Link>
   );
-}
-
-// The first step of the case's plan not yet ticked, from «Сейчас» on; undefined when every step is done.
-function nextStep(incident: Incident) {
-  const plan = composePlan(ITEMS, incident.profile);
-  return [...plan.now, ...plan.later].find((s) => !incident.steps[s.id]?.done);
 }
 
 // «Твои отметки»: Monday-first day cards, each with the picture of the last feeling picked that day. No colour per feeling,
@@ -118,26 +109,8 @@ function Reply({ feeling, incident, locale, minutes }: { feeling: Feeling; incid
   let extra: ReactNode = null;
   let action: ReactNode;
   if (BREATHE_FOR.has(feeling)) {
-    line = pick(feeling === "scared" ? FEELING_REPLY.scared : FEELING_REPLY.overwhelmed, locale);
+    line = pick(FEELING_REPLY.scared, locale);
     action = <BreatheCard minutes={minutes} />;
-  } else if (feeling === "anxious") {
-    const next = incident ? nextStep(incident) : undefined;
-    if (!incident) {
-      line = pick(FEELING_REPLY.anxious.noCase, locale);
-      action = <Link className="btn btn-secondary" href="/">{ti("empty.cta")}</Link>;
-    } else if (next) {
-      line = pick(FEELING_REPLY.anxious.step, locale);
-      extra = (
-        <div className="step-next">
-          <b>{pick(next.title, locale)}</b>
-          {next.why && <span>{pick(next.why, locale)}</span>}
-        </div>
-      );
-      action = <Link className="btn btn-primary" href="/plan">{ti("continue")}</Link>;
-    } else {
-      line = pick(FEELING_REPLY.anxious.allDone, locale);
-      action = <BreatheCard minutes={minutes} />;
-    }
   } else if (feeling === "sad") {
     line = pick(FEELING_REPLY.sad, locale);
     action = <MessageButton text={pick(ADULT_MESSAGE[category], locale)} variant="support" />;
@@ -190,7 +163,7 @@ export default function FeelingsPage() {
   const selected = picked ?? incident?.profile.feeling ?? null;
   const replyRef = useRef<HTMLElement>(null);
 
-  // The reply sits under three rows of tiles, often below the fold: bring it into view so the tap visibly answers.
+  // The reply sits under the tiles, below the fold on a short phone: bring it into view so the tap visibly answers.
   useEffect(() => {
     if (!picked) return;
     const id = setTimeout(() => replyRef.current?.scrollIntoView({ block: "nearest" }), 0);
@@ -209,7 +182,7 @@ export default function FeelingsPage() {
       return;
     }
   };
-  const breathingInReply = picked !== null && (BREATHE_FOR.has(picked) || (picked === "anxious" && !!incident && !nextStep(incident)));
+  const breathingInReply = picked !== null && BREATHE_FOR.has(picked);
 
   return (
     <>
@@ -234,7 +207,7 @@ export default function FeelingsPage() {
         </div>
 
         <div className="moods" role="group" aria-label={pick(FEELINGS_QUESTION, locale)}>
-          {SHOWN.map((f) => (
+          {FEELING_TILES.map((f) => (
             <button key={f} className="mood" aria-pressed={selected === f} onClick={() => choose(f)}>
               <img src={`/feelings/${f}.webp`} width={640} height={470} alt="" />
               <span>{pick(FEELING_LABEL[f], locale)}</span>

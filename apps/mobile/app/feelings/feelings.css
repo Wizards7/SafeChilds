@@ -1,4 +1,4 @@
-/* Поддержка tab: page title, the human path as a teal card, six illustrated feeling tiles, the breathing card. */
+/* Поддержка tab: page title, the human path as a teal card, four illustrated feeling tiles, the breathing card. */
 .feelings .hint {
   margin-top: var(--space-1);
 }
@@ -145,8 +145,8 @@
 .reply { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-card); background: var(--surface); border: 1px solid rgb(15 118 110 / 0.18); box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 6px 18px rgb(15 23 42 / 0.06); scroll-margin-bottom: calc(96px + env(safe-area-inset-bottom)); }
 .reply.empty { display: none; }
 .reply .line { margin: 0; font-size: var(--text-body); line-height: 1.45; color: var(--text); }
-.reply .step-next, .reply .quote { display: flex; flex-direction: column; gap: 2px; padding: var(--space-3); border-radius: var(--radius-control); background: var(--neutral-bg); font-size: var(--text-small); color: var(--text-secondary); }
-.reply .step-next b, .reply .quote b { color: var(--text); font-size: var(--text-body); }
+.reply .quote { display: flex; flex-direction: column; gap: 2px; padding: var(--space-3); border-radius: var(--radius-control); background: var(--neutral-bg); font-size: var(--text-small); color: var(--text-secondary); }
+.reply .quote b { color: var(--text); font-size: var(--text-body); }
 .reply .btn { min-height: 48px; text-align: center; }
 .urgent-row { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); color: var(--text-secondary); font-size: var(--text-small); text-decoration: none; }
 .urgent-row span { flex: 1; }

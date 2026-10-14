@@ -48,8 +48,13 @@ export const FEELING_LABEL: Record<Feeling, Text> = {
   prefer_not: { ru: "Не хочу отвечать", tg: "Ҷавоб додан намехоҳам", verify: true },
 };
 
-// Feelings whose reply on the Поддержка tab is the one-minute breathing (2026-10-14: anxious now gets one plan step).
-export const BREATHE_FOR: ReadonlySet<Feeling> = new Set(["scared", "overwhelmed"]);
+// The feeling tiles on the Поддержка tab, in grid order (Ali, 2026-10-14: four, not six). «Тревожно» only pointed at the
+// plan, which is one tap away anyway, and «Всё навалилось» repeated «Страшно»'s breathing, so both left the grid; each tile
+// left has its own action. They stay in FEELINGS so marks picked earlier still render in «Твои отметки».
+export const FEELING_TILES: readonly Feeling[] = ["scared", "ashamed", "sad", "angry"];
+
+// Feelings whose reply on the Поддержка tab is the one-minute breathing.
+export const BREATHE_FOR: ReadonlySet<Feeling> = new Set(["scared"]);
 
 // The reply under the feelings grid on the Поддержка tab (Ali, 2026-10-14, after a safety / coping / honesty review):
 // one reviewed line per feeling, never generated, and the app picks one action for it (apps/mobile/app/feelings).
@@ -57,13 +62,7 @@ export const BREATHE_FOR: ReadonlySet<Feeling> = new Set(["scared", "overwhelmed
 // tg: AI-written, verify. Wording about danger and feeling very bad: VERIFY with a child-protection professional.
 export const FEELING_REPLY = {
   scared: { ru: "Страшно — это понятно. Давай сначала выдохнем.", tg: "Тарсидан фаҳмост. Биё аввал нафас ором кашем.", verify: true },
-  overwhelmed: { ru: "Когда всего слишком много, не нужно решать всё сразу. Начни с одной минуты.", tg: "Вақте ки ҳама чиз аз ҳад зиёд аст, ҳамаашро якбора ҳал кардан лозим нест. Аз як дақиқа оғоз кун.", verify: true },
   sad: { ru: "Грусть не нужно прятать. Вот готовые слова — их можно отправить взрослому, которому доверяешь.", tg: "Ғамро пинҳон кардан лозим нест. Ана суханони тайёр — онҳоро ба калонсоле, ки ба ӯ бовар дорӣ, фиристодан мумкин аст.", verify: true },
-  anxious: {
-    step: { ru: "Тревожно, когда не знаешь, что будет дальше. Не нужно всё сразу — вот один шаг.", tg: "Вақте намедонӣ, ки баъд чӣ мешавад, ташвиш меоварад. Ҳамаашро якбора кардан лозим нест — ана як қадам.", verify: true },
-    noCase: { ru: "Тревожно, когда не знаешь, что будет дальше. Можно разобраться по шагам.", tg: "Вақте намедонӣ, ки баъд чӣ мешавад, ташвиш меоварад. Метавон қадам ба қадам фаҳмид.", verify: true },
-    allDone: { ru: "Все шаги плана уже отмечены. Можно просто выдохнуть.", tg: "Ҳамаи қадамҳои нақша аллакай қайд шудаанд. Метавонӣ танҳо нафас ором кашӣ.", verify: true },
-  },
   angry: {
     withCase: { ru: "Злиться — нормально. Только не отвечай и не мсти — лучше сохрани доказательства.", tg: "Хашмгин шудан муқаррарист. Танҳо ҷавоб надеҳ ва интиқом нагир — беҳтараш далелҳоро нигоҳ дор.", verify: true },
     noCase: { ru: "Злиться — нормально. Только не отвечай и не мсти.", tg: "Хашмгин шудан муқаррарист. Танҳо ҷавоб надеҳ ва интиқом нагир.", verify: true },
