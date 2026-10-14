@@ -1,7 +1,7 @@
 # Проверка таджикского текста
 
 **Для кого:** носитель таджикского языка из команды. **Срок:** до вечера 12 октября, чтобы 13 октября всё было в приложении.
-**Что это:** все строки, которые написал ИИ без носителя. Русский — источник смысла, таджикский — черновик. Всего строк: **746**.
+**Что это:** все строки, которые написал ИИ без носителя. Русский — источник смысла, таджикский — черновик. Всего строк: **752**.
 
 ## Как проверять
 
@@ -23,7 +23,7 @@
 | `packages/analysis` | результаты проверки изображения и ссылки, «где смотреть», шесть признаков | 65 |
 | `packages/directory` | демо-карточки специалистов и службы помощи | 16 |
 | `apps/bot` | тексты Telegram-бота | 34 |
-| `apps/mobile/messages` | интерфейс приложения: кнопки, заголовки, подсказки, экран приватности | 311 |
+| `apps/mobile/messages` | интерфейс приложения: кнопки, заголовки, подсказки, экран приватности | 317 |
 
 Как вернуть: CSV обратно Али. Он вносит правки в код; `verify: true` снимается только с проверенных строк.
 Обновить этот файл после правок: `pnpm --filter @safechilds/backend exec tsx ../../scripts/tajik-review.ts`.
@@ -506,275 +506,281 @@
 | 472 | apps/mobile/messages | `home.desc.cyberbullying` | Оскорбляют или унижают в интернете | Дар интернет таҳқир ё паст мезананд |
 | 473 | apps/mobile/messages | `home.privacy` | Конфиденциальность | Махфият |
 | 474 | apps/mobile/messages | `situation.unsure` | Не уверен(а), что из этого | Боварӣ надорам, кадомаш |
-| 475 | apps/mobile/messages | `urgent.adult.title` | Расскажи взрослому прямо сейчас | Ҳозир ба калонсол бигӯ |
-| 476 | apps/mobile/messages | `urgent.adult.body` | Не обязательно родителям. Учитель, старший брат или сестра, тётя — кто-то, кому ты доверяешь. | Ҳатман ба волидайн не. Муаллим, бародар ё хоҳари калонӣ, хола — касе, ки ба ӯ бовар дорӣ. |
-| 477 | apps/mobile/messages | `urgent.call` | Позвонить | Занг задан |
-| 478 | apps/mobile/messages | `urgent.numbers.pendingTitle` | Уточняем местные номера | Рақамҳои маҳаллиро аниқ мекунем |
-| 479 | apps/mobile/messages | `urgent.numbers.pendingBody` | Пока их нет здесь — расскажи взрослому. Это самый быстрый шаг. | То он ҷо нестанд — ба калонсол бигӯ. Ин қадами зудтарин аст. |
-| 480 | apps/mobile/messages | `urgent.people.sub` | Список специалистов — пока примеры | Рӯйхати мутахассисон — ҳоло намунаҳо |
-| 481 | apps/mobile/messages | `urgent.continue` | Я в безопасности, продолжить | Ман дар амонам, давом медиҳам |
-| 482 | apps/mobile/messages | `stop.plan` | Что делать дальше | Чӣ кор кунам |
-| 483 | apps/mobile/messages | `stop.calm` | Мне тяжело — помоги успокоиться | Ба ман вазнин аст — ором шудан кӯмак кун |
-| 484 | apps/mobile/messages | `plan.title` | Что делать | Чӣ кор кунам |
-| 485 | apps/mobile/messages | `plan.safe` | ты в безопасности | ту дар амонӣ |
-| 486 | apps/mobile/messages | `plan.later` | Потом · ещё {n} | Баъд · боз {n} |
-| 487 | apps/mobile/messages | `plan.how` | Как: | Чӣ тавр: |
-| 488 | apps/mobile/messages | `plan.why` | Почему: | Чаро: |
-| 489 | apps/mobile/messages | `plan.learnMore` | Узнать больше: как это выглядит | Бештар донистан: ин чӣ гуна менамояд |
-| 490 | apps/mobile/messages | `plan.people.sub` | Когда будешь готов(а) | Вақте ки омода бошӣ |
-| 491 | apps/mobile/messages | `incident.started` | Начато {date} | Оғоз {date} |
-| 492 | apps/mobile/messages | `incident.startedToday` | Начато сегодня, {date} | Имрӯз оғоз шуд, {date} |
-| 493 | apps/mobile/messages | `incident.startedYesterday` | Начато вчера, {date} | Дирӯз оғоз шуд, {date} |
-| 494 | apps/mobile/messages | `incident.steps` | {done} из {total} шагов выполнено | {done} аз {total} қадам иҷро шуд |
-| 495 | apps/mobile/messages | `incident.continue` | Продолжить план | Нақшаро давом додан |
-| 496 | apps/mobile/messages | `incident.evidence.title` | Доказательства | Далелҳо |
-| 497 | apps/mobile/messages | `incident.evidence.hint` | Всё, что ты сохранил(а) по этому случаю. | Ҳар чизе, ки дар бораи ин ҳолат нигоҳ доштӣ. |
-| 498 | apps/mobile/messages | `incident.evidence.placeholder` | https://... | https://... |
-| 499 | apps/mobile/messages | `incident.evidence.copy` | Копировать | Нусха кардан |
-| 500 | apps/mobile/messages | `incident.evidence.share` | Отправить | Фиристодан |
-| 501 | apps/mobile/messages | `incident.evidence.shareFailed` | Не удалось отправить | Фиристода нашуд |
-| 502 | apps/mobile/messages | `incident.evidence.remove` | Удалить | Нест кардан |
-| 503 | apps/mobile/messages | `incident.evidence.keep` | Оставить | Нигоҳ доштан |
-| 504 | apps/mobile/messages | `incident.evidence.removeShotAsk` | Удалить скриншот? | Скриншотро нест кунам? |
-| 505 | apps/mobile/messages | `incident.evidence.open` | Открыть скриншот | Скриншотро кушодан |
-| 506 | apps/mobile/messages | `incident.evidence.close` | Закрыть | Пӯшидан |
-| 507 | apps/mobile/messages | `incident.evidence.add` | Сохранить | Нигоҳ доштан |
-| 508 | apps/mobile/messages | `incident.evidence.linkError` | Ссылка должна начинаться с https:// | Пайванд бояд бо https:// оғоз шавад |
-| 509 | apps/mobile/messages | `incident.evidence.empty` | Пока ничего не сохранено. Ссылки, скриншоты и результаты проверок появятся здесь. | Ҳоло чизе нигоҳ дошта нашудааст. Пайвандҳо, скриншотҳо ва натиҷаҳои санҷиш ин ҷо пайдо мешаванд. |
-| 510 | apps/mobile/messages | `incident.evidence.addButton` | Добавить | Илова кардан |
-| 511 | apps/mobile/messages | `incident.evidence.removeItemAsk` | Удалить это из доказательств? | Инро аз далелҳо нест кунам? |
-| 512 | apps/mobile/messages | `incident.evidence.removeFailed` | Не получилось удалить. Попробуй ещё раз. | Нест кардан нашуд. Боз кӯшиш кун. |
-| 513 | apps/mobile/messages | `incident.privacy` | Этот случай и доказательства хранятся на этом устройстве. | Ин ҳолат ва далелҳо дар ҳамин дастгоҳ нигоҳ дошта мешаванд. |
-| 514 | apps/mobile/messages | `incident.empty.title` | Пока пусто | Ҳоло холӣ |
-| 515 | apps/mobile/messages | `incident.empty.body` | Здесь будет твой случай: что произошло, что сохранено, какие шаги сделаны. Всё остаётся на этом телефоне. | Ин ҷо ҳолати ту хоҳад буд: чӣ рӯй дод, чӣ нигоҳ дошта шуд, кадом қадамҳо иҷро шуданд. Ҳама чиз дар ҳамин телефон мемонад. |
-| 516 | apps/mobile/messages | `incident.reset.button` | Удалить этот случай | Ин ҳолатро нест кардан |
-| 517 | apps/mobile/messages | `incident.reset.confirmTitle` | Удалить всё? | Ҳамаро нест кунам? |
-| 518 | apps/mobile/messages | `incident.reset.confirmBody` | Ссылки, скриншоты и шаги исчезнут с этого телефона. Насовсем. | Пайвандҳо, скриншотҳо ва қадамҳо аз ин телефон нест мешаванд. Якумрӣ. |
-| 519 | apps/mobile/messages | `incident.day.today` | Сегодня | Имрӯз |
-| 520 | apps/mobile/messages | `incident.day.yesterday` | Вчера | Дирӯз |
-| 521 | apps/mobile/messages | `incident.item.screenshot` | Скриншот | Скриншот |
-| 522 | apps/mobile/messages | `incident.item.link` | Ссылка | Пайванд |
-| 523 | apps/mobile/messages | `incident.item.imageCheck` | Проверка фото | Санҷиши акс |
-| 524 | apps/mobile/messages | `incident.item.linkCheck` | Проверка ссылки | Санҷиши пайванд |
-| 525 | apps/mobile/messages | `incident.item.note` | Заметка | Қайд |
-| 526 | apps/mobile/messages | `incident.item.stepDone` | Шаг выполнен | Қадам иҷро шуд |
-| 527 | apps/mobile/messages | `incident.item.taken` | Снято | Гирифта шуд |
-| 528 | apps/mobile/messages | `incident.item.added` | Добавлено | Илова шуд |
-| 529 | apps/mobile/messages | `incident.meta.saved` | Сохранено {date} в {time} | Нигоҳ дошта шуд {date}, соати {time} |
-| 530 | apps/mobile/messages | `incident.meta.taken` | Снято {date} в {time} | Гирифта шуд {date}, соати {time} |
-| 531 | apps/mobile/messages | `incident.meta.added` | Добавлено {date} в {time} | Илова шуд {date}, соати {time} |
-| 532 | apps/mobile/messages | `incident.strip.label` | Дни, когда ты что-то сохранил(а) или сделал(а) | Рӯзҳое, ки ту чизе нигоҳ доштӣ ё кардӣ |
-| 533 | apps/mobile/messages | `incident.strip.day` | {date}, {n, plural, one {# запись} few {# записи} many {# записей} other {# записи}} | {date}, {n} сабт |
-| 534 | apps/mobile/messages | `incident.sheet.add` | Добавить доказательство | Далел илова кардан |
-| 535 | apps/mobile/messages | `incident.sheet.linkSub` | Адрес поста, профиля или сообщения | Суроғаи пост, профил ё паём |
-| 536 | apps/mobile/messages | `incident.sheet.shotSub` | Снимок экрана из галереи | Акси экран аз галерея |
-| 537 | apps/mobile/messages | `incident.sheet.address` | Адрес | Суроға |
-| 538 | apps/mobile/messages | `breathe.title` | 60 секунд дыхания | 60 сонияи нафас |
-| 539 | apps/mobile/messages | `breathe.sub` | Следи за словами в круге: вдох и выдох. Закончить можно в любой момент. | Ба суханони давра нигоҳ кун: нафас гир ва нафас барор. Ҳар вақт тамом кардан мумкин. |
-| 540 | apps/mobile/messages | `breathe.ready` | Готов(а)? | Омодаӣ? |
-| 541 | apps/mobile/messages | `breathe.inhale` | Вдох | Нафас гир |
-| 542 | apps/mobile/messages | `breathe.exhale` | Выдох | Нафас барор |
-| 543 | apps/mobile/messages | `breathe.slow` | Медленно. Никуда не спешим. | Оҳиста. Ба ҳеҷ ҷо шитоб намекунем. |
-| 544 | apps/mobile/messages | `breathe.doneTitle` | Готов(а) к следующему шагу? | Ба қадами навбатӣ омодаӣ? |
-| 545 | apps/mobile/messages | `breathe.doneBody` | Это была пауза, не выход. План ждёт, когда ты решишь. | Ин танаффус буд, на баромад. Нақша интизор аст, вақте ки ту қарор мекунӣ. |
-| 546 | apps/mobile/messages | `breathe.doneBodyNoCase` | Это была пауза, не выход. Когда будешь готов(а), выбери, что дальше. | Ин танаффус буд, на баромад. Вақте тайёр шудӣ, интихоб кун, ки баъд чӣ. |
-| 547 | apps/mobile/messages | `breathe.again` | Ещё раз | Боз як бор |
-| 548 | apps/mobile/messages | `breathe.pause` | Пауза | Таваққуф |
-| 549 | apps/mobile/messages | `breathe.resume` | Продолжить | Давом додан |
-| 550 | apps/mobile/messages | `breathe.finish` | Закончить | Анҷом додан |
-| 551 | apps/mobile/messages | `breathe.vibration` | Вибрация | Ларзиш |
-| 552 | apps/mobile/messages | `breathe.timeLeft` | Осталось времени | Вақти боқимонда |
-| 553 | apps/mobile/messages | `analyze.title` | Проверка изображения | Санҷиши тасвир |
-| 554 | apps/mobile/messages | `analyze.fact` | факт | далел |
-| 555 | apps/mobile/messages | `analyze.maybe` | возможно | эҳтимол |
-| 556 | apps/mobile/messages | `analyze.fileType` | Только JPEG, PNG или WebP. | Танҳо JPEG, PNG ё WebP. |
-| 557 | apps/mobile/messages | `analyze.fileSize` | Файл должен быть не больше 8 МБ. | Файл набояд аз 8 МБ калон бошад. |
-| 558 | apps/mobile/messages | `analyze.rules.title` | Проверим изображение | Тасвирро месанҷем |
-| 559 | apps/mobile/messages | `analyze.rules.noIntimate` | Не загружай интимные фото — свои или чужие. | Аксҳои маҳрамонаро бор накун — на худат, на дигарон. |
-| 560 | apps/mobile/messages | `analyze.rules.deleted` | Файл удаляется сразу после проверки. Мы его не храним. | Файл фавран пас аз санҷиш нест карда мешавад. Мо онро нигоҳ намедорем. |
-| 561 | apps/mobile/messages | `analyze.rules.notVerdict` | Проверка не даёт ответа «настоящее» или «фейк». Она показывает, где смотреть. | Санҷиш ҷавоби «аслӣ» ё «қалбакӣ» намедиҳад. Нишон медиҳад, ки куҷо нигоҳ кунӣ. |
-| 562 | apps/mobile/messages | `analyze.rules.planWorks` | План действий доступен и без проверки. | Нақшаи амал бе санҷиш ҳам дастрас аст. |
-| 563 | apps/mobile/messages | `analyze.rules.choose` | Выбрать изображение | Тасвирро интихоб кун |
-| 564 | apps/mobile/messages | `analyze.rules.skip` | Пропустить проверку | Санҷишро гузаронидан |
-| 565 | apps/mobile/messages | `analyze.q.progress` | Вопрос {n} из 2 | Саволи {n} аз 2 |
-| 566 | apps/mobile/messages | `analyze.q1.title` | Это фото тебя? | Ин акси ту аст? |
-| 567 | apps/mobile/messages | `analyze.q1.me` | Да, это я | Ҳа, ин ман |
-| 568 | apps/mobile/messages | `analyze.q1.known` | Кто-то, кого я знаю | Касе, ки мешиносам |
-| 569 | apps/mobile/messages | `analyze.q2.title` | Есть у тебя оригинал этого фото? | Аслии ин акс дар ту ҳаст? |
-| 570 | apps/mobile/messages | `analyze.q2.sub` | Если да — сравним их прямо на телефоне. Это самая надёжная проверка. | Агар ҳа — онҳоро дар телефон муқоиса мекунем. Ин боэътимодтарин санҷиш аст. |
-| 571 | apps/mobile/messages | `analyze.q2.yes` | Да, на этом телефоне | Ҳа, дар ҳамин телефон |
-| 572 | apps/mobile/messages | `analyze.checks.title` | Проверяем | Месанҷем |
-| 573 | apps/mobile/messages | `analyze.checks.model` | Ищем признаки на изображении… | Дар тасвир нишонаҳоро меҷӯем… |
-| 574 | apps/mobile/messages | `analyze.checks.sent` | Изображение отправлено на проверку и будет удалено сразу после ответа. | Тасвир барои санҷиш фиристода шуд ва пас аз ҷавоб фавран нест мешавад. |
-| 575 | apps/mobile/messages | `analyze.checks.dontWait` | Не ждать, перейти к плану | Интизор нашуда, ба нақша гузаштан |
-| 576 | apps/mobile/messages | `analyze.result.where` | Где смотреть | Куҷо нигоҳ кардан |
-| 577 | apps/mobile/messages | `analyze.result.selfCheck` | Проверь сам(а) | Худат санҷ |
-| 578 | apps/mobile/messages | `analyze.result.save` | Сохранить в доказательства | Дар далелҳо нигоҳ дор |
-| 579 | apps/mobile/messages | `analyze.result.plan` | Перейти к плану | Ба нақша гузаштан |
-| 580 | apps/mobile/messages | `analyze.result.planMisuse` | План: фото без разрешения | Нақша: акс бе иҷозат |
-| 581 | apps/mobile/messages | `analyze.result.askPerson` | Спросить человека | Аз одам пурсидан |
-| 582 | apps/mobile/messages | `analyze.result.retry` | Попробовать ещё раз | Боз кӯшиш кардан |
-| 583 | apps/mobile/messages | `analyze.result.offline` | Сервис не ответил — показываем то, что проверили на телефоне. | Хидмат ҷавоб надод — он чи дар телефон санҷида шуд, нишон медиҳем. |
-| 584 | apps/mobile/messages | `analyze.result.deleted` | Изображение удалено с сервера. Оно есть только у тебя. | Тасвир аз сервер нест карда шуд. Он танҳо дар ту ҳаст. |
-| 585 | apps/mobile/messages | `analyze.result.withPhoto` | Сохранить вместе с фото. Оно останется только на этом телефоне. | Бо акс нигоҳ дор. Он танҳо дар ҳамин телефон мемонад. |
-| 586 | apps/mobile/messages | `error.title` | Что-то сломалось | Чизе вайрон шуд |
-| 587 | apps/mobile/messages | `error.body` | Это не твоя ошибка. Попробуй ещё раз или вернись на главную. | Ин хатои ту нест. Боз кӯшиш кун ё ба саҳифаи асосӣ баргард. |
-| 588 | apps/mobile/messages | `error.home` | На главную | Ба асосӣ |
-| 589 | apps/mobile/messages | `link.headline` | Вставь ссылку | Пайвандро гузор |
-| 590 | apps/mobile/messages | `link.urlError` | Ссылка должна начинаться с https:// или http:// | Пайванд бояд бо https:// ё http:// оғоз шавад |
-| 591 | apps/mobile/messages | `link.note` | Ссылка уходит на проверку. Мы откроем её сами, на нашей стороне. Тебе открывать не нужно. Ссылка не сохраняется. | Пайванд барои санҷиш меравад. Мо онро худамон, дар тарафи худ мекушоем. Ба ту кушодан лозим нест. Пайванд нигоҳ дошта намешавад. |
-| 592 | apps/mobile/messages | `link.check` | Проверить | Санҷидан |
-| 593 | apps/mobile/messages | `link.checkingNote` | Смотрим, куда ведёт ссылка на самом деле, и есть ли она в списках опасных. | Мебинем, пайванд дар асл ба куҷо мебарад ва оё дар рӯйхати хатарнок ҳаст. |
-| 594 | apps/mobile/messages | `link.finalUrl` | Настоящий адрес после переходов | Суроғаи воқеӣ пас аз гузаришҳо |
-| 595 | apps/mobile/messages | `link.f.blocklist` | В списке опасных сайтов | Дар рӯйхати сомонаҳои хатарнок |
-| 596 | apps/mobile/messages | `link.f.blocklistHow` | Это список сайтов, которые крадут данные или деньги. | Ин рӯйхати сомонаҳоест, ки маълумот ё пулро медузданд. |
-| 597 | apps/mobile/messages | `link.f.lookalike` | Похоже на {real}, но это не он | Ба {real} монанд аст, аммо ин он нест |
-| 598 | apps/mobile/messages | `link.f.young` | Домен зарегистрирован {days} дн. назад | Домен {days} рӯз пеш сабт шудааст |
-| 599 | apps/mobile/messages | `link.f.youngHow` | Банки и магазины существуют годами. Новый адрес — частый признак обмана. | Бонкҳо ва мағозаҳо солҳо вуҷуд доранд. Суроғаи нав — нишонаи зуд-зуди фиреб. |
-| 600 | apps/mobile/messages | `link.f.shortener` | Короткая ссылка скрывает адрес | Пайванди кӯтоҳ суроғаро пинҳон мекунад |
-| 601 | apps/mobile/messages | `link.f.shortenerHow` | На самом деле ведёт на {host}. | Дар асл ба {host} мебарад. |
-| 602 | apps/mobile/messages | `link.f.code` | Просит код или оплату | Рамз ё пардохт мепурсад |
-| 603 | apps/mobile/messages | `link.f.codeHow` | Код из СМС не вводят нигде, кроме приложения банка. | Рамзи СМС-ро ҷуз дар барномаи бонк дар ҳеҷ ҷо ворид намекунанд. |
-| 604 | apps/mobile/messages | `link.nextTitle` | Что дальше | Чӣ кор кунам |
-| 605 | apps/mobile/messages | `link.next.noCodes` | Не вводи коды и данные карты, даже если уже открывал(а). | Рамз ва маълумоти кортро ворид накун, ҳатто агар кушода бошӣ. |
-| 606 | apps/mobile/messages | `link.next.ifEntered` | Если уже ввёл(а) — позвони в банк прямо сейчас. | Агар аллакай ворид карда бошӣ — ҳозир ба бонк занг зан. |
-| 607 | apps/mobile/messages | `link.next.report` | Пожалуйся на отправителя и заблокируй. | Аз фиристанда шикоят кун ва баста кун. |
-| 608 | apps/mobile/messages | `link.next.playStore` | Приложения ставят только из Play Store, не из чата. | Барномаҳоро танҳо аз Play Store мегузоранд, на аз чат. |
-| 609 | apps/mobile/messages | `link.next.words` | «Выигрыш», «срочно», «только сегодня» — признаки обмана. | «Бурд», «таъҷилӣ», «танҳо имрӯз» — нишонаҳои фиреб. |
-| 610 | apps/mobile/messages | `people.title` | Люди | Одамон |
-| 611 | apps/mobile/messages | `people.offline` | Нет сети. Показываем, что успели сохранить. | Шабака нест. Он чи нигоҳ дошта шуд, нишон медиҳем. |
-| 612 | apps/mobile/messages | `people.urgent.title` | Срочная помощь | Кӯмаки таъҷилӣ |
-| 613 | apps/mobile/messages | `people.urgent.pending` | Номера появятся здесь после проверки командой. Пока — расскажи взрослому. | Рақамҳо пас аз санҷиши даста ин ҷо пайдо мешаванд. То он гоҳ — ба калонсол бигӯ. |
-| 614 | apps/mobile/messages | `people.review.title` | Спросить человека об изображении | Дар бораи тасвир аз одам пурсидан |
-| 615 | apps/mobile/messages | `people.review.body` | Мы не отправляем фото никому. Выбери специалиста, напиши или позвони сам(а) — и покажи изображение уже ему, один раз. | Мо аксро ба касе намефиристем. Мутахассисро интихоб кун, худат нависед ё занг зан — ва тасвирро ба ӯ як бор нишон деҳ. |
-| 616 | apps/mobile/messages | `people.demo.title` | Демо-данные | Маълумоти демо |
-| 617 | apps/mobile/messages | `people.demo.body` | Это вымышленные карточки для показа. Настоящие специалисты появятся после проверки человеком. | Ин кортҳои тахайюлӣ барои намоиш аст. Мутахассисони воқеӣ пас аз санҷиши одам пайдо мешаванд. |
-| 618 | apps/mobile/messages | `people.filters.lang` | Язык | Забон |
-| 619 | apps/mobile/messages | `people.filters.format` | Формат | Формат |
-| 620 | apps/mobile/messages | `people.meta.online` | онлайн | онлайн |
-| 621 | apps/mobile/messages | `people.meta.in_person` | лично | шахсан |
-| 622 | apps/mobile/messages | `people.meta.both` | онлайн и лично | онлайн ва шахсан |
-| 623 | apps/mobile/messages | `people.meta.teens` | с подростками | бо наврасон |
-| 624 | apps/mobile/messages | `people.meta.country` | вся страна | тамоми кишвар |
-| 625 | apps/mobile/messages | `people.status.demo` | демо | демо |
-| 626 | apps/mobile/messages | `people.status.unverified` | не проверено | санҷида нашуд |
-| 627 | apps/mobile/messages | `people.status.verified` | проверено | санҷида шуд |
-| 628 | apps/mobile/messages | `people.hours` | Часы | Соатҳо |
-| 629 | apps/mobile/messages | `people.day.mon` | пн | дш |
-| 630 | apps/mobile/messages | `people.day.tue` | вт | сш |
-| 631 | apps/mobile/messages | `people.day.wed` | ср | чш |
-| 632 | apps/mobile/messages | `people.day.thu` | чт | пш |
-| 633 | apps/mobile/messages | `people.day.fri` | пт | ҷм |
-| 634 | apps/mobile/messages | `people.day.sat` | сб | шб |
-| 635 | apps/mobile/messages | `people.day.sun` | вс | яш |
-| 636 | apps/mobile/messages | `people.selfContact` | Свяжусь сам(а) | Худам тамос мегирам |
-| 637 | apps/mobile/messages | `people.hideContact` | Скрыть | Пинҳон кардан |
-| 638 | apps/mobile/messages | `people.requestContact` | Пусть свяжутся | Бигзор тамос гиранд |
-| 639 | apps/mobile/messages | `people.report.link` | Сообщить об ошибке в карточке | Дар бораи хато дар корт хабар додан |
-| 640 | apps/mobile/messages | `people.report.label` | Что не так? | Чӣ нодуруст аст? |
-| 641 | apps/mobile/messages | `people.report.tooShort` | Напиши хотя бы пару слов. | Ақаллан ду-се калима нависед. |
-| 642 | apps/mobile/messages | `people.report.cancel` | Отмена | Бекор |
-| 643 | apps/mobile/messages | `people.report.thanks` | Спасибо, проверим. | Ташаккур, месанҷем. |
-| 644 | apps/mobile/messages | `people.report.failed` | Не отправилось. Попробуй позже. | Фиристода нашуд. Дертар кӯшиш кун. |
-| 645 | apps/mobile/messages | `people.empty.title` | Никого не нашли по этим фильтрам | Бо ин филтрҳо касе ёфт нашуд |
-| 646 | apps/mobile/messages | `people.empty.body` | Попробуй убрать язык или формат. | Кӯшиш кун забон ё форматро хориҷ кунӣ. |
-| 647 | apps/mobile/messages | `people.empty.reset` | Сбросить фильтры | Филтрҳоро бекор кардан |
-| 648 | apps/mobile/messages | `request.title` | Пусть со мной свяжутся | Бигзор бо ман тамос гиранд |
-| 649 | apps/mobile/messages | `request.proto.title` | Прототип | Прототип |
-| 650 | apps/mobile/messages | `request.proto.body` | В демо запрос никуда не отправляется и не сохраняется. Так будет выглядеть форма, когда появятся настоящие специалисты. | Дар демо дархост ба ҳеҷ ҷо фиристода ва нигоҳ дошта намешавад. Вақте мутахассисони воқеӣ пайдо шаванд, шакл ҳамин тавр хоҳад буд. |
-| 651 | apps/mobile/messages | `request.intro` | Специалист ({who}) получит только это. Твой случай остаётся на телефоне. | Мутахассис ({who}) танҳо инро мегирад. Ҳолати ту дар телефон мемонад. |
-| 652 | apps/mobile/messages | `request.name` | Как к тебе обращаться | Туро чӣ ном гирем |
-| 653 | apps/mobile/messages | `request.nameHint` | имя или ник | ном ё ник |
-| 654 | apps/mobile/messages | `request.contact` | Как с тобой связаться | Чӣ тавр бо ту тамос гирем |
-| 655 | apps/mobile/messages | `request.kind.phone` | Телефон | Телефон |
-| 656 | apps/mobile/messages | `request.ageLabel` | Возраст | Синну сол |
-| 657 | apps/mobile/messages | `request.age.under_18` | Младше 18 | Аз 18 хурдтар |
-| 658 | apps/mobile/messages | `request.age.18_24` | 18–24 | 18–24 |
-| 659 | apps/mobile/messages | `request.format.online` | Онлайн (Telegram, видео) | Онлайн (Telegram, видео) |
-| 660 | apps/mobile/messages | `request.format.in_person` | Лично | Шахсан |
-| 661 | apps/mobile/messages | `request.when` | Когда удобно | Кай қулай аст |
-| 662 | apps/mobile/messages | `request.optional` | необязательно | ҳатмӣ нест |
-| 663 | apps/mobile/messages | `request.proxy` | Кто может ответить вместо тебя | Кӣ ба ҷои ту ҷавоб дода метавонад |
-| 664 | apps/mobile/messages | `request.proxyHint` | взрослый, которому доверяешь — необязательно | калонсоле, ки бовар дорӣ — ҳатмӣ нест |
-| 665 | apps/mobile/messages | `request.consent` | Я согласен(на), что эти данные получит выбранный специалист. Они удаляются, когда он подтвердит получение, или через 7 дней. | Розӣ ҳастам, ки ин маълумотро мутахассиси интихобшуда мегирад. Пас аз тасдиқи гирифтан ё баъди 7 рӯз нест карда мешавад. |
-| 666 | apps/mobile/messages | `request.submit` | Отправить запрос | Дархостро фиристодан |
-| 667 | apps/mobile/messages | `request.self` | Лучше свяжусь сам(а) | Беҳтараш худам тамос мегирам |
-| 668 | apps/mobile/messages | `request.err.summary` | Проверь поля ниже | Майдонҳои поёнро санҷ |
-| 669 | apps/mobile/messages | `request.err.name` | Напиши имя или ник. | Ном ё ник нависед. |
-| 670 | apps/mobile/messages | `request.err.phone` | Номер должен начинаться с +992 и содержать 9 цифр. | Рақам бояд бо +992 оғоз шавад ва 9 рақам дошта бошад. |
-| 671 | apps/mobile/messages | `request.err.telegram` | Укажи @username — буквы, цифры, от 5 символов. | @username-ро нависед — ҳарфҳо, рақамҳо, аз 5 аломат. |
-| 672 | apps/mobile/messages | `request.err.consent` | Нужно согласие, чтобы отправить. Без него мы ничего не передаём. | Барои фиристодан розигӣ лозим аст. Бе он мо ҳеҷ чиз намедиҳем. |
-| 673 | apps/mobile/messages | `request.sent.title` | Запрос готов | Дархост тайёр |
-| 674 | apps/mobile/messages | `request.sent.body` | Прототип: ничего не отправлено. Вот что получил(а) бы специалист. | Прототип: ҳеҷ чиз фиристода нашуд. Ана мутахассис чиро мегирифт. |
-| 675 | apps/mobile/messages | `request.sent.name` | Обращаться: | Ном: |
-| 676 | apps/mobile/messages | `request.sent.contact` | Связь: | Тамос: |
-| 677 | apps/mobile/messages | `request.sent.lang` | Язык: | Забон: |
-| 678 | apps/mobile/messages | `request.sent.age` | Возраст: | Синну сол: |
-| 679 | apps/mobile/messages | `request.sent.format` | Формат: | Формат: |
-| 680 | apps/mobile/messages | `request.sent.when` | Когда: | Кай: |
-| 681 | apps/mobile/messages | `request.sent.proxy` | Вместо тебя: | Ба ҷои ту: |
-| 682 | apps/mobile/messages | `request.sent.expires` | Удаляется: | Нест мешавад: |
-| 683 | apps/mobile/messages | `request.sent.expiresValue` | после подтверждения или через 7 дней | пас аз тасдиқ ё баъди 7 рӯз |
-| 684 | apps/mobile/messages | `request.sent.noPromise` | Мы не говорим «запись назначена», пока специалист не подтвердил. | То мутахассис тасдиқ накунад, мо «вақт таъин шуд» намегӯем. |
-| 685 | apps/mobile/messages | `request.sent.back` | Вернуться к моему случаю | Ба ҳолати ман баргаштан |
-| 686 | apps/mobile/messages | `request.sent.self` | Свяжусь сам(а) — показать контакт | Худам тамос мегирам — тамосро нишон деҳ |
-| 687 | apps/mobile/messages | `feelings.backToPlan` | Вернуться к плану | Ба нақша баргаштан |
-| 688 | apps/mobile/messages | `feelings.hint` | Выбери, что чувствуешь. Можно не отвечать. | Он чиро, ки ҳис мекунӣ, интихоб кун. Ҷавоб надодан мумкин аст. |
-| 689 | apps/mobile/messages | `feelings.breatheTitle` | Минутка, чтобы выдохнуть | Як дақиқа барои нафас кашидан |
-| 690 | apps/mobile/messages | `feelings.breatheSub` | Дыхательное упражнение · 60 секунд | Машқи нафаскашӣ · 60 сония |
-| 691 | apps/mobile/messages | `feelings.marks.title` | Твои отметки | Қайдҳои ту |
-| 692 | apps/mobile/messages | `feelings.marks.hint` | Видно только на этом телефоне. | Танҳо дар ҳамин телефон намоён аст. |
-| 693 | apps/mobile/messages | `feelings.marks.day` | {date}: {feelings} | {date}: {feelings} |
-| 694 | apps/mobile/messages | `feelings.marks.none` | {date}: нет отметок | {date}: қайд нест |
-| 695 | apps/mobile/messages | `feelings.minutes` | {n, plural, one {# минутка} few {# минутки} many {# минуток} other {# минутки}} на этой неделе | {n} дақиқа дар ин ҳафта |
-| 696 | apps/mobile/messages | `privacy.title` | Что мы храним | Мо чиро нигоҳ медорем |
-| 697 | apps/mobile/messages | `privacy.headline` | Ничего о тебе. | Дар бораи ту ҳеҷ чиз. |
-| 698 | apps/mobile/messages | `privacy.noReg.a` | Мы не спрашиваем имя, телефон или фото при входе. | Ҳангоми ворид шудан ном, телефон ё аксро намепурсем. |
-| 699 | apps/mobile/messages | `privacy.noReg.b` | Нет аккаунта — нечего взломать. | Ҳисоб нест — чизе барои рахна кардан нест. |
-| 700 | apps/mobile/messages | `privacy.onPhone.title` | Твой случай — на твоём телефоне | Ҳолати ту — дар телефони ту |
-| 701 | apps/mobile/messages | `privacy.onPhone.a` | Ссылки, скриншоты, заметки, шаги и твои отметки хранятся только здесь. Мы их не видим. | Пайвандҳо, скриншотҳо, қайдҳо, қадамҳо ва қайдҳои эҳсоси ту танҳо ин ҷо нигоҳ дошта мешаванд. Мо онҳоро намебинем. |
-| 702 | apps/mobile/messages | `privacy.onPhone.b` | «Удалить этот случай» удаляет всё. Насовсем. | «Ин ҳолатро нест кардан» ҳамаро нест мекунад. Якумрӣ. |
-| 703 | apps/mobile/messages | `privacy.leaves.title` | Что уходит с телефона | Чӣ аз телефон меравад |
-| 704 | apps/mobile/messages | `privacy.leaves.a` | Одно изображение — если ты сам(а) запустил(а) проверку. Оно удаляется сразу после ответа и не используется для обучения. | Як тасвир — агар худат санҷишро оғоз кунӣ. Пас аз ҷавоб фавран нест мешавад ва барои омӯзиш истифода намешавад. |
-| 705 | apps/mobile/messages | `privacy.leaves.b` | Одна ссылка — если ты попросил(а) её проверить. Не сохраняется. | Як пайванд — агар санҷиданашро пурсӣ. Нигоҳ дошта намешавад. |
-| 706 | apps/mobile/messages | `privacy.leaves.c` | Запрос на связь — пока это прототип: он никуда не отправляется и не сохраняется. | Дархости тамос — ҳоло прототип аст: ба ҳеҷ ҷо фиристода ва нигоҳ дошта намешавад. |
-| 707 | apps/mobile/messages | `privacy.leaves.d` | Твои слова в «Своими словами» — если ты их отправишь. Модель подбирает шаги из плана и не отвечает своими словами. Текст не сохраняется. | Суханони ту дар «Бо суханони худ» — агар онҳоро фиристӣ. Модел қадамҳоро аз нақша интихоб мекунад ва бо суханони худ ҷавоб намедиҳад. Матн нигоҳ дошта намешавад. |
-| 708 | apps/mobile/messages | `privacy.limits.title` | Границы честно | Ҳудудҳо ростқавлона |
-| 709 | apps/mobile/messages | `privacy.limits.a` | Мы не видим твои данные, поэтому не можем никому их передать — ни родителям, ни школе. | Мо маълумоти туро намебинем, бинобар ин ба касе дода наметавонем — на ба волидайн, на ба мактаб. |
-| 710 | apps/mobile/messages | `privacy.limits.b` | Но и защитить тебя мы не можем. Это могут только взрослые рядом и службы помощи. Поэтому мы всегда просим рассказать. | Аммо муҳофизат кардан ҳам наметавонем. Инро танҳо калонсолони наздик ва хадамоти кӯмак метавонанд. Барои ҳамин ҳамеша мепурсем, ки бигӯӣ. |
-| 711 | apps/mobile/messages | `privacy.limits.c` | Telegram и звонки — твой выбор канала. Это не наши серверы. | Telegram ва зангҳо — интихоби канали ту. Ин серверҳои мо нестанд. |
-| 712 | apps/mobile/messages | `privacy.deleteAll` | Удалить всё | Ҳамаро нест кардан |
-| 713 | apps/mobile/messages | `signs.categories` | Категории | Категорияҳо |
-| 714 | apps/mobile/messages | `signs.what` | Что это | Ин чист |
-| 715 | apps/mobile/messages | `signs.looks` | Как это выглядит | Ин чӣ гуна менамояд |
-| 716 | apps/mobile/messages | `signs.silent` | Почему молчат — и что на это ответить | Чаро хомӯшанд — ва ба ин чӣ ҷавоб додан |
-| 717 | apps/mobile/messages | `signs.reveal` | Что здесь не так? | Дар ин ҷо чӣ нодуруст аст? |
-| 718 | apps/mobile/messages | `signs.hide` | Скрыть подсказки | Маслиҳатҳоро пинҳон кардан |
-| 719 | apps/mobile/messages | `signs.start.sub` | Выбрать ситуацию и получить план | Ҳолатро интихоб кун ва нақша гир |
-| 720 | apps/mobile/messages | `chat.title` | Своими словами | Бо суханони худ |
-| 721 | apps/mobile/messages | `chat.intro` | Расскажи, что случилось. Коротко, как другу. Я подберу шаги из плана. | Бигӯ, чӣ рӯй дод. Кӯтоҳ, мисли ба дӯст. Ман қадамҳоро аз нақша интихоб мекунам. |
-| 722 | apps/mobile/messages | `chat.notHuman` | Это не человек и не чат с психологом. Все ответы — готовые шаги, проверенные людьми. Не пиши имена. | Ин одам нест ва чат бо равоншинос нест. Ҳамаи ҷавобҳо — қадамҳои тайёр, ки одамон санҷидаанд. Ном нанавис. |
-| 723 | apps/mobile/messages | `chat.placeholder` | Например: мне пишет незнакомый и просит код из смс… | Масалан: ношинос ба ман менависад ва рамзи СМС мепурсад… |
-| 724 | apps/mobile/messages | `chat.consent` | Текст уходит на проверку и удаляется сразу после ответа. Не сохраняется. | Матн барои санҷиш меравад ва фавран пас аз ҷавоб нест мешавад. Нигоҳ дошта намешавад. |
-| 725 | apps/mobile/messages | `chat.thinking` | Подбираю шаги… | Қадамҳоро интихоб мекунам… |
-| 726 | apps/mobile/messages | `chat.askMore` | Пока не понял(а). Напиши чуть подробнее: что прислали, кто пишет, что просят. | Ҳоло нафаҳмидам. Каме муфассалтар навис: чӣ фиристоданд, кӣ менависад, чӣ мепурсанд. |
-| 727 | apps/mobile/messages | `chat.noSteps` | Шагов под это у меня нет. Но есть люди. | Барои ин қадам надорам. Аммо одамон ҳастанд. |
-| 728 | apps/mobile/messages | `chat.urgentLine` | Это серьёзно. Сначала — безопасность и взрослый рядом. | Ин ҷиддӣ аст. Аввал — амният ва калонсол дар паҳлу. |
-| 729 | apps/mobile/messages | `chat.fallback` | Не получилось разобрать. Давай так: выбери ситуацию из списка или поговори с человеком. | Фаҳмидан нашуд. Биё ин тавр: ҳолатро аз рӯйхат интихоб кун ё бо одам сӯҳбат кун. |
-| 730 | apps/mobile/messages | `chat.route.urgent` | Мне нужна помощь сейчас | Ҳозир ба ман кӯмак лозим |
-| 731 | apps/mobile/messages | `chat.route.ask` | Выбрать из списка | Аз рӯйхат интихоб кардан |
-| 732 | apps/mobile/messages | `pwa.offline` | Нет сети. План и советы работают без интернета. | Шабака нест. Нақша ва маслиҳатҳо бе интернет кор мекунанд. |
-| 733 | apps/mobile/messages | `pwa.offlinePage.title` | Эта страница ещё не сохранена | Ин саҳифа ҳоло нигоҳ дошта нашудааст |
-| 734 | apps/mobile/messages | `pwa.offlinePage.body` | Открой её один раз с интернетом — и она будет работать офлайн. | Онро як бор бо интернет кушо — ва он офлайн кор мекунад. |
-| 735 | apps/mobile/messages | `pwa.install.title` | Добавить на экран «Домой» | Ба экрани «Асосӣ» илова кардан |
-| 736 | apps/mobile/messages | `pwa.install.body` | Приложение будет всегда под рукой и откроется без браузера. | Барнома ҳамеша дар даст мешавад ва бе браузер кушода мешавад. |
-| 737 | apps/mobile/messages | `pwa.install.ios` | Нажми «Поделиться» внизу Safari, затем «На экран Домой». | Дар поёни Safari «Мубодила»-ро пахш кун, баъд «Ба экрани Асосӣ». |
-| 738 | apps/mobile/messages | `pwa.install.later` | Позже | Дертар |
-| 739 | apps/mobile/messages | `pwa.install.ok` | Понятно | Фаҳмидам |
-| 740 | apps/mobile/messages | `splash.error` | Приложение не загрузилось. Проверь интернет и попробуй ещё раз. | Барнома бор нашуд. Интернетро санҷ ва боз кӯшиш кун. |
-| 741 | apps/mobile/messages | `settings.title` | Настройки | Танзимот |
-| 742 | apps/mobile/messages | `settings.privacy` | Что мы храним и что нет | Мо чиро нигоҳ медорем ва чиро не |
-| 743 | apps/mobile/messages | `start.title` | У тебя уже есть случай | Ту аллакай ҳолат дорӣ |
-| 744 | apps/mobile/messages | `start.body` | Начать новый — значит удалить текущий: шаги, ссылки, скриншоты. | Оғози нав — яъне нест кардани ҳолати ҷорӣ: қадамҳо, пайвандҳо, скриншотҳо. |
-| 745 | apps/mobile/messages | `start.keep` | Продолжить текущий | Ҳолати ҷориро давом додан |
-| 746 | apps/mobile/messages | `start.new` | Начать новый | Нав оғоз кардан |
+| 475 | apps/mobile/messages | `situation.tile.fake_photo.t` | Фейковое фото | Акси қалбакӣ |
+| 476 | apps/mobile/messages | `situation.tile.fake_photo.d` | Кто-то подделал фото со мной | Касе бо ман акси қалбакӣ сохт |
+| 477 | apps/mobile/messages | `situation.tile.fake_video.t` | Фейковое видео | Видеои қалбакӣ |
+| 478 | apps/mobile/messages | `situation.tile.fake_video.d` | Кто-то подделал видео со мной | Касе бо ман видеои қалбакӣ сохт |
+| 479 | apps/mobile/messages | `situation.tile.impersonation.t` | Выдают себя за меня | Худро ба ҷои ман муаррифӣ мекунанд |
+| 480 | apps/mobile/messages | `situation.tile.impersonation.d` | Кто-то использует моё имя или профиль | Касе номи ё профили маро истифода мебарад |
+| 481 | apps/mobile/messages | `urgent.adult.title` | Расскажи взрослому прямо сейчас | Ҳозир ба калонсол бигӯ |
+| 482 | apps/mobile/messages | `urgent.adult.body` | Не обязательно родителям. Учитель, старший брат или сестра, тётя — кто-то, кому ты доверяешь. | Ҳатман ба волидайн не. Муаллим, бародар ё хоҳари калонӣ, хола — касе, ки ба ӯ бовар дорӣ. |
+| 483 | apps/mobile/messages | `urgent.call` | Позвонить | Занг задан |
+| 484 | apps/mobile/messages | `urgent.numbers.pendingTitle` | Уточняем местные номера | Рақамҳои маҳаллиро аниқ мекунем |
+| 485 | apps/mobile/messages | `urgent.numbers.pendingBody` | Пока их нет здесь — расскажи взрослому. Это самый быстрый шаг. | То он ҷо нестанд — ба калонсол бигӯ. Ин қадами зудтарин аст. |
+| 486 | apps/mobile/messages | `urgent.people.sub` | Список специалистов — пока примеры | Рӯйхати мутахассисон — ҳоло намунаҳо |
+| 487 | apps/mobile/messages | `urgent.continue` | Я в безопасности, продолжить | Ман дар амонам, давом медиҳам |
+| 488 | apps/mobile/messages | `stop.plan` | Что делать дальше | Чӣ кор кунам |
+| 489 | apps/mobile/messages | `stop.calm` | Мне тяжело — помоги успокоиться | Ба ман вазнин аст — ором шудан кӯмак кун |
+| 490 | apps/mobile/messages | `plan.title` | Что делать | Чӣ кор кунам |
+| 491 | apps/mobile/messages | `plan.safe` | ты в безопасности | ту дар амонӣ |
+| 492 | apps/mobile/messages | `plan.later` | Потом · ещё {n} | Баъд · боз {n} |
+| 493 | apps/mobile/messages | `plan.how` | Как: | Чӣ тавр: |
+| 494 | apps/mobile/messages | `plan.why` | Почему: | Чаро: |
+| 495 | apps/mobile/messages | `plan.learnMore` | Узнать больше: как это выглядит | Бештар донистан: ин чӣ гуна менамояд |
+| 496 | apps/mobile/messages | `plan.people.sub` | Когда будешь готов(а) | Вақте ки омода бошӣ |
+| 497 | apps/mobile/messages | `incident.started` | Начато {date} | Оғоз {date} |
+| 498 | apps/mobile/messages | `incident.startedToday` | Начато сегодня, {date} | Имрӯз оғоз шуд, {date} |
+| 499 | apps/mobile/messages | `incident.startedYesterday` | Начато вчера, {date} | Дирӯз оғоз шуд, {date} |
+| 500 | apps/mobile/messages | `incident.steps` | {done} из {total} шагов выполнено | {done} аз {total} қадам иҷро шуд |
+| 501 | apps/mobile/messages | `incident.continue` | Продолжить план | Нақшаро давом додан |
+| 502 | apps/mobile/messages | `incident.evidence.title` | Доказательства | Далелҳо |
+| 503 | apps/mobile/messages | `incident.evidence.hint` | Всё, что ты сохранил(а) по этому случаю. | Ҳар чизе, ки дар бораи ин ҳолат нигоҳ доштӣ. |
+| 504 | apps/mobile/messages | `incident.evidence.placeholder` | https://... | https://... |
+| 505 | apps/mobile/messages | `incident.evidence.copy` | Копировать | Нусха кардан |
+| 506 | apps/mobile/messages | `incident.evidence.share` | Отправить | Фиристодан |
+| 507 | apps/mobile/messages | `incident.evidence.shareFailed` | Не удалось отправить | Фиристода нашуд |
+| 508 | apps/mobile/messages | `incident.evidence.remove` | Удалить | Нест кардан |
+| 509 | apps/mobile/messages | `incident.evidence.keep` | Оставить | Нигоҳ доштан |
+| 510 | apps/mobile/messages | `incident.evidence.removeShotAsk` | Удалить скриншот? | Скриншотро нест кунам? |
+| 511 | apps/mobile/messages | `incident.evidence.open` | Открыть скриншот | Скриншотро кушодан |
+| 512 | apps/mobile/messages | `incident.evidence.close` | Закрыть | Пӯшидан |
+| 513 | apps/mobile/messages | `incident.evidence.add` | Сохранить | Нигоҳ доштан |
+| 514 | apps/mobile/messages | `incident.evidence.linkError` | Ссылка должна начинаться с https:// | Пайванд бояд бо https:// оғоз шавад |
+| 515 | apps/mobile/messages | `incident.evidence.empty` | Пока ничего не сохранено. Ссылки, скриншоты и результаты проверок появятся здесь. | Ҳоло чизе нигоҳ дошта нашудааст. Пайвандҳо, скриншотҳо ва натиҷаҳои санҷиш ин ҷо пайдо мешаванд. |
+| 516 | apps/mobile/messages | `incident.evidence.addButton` | Добавить | Илова кардан |
+| 517 | apps/mobile/messages | `incident.evidence.removeItemAsk` | Удалить это из доказательств? | Инро аз далелҳо нест кунам? |
+| 518 | apps/mobile/messages | `incident.evidence.removeFailed` | Не получилось удалить. Попробуй ещё раз. | Нест кардан нашуд. Боз кӯшиш кун. |
+| 519 | apps/mobile/messages | `incident.privacy` | Этот случай и доказательства хранятся на этом устройстве. | Ин ҳолат ва далелҳо дар ҳамин дастгоҳ нигоҳ дошта мешаванд. |
+| 520 | apps/mobile/messages | `incident.empty.title` | Пока пусто | Ҳоло холӣ |
+| 521 | apps/mobile/messages | `incident.empty.body` | Здесь будет твой случай: что произошло, что сохранено, какие шаги сделаны. Всё остаётся на этом телефоне. | Ин ҷо ҳолати ту хоҳад буд: чӣ рӯй дод, чӣ нигоҳ дошта шуд, кадом қадамҳо иҷро шуданд. Ҳама чиз дар ҳамин телефон мемонад. |
+| 522 | apps/mobile/messages | `incident.reset.button` | Удалить этот случай | Ин ҳолатро нест кардан |
+| 523 | apps/mobile/messages | `incident.reset.confirmTitle` | Удалить всё? | Ҳамаро нест кунам? |
+| 524 | apps/mobile/messages | `incident.reset.confirmBody` | Ссылки, скриншоты и шаги исчезнут с этого телефона. Насовсем. | Пайвандҳо, скриншотҳо ва қадамҳо аз ин телефон нест мешаванд. Якумрӣ. |
+| 525 | apps/mobile/messages | `incident.day.today` | Сегодня | Имрӯз |
+| 526 | apps/mobile/messages | `incident.day.yesterday` | Вчера | Дирӯз |
+| 527 | apps/mobile/messages | `incident.item.screenshot` | Скриншот | Скриншот |
+| 528 | apps/mobile/messages | `incident.item.link` | Ссылка | Пайванд |
+| 529 | apps/mobile/messages | `incident.item.imageCheck` | Проверка фото | Санҷиши акс |
+| 530 | apps/mobile/messages | `incident.item.linkCheck` | Проверка ссылки | Санҷиши пайванд |
+| 531 | apps/mobile/messages | `incident.item.note` | Заметка | Қайд |
+| 532 | apps/mobile/messages | `incident.item.stepDone` | Шаг выполнен | Қадам иҷро шуд |
+| 533 | apps/mobile/messages | `incident.item.taken` | Снято | Гирифта шуд |
+| 534 | apps/mobile/messages | `incident.item.added` | Добавлено | Илова шуд |
+| 535 | apps/mobile/messages | `incident.meta.saved` | Сохранено {date} в {time} | Нигоҳ дошта шуд {date}, соати {time} |
+| 536 | apps/mobile/messages | `incident.meta.taken` | Снято {date} в {time} | Гирифта шуд {date}, соати {time} |
+| 537 | apps/mobile/messages | `incident.meta.added` | Добавлено {date} в {time} | Илова шуд {date}, соати {time} |
+| 538 | apps/mobile/messages | `incident.strip.label` | Дни, когда ты что-то сохранил(а) или сделал(а) | Рӯзҳое, ки ту чизе нигоҳ доштӣ ё кардӣ |
+| 539 | apps/mobile/messages | `incident.strip.day` | {date}, {n, plural, one {# запись} few {# записи} many {# записей} other {# записи}} | {date}, {n} сабт |
+| 540 | apps/mobile/messages | `incident.sheet.add` | Добавить доказательство | Далел илова кардан |
+| 541 | apps/mobile/messages | `incident.sheet.linkSub` | Адрес поста, профиля или сообщения | Суроғаи пост, профил ё паём |
+| 542 | apps/mobile/messages | `incident.sheet.shotSub` | Снимок экрана из галереи | Акси экран аз галерея |
+| 543 | apps/mobile/messages | `incident.sheet.address` | Адрес | Суроға |
+| 544 | apps/mobile/messages | `breathe.title` | 60 секунд дыхания | 60 сонияи нафас |
+| 545 | apps/mobile/messages | `breathe.sub` | Следи за словами в круге: вдох и выдох. Закончить можно в любой момент. | Ба суханони давра нигоҳ кун: нафас гир ва нафас барор. Ҳар вақт тамом кардан мумкин. |
+| 546 | apps/mobile/messages | `breathe.ready` | Готов(а)? | Омодаӣ? |
+| 547 | apps/mobile/messages | `breathe.inhale` | Вдох | Нафас гир |
+| 548 | apps/mobile/messages | `breathe.exhale` | Выдох | Нафас барор |
+| 549 | apps/mobile/messages | `breathe.slow` | Медленно. Никуда не спешим. | Оҳиста. Ба ҳеҷ ҷо шитоб намекунем. |
+| 550 | apps/mobile/messages | `breathe.doneTitle` | Готов(а) к следующему шагу? | Ба қадами навбатӣ омодаӣ? |
+| 551 | apps/mobile/messages | `breathe.doneBody` | Это была пауза, не выход. План ждёт, когда ты решишь. | Ин танаффус буд, на баромад. Нақша интизор аст, вақте ки ту қарор мекунӣ. |
+| 552 | apps/mobile/messages | `breathe.doneBodyNoCase` | Это была пауза, не выход. Когда будешь готов(а), выбери, что дальше. | Ин танаффус буд, на баромад. Вақте тайёр шудӣ, интихоб кун, ки баъд чӣ. |
+| 553 | apps/mobile/messages | `breathe.again` | Ещё раз | Боз як бор |
+| 554 | apps/mobile/messages | `breathe.pause` | Пауза | Таваққуф |
+| 555 | apps/mobile/messages | `breathe.resume` | Продолжить | Давом додан |
+| 556 | apps/mobile/messages | `breathe.finish` | Закончить | Анҷом додан |
+| 557 | apps/mobile/messages | `breathe.vibration` | Вибрация | Ларзиш |
+| 558 | apps/mobile/messages | `breathe.timeLeft` | Осталось времени | Вақти боқимонда |
+| 559 | apps/mobile/messages | `analyze.title` | Проверка изображения | Санҷиши тасвир |
+| 560 | apps/mobile/messages | `analyze.fact` | факт | далел |
+| 561 | apps/mobile/messages | `analyze.maybe` | возможно | эҳтимол |
+| 562 | apps/mobile/messages | `analyze.fileType` | Только JPEG, PNG или WebP. | Танҳо JPEG, PNG ё WebP. |
+| 563 | apps/mobile/messages | `analyze.fileSize` | Файл должен быть не больше 8 МБ. | Файл набояд аз 8 МБ калон бошад. |
+| 564 | apps/mobile/messages | `analyze.rules.title` | Проверим изображение | Тасвирро месанҷем |
+| 565 | apps/mobile/messages | `analyze.rules.noIntimate` | Не загружай интимные фото — свои или чужие. | Аксҳои маҳрамонаро бор накун — на худат, на дигарон. |
+| 566 | apps/mobile/messages | `analyze.rules.deleted` | Файл удаляется сразу после проверки. Мы его не храним. | Файл фавран пас аз санҷиш нест карда мешавад. Мо онро нигоҳ намедорем. |
+| 567 | apps/mobile/messages | `analyze.rules.notVerdict` | Проверка не даёт ответа «настоящее» или «фейк». Она показывает, где смотреть. | Санҷиш ҷавоби «аслӣ» ё «қалбакӣ» намедиҳад. Нишон медиҳад, ки куҷо нигоҳ кунӣ. |
+| 568 | apps/mobile/messages | `analyze.rules.planWorks` | План действий доступен и без проверки. | Нақшаи амал бе санҷиш ҳам дастрас аст. |
+| 569 | apps/mobile/messages | `analyze.rules.choose` | Выбрать изображение | Тасвирро интихоб кун |
+| 570 | apps/mobile/messages | `analyze.rules.skip` | Пропустить проверку | Санҷишро гузаронидан |
+| 571 | apps/mobile/messages | `analyze.q.progress` | Вопрос {n} из 2 | Саволи {n} аз 2 |
+| 572 | apps/mobile/messages | `analyze.q1.title` | Это фото тебя? | Ин акси ту аст? |
+| 573 | apps/mobile/messages | `analyze.q1.me` | Да, это я | Ҳа, ин ман |
+| 574 | apps/mobile/messages | `analyze.q1.known` | Кто-то, кого я знаю | Касе, ки мешиносам |
+| 575 | apps/mobile/messages | `analyze.q2.title` | Есть у тебя оригинал этого фото? | Аслии ин акс дар ту ҳаст? |
+| 576 | apps/mobile/messages | `analyze.q2.sub` | Если да — сравним их прямо на телефоне. Это самая надёжная проверка. | Агар ҳа — онҳоро дар телефон муқоиса мекунем. Ин боэътимодтарин санҷиш аст. |
+| 577 | apps/mobile/messages | `analyze.q2.yes` | Да, на этом телефоне | Ҳа, дар ҳамин телефон |
+| 578 | apps/mobile/messages | `analyze.checks.title` | Проверяем | Месанҷем |
+| 579 | apps/mobile/messages | `analyze.checks.model` | Ищем признаки на изображении… | Дар тасвир нишонаҳоро меҷӯем… |
+| 580 | apps/mobile/messages | `analyze.checks.sent` | Изображение отправлено на проверку и будет удалено сразу после ответа. | Тасвир барои санҷиш фиристода шуд ва пас аз ҷавоб фавран нест мешавад. |
+| 581 | apps/mobile/messages | `analyze.checks.dontWait` | Не ждать, перейти к плану | Интизор нашуда, ба нақша гузаштан |
+| 582 | apps/mobile/messages | `analyze.result.where` | Где смотреть | Куҷо нигоҳ кардан |
+| 583 | apps/mobile/messages | `analyze.result.selfCheck` | Проверь сам(а) | Худат санҷ |
+| 584 | apps/mobile/messages | `analyze.result.save` | Сохранить в доказательства | Дар далелҳо нигоҳ дор |
+| 585 | apps/mobile/messages | `analyze.result.plan` | Перейти к плану | Ба нақша гузаштан |
+| 586 | apps/mobile/messages | `analyze.result.planMisuse` | План: фото без разрешения | Нақша: акс бе иҷозат |
+| 587 | apps/mobile/messages | `analyze.result.askPerson` | Спросить человека | Аз одам пурсидан |
+| 588 | apps/mobile/messages | `analyze.result.retry` | Попробовать ещё раз | Боз кӯшиш кардан |
+| 589 | apps/mobile/messages | `analyze.result.offline` | Сервис не ответил — показываем то, что проверили на телефоне. | Хидмат ҷавоб надод — он чи дар телефон санҷида шуд, нишон медиҳем. |
+| 590 | apps/mobile/messages | `analyze.result.deleted` | Изображение удалено с сервера. Оно есть только у тебя. | Тасвир аз сервер нест карда шуд. Он танҳо дар ту ҳаст. |
+| 591 | apps/mobile/messages | `analyze.result.withPhoto` | Сохранить вместе с фото. Оно останется только на этом телефоне. | Бо акс нигоҳ дор. Он танҳо дар ҳамин телефон мемонад. |
+| 592 | apps/mobile/messages | `error.title` | Что-то сломалось | Чизе вайрон шуд |
+| 593 | apps/mobile/messages | `error.body` | Это не твоя ошибка. Попробуй ещё раз или вернись на главную. | Ин хатои ту нест. Боз кӯшиш кун ё ба саҳифаи асосӣ баргард. |
+| 594 | apps/mobile/messages | `error.home` | На главную | Ба асосӣ |
+| 595 | apps/mobile/messages | `link.headline` | Вставь ссылку | Пайвандро гузор |
+| 596 | apps/mobile/messages | `link.urlError` | Ссылка должна начинаться с https:// или http:// | Пайванд бояд бо https:// ё http:// оғоз шавад |
+| 597 | apps/mobile/messages | `link.note` | Ссылка уходит на проверку. Мы откроем её сами, на нашей стороне. Тебе открывать не нужно. Ссылка не сохраняется. | Пайванд барои санҷиш меравад. Мо онро худамон, дар тарафи худ мекушоем. Ба ту кушодан лозим нест. Пайванд нигоҳ дошта намешавад. |
+| 598 | apps/mobile/messages | `link.check` | Проверить | Санҷидан |
+| 599 | apps/mobile/messages | `link.checkingNote` | Смотрим, куда ведёт ссылка на самом деле, и есть ли она в списках опасных. | Мебинем, пайванд дар асл ба куҷо мебарад ва оё дар рӯйхати хатарнок ҳаст. |
+| 600 | apps/mobile/messages | `link.finalUrl` | Настоящий адрес после переходов | Суроғаи воқеӣ пас аз гузаришҳо |
+| 601 | apps/mobile/messages | `link.f.blocklist` | В списке опасных сайтов | Дар рӯйхати сомонаҳои хатарнок |
+| 602 | apps/mobile/messages | `link.f.blocklistHow` | Это список сайтов, которые крадут данные или деньги. | Ин рӯйхати сомонаҳоест, ки маълумот ё пулро медузданд. |
+| 603 | apps/mobile/messages | `link.f.lookalike` | Похоже на {real}, но это не он | Ба {real} монанд аст, аммо ин он нест |
+| 604 | apps/mobile/messages | `link.f.young` | Домен зарегистрирован {days} дн. назад | Домен {days} рӯз пеш сабт шудааст |
+| 605 | apps/mobile/messages | `link.f.youngHow` | Банки и магазины существуют годами. Новый адрес — частый признак обмана. | Бонкҳо ва мағозаҳо солҳо вуҷуд доранд. Суроғаи нав — нишонаи зуд-зуди фиреб. |
+| 606 | apps/mobile/messages | `link.f.shortener` | Короткая ссылка скрывает адрес | Пайванди кӯтоҳ суроғаро пинҳон мекунад |
+| 607 | apps/mobile/messages | `link.f.shortenerHow` | На самом деле ведёт на {host}. | Дар асл ба {host} мебарад. |
+| 608 | apps/mobile/messages | `link.f.code` | Просит код или оплату | Рамз ё пардохт мепурсад |
+| 609 | apps/mobile/messages | `link.f.codeHow` | Код из СМС не вводят нигде, кроме приложения банка. | Рамзи СМС-ро ҷуз дар барномаи бонк дар ҳеҷ ҷо ворид намекунанд. |
+| 610 | apps/mobile/messages | `link.nextTitle` | Что дальше | Чӣ кор кунам |
+| 611 | apps/mobile/messages | `link.next.noCodes` | Не вводи коды и данные карты, даже если уже открывал(а). | Рамз ва маълумоти кортро ворид накун, ҳатто агар кушода бошӣ. |
+| 612 | apps/mobile/messages | `link.next.ifEntered` | Если уже ввёл(а) — позвони в банк прямо сейчас. | Агар аллакай ворид карда бошӣ — ҳозир ба бонк занг зан. |
+| 613 | apps/mobile/messages | `link.next.report` | Пожалуйся на отправителя и заблокируй. | Аз фиристанда шикоят кун ва баста кун. |
+| 614 | apps/mobile/messages | `link.next.playStore` | Приложения ставят только из Play Store, не из чата. | Барномаҳоро танҳо аз Play Store мегузоранд, на аз чат. |
+| 615 | apps/mobile/messages | `link.next.words` | «Выигрыш», «срочно», «только сегодня» — признаки обмана. | «Бурд», «таъҷилӣ», «танҳо имрӯз» — нишонаҳои фиреб. |
+| 616 | apps/mobile/messages | `people.title` | Люди | Одамон |
+| 617 | apps/mobile/messages | `people.offline` | Нет сети. Показываем, что успели сохранить. | Шабака нест. Он чи нигоҳ дошта шуд, нишон медиҳем. |
+| 618 | apps/mobile/messages | `people.urgent.title` | Срочная помощь | Кӯмаки таъҷилӣ |
+| 619 | apps/mobile/messages | `people.urgent.pending` | Номера появятся здесь после проверки командой. Пока — расскажи взрослому. | Рақамҳо пас аз санҷиши даста ин ҷо пайдо мешаванд. То он гоҳ — ба калонсол бигӯ. |
+| 620 | apps/mobile/messages | `people.review.title` | Спросить человека об изображении | Дар бораи тасвир аз одам пурсидан |
+| 621 | apps/mobile/messages | `people.review.body` | Мы не отправляем фото никому. Выбери специалиста, напиши или позвони сам(а) — и покажи изображение уже ему, один раз. | Мо аксро ба касе намефиристем. Мутахассисро интихоб кун, худат нависед ё занг зан — ва тасвирро ба ӯ як бор нишон деҳ. |
+| 622 | apps/mobile/messages | `people.demo.title` | Демо-данные | Маълумоти демо |
+| 623 | apps/mobile/messages | `people.demo.body` | Это вымышленные карточки для показа. Настоящие специалисты появятся после проверки человеком. | Ин кортҳои тахайюлӣ барои намоиш аст. Мутахассисони воқеӣ пас аз санҷиши одам пайдо мешаванд. |
+| 624 | apps/mobile/messages | `people.filters.lang` | Язык | Забон |
+| 625 | apps/mobile/messages | `people.filters.format` | Формат | Формат |
+| 626 | apps/mobile/messages | `people.meta.online` | онлайн | онлайн |
+| 627 | apps/mobile/messages | `people.meta.in_person` | лично | шахсан |
+| 628 | apps/mobile/messages | `people.meta.both` | онлайн и лично | онлайн ва шахсан |
+| 629 | apps/mobile/messages | `people.meta.teens` | с подростками | бо наврасон |
+| 630 | apps/mobile/messages | `people.meta.country` | вся страна | тамоми кишвар |
+| 631 | apps/mobile/messages | `people.status.demo` | демо | демо |
+| 632 | apps/mobile/messages | `people.status.unverified` | не проверено | санҷида нашуд |
+| 633 | apps/mobile/messages | `people.status.verified` | проверено | санҷида шуд |
+| 634 | apps/mobile/messages | `people.hours` | Часы | Соатҳо |
+| 635 | apps/mobile/messages | `people.day.mon` | пн | дш |
+| 636 | apps/mobile/messages | `people.day.tue` | вт | сш |
+| 637 | apps/mobile/messages | `people.day.wed` | ср | чш |
+| 638 | apps/mobile/messages | `people.day.thu` | чт | пш |
+| 639 | apps/mobile/messages | `people.day.fri` | пт | ҷм |
+| 640 | apps/mobile/messages | `people.day.sat` | сб | шб |
+| 641 | apps/mobile/messages | `people.day.sun` | вс | яш |
+| 642 | apps/mobile/messages | `people.selfContact` | Свяжусь сам(а) | Худам тамос мегирам |
+| 643 | apps/mobile/messages | `people.hideContact` | Скрыть | Пинҳон кардан |
+| 644 | apps/mobile/messages | `people.requestContact` | Пусть свяжутся | Бигзор тамос гиранд |
+| 645 | apps/mobile/messages | `people.report.link` | Сообщить об ошибке в карточке | Дар бораи хато дар корт хабар додан |
+| 646 | apps/mobile/messages | `people.report.label` | Что не так? | Чӣ нодуруст аст? |
+| 647 | apps/mobile/messages | `people.report.tooShort` | Напиши хотя бы пару слов. | Ақаллан ду-се калима нависед. |
+| 648 | apps/mobile/messages | `people.report.cancel` | Отмена | Бекор |
+| 649 | apps/mobile/messages | `people.report.thanks` | Спасибо, проверим. | Ташаккур, месанҷем. |
+| 650 | apps/mobile/messages | `people.report.failed` | Не отправилось. Попробуй позже. | Фиристода нашуд. Дертар кӯшиш кун. |
+| 651 | apps/mobile/messages | `people.empty.title` | Никого не нашли по этим фильтрам | Бо ин филтрҳо касе ёфт нашуд |
+| 652 | apps/mobile/messages | `people.empty.body` | Попробуй убрать язык или формат. | Кӯшиш кун забон ё форматро хориҷ кунӣ. |
+| 653 | apps/mobile/messages | `people.empty.reset` | Сбросить фильтры | Филтрҳоро бекор кардан |
+| 654 | apps/mobile/messages | `request.title` | Пусть со мной свяжутся | Бигзор бо ман тамос гиранд |
+| 655 | apps/mobile/messages | `request.proto.title` | Прототип | Прототип |
+| 656 | apps/mobile/messages | `request.proto.body` | В демо запрос никуда не отправляется и не сохраняется. Так будет выглядеть форма, когда появятся настоящие специалисты. | Дар демо дархост ба ҳеҷ ҷо фиристода ва нигоҳ дошта намешавад. Вақте мутахассисони воқеӣ пайдо шаванд, шакл ҳамин тавр хоҳад буд. |
+| 657 | apps/mobile/messages | `request.intro` | Специалист ({who}) получит только это. Твой случай остаётся на телефоне. | Мутахассис ({who}) танҳо инро мегирад. Ҳолати ту дар телефон мемонад. |
+| 658 | apps/mobile/messages | `request.name` | Как к тебе обращаться | Туро чӣ ном гирем |
+| 659 | apps/mobile/messages | `request.nameHint` | имя или ник | ном ё ник |
+| 660 | apps/mobile/messages | `request.contact` | Как с тобой связаться | Чӣ тавр бо ту тамос гирем |
+| 661 | apps/mobile/messages | `request.kind.phone` | Телефон | Телефон |
+| 662 | apps/mobile/messages | `request.ageLabel` | Возраст | Синну сол |
+| 663 | apps/mobile/messages | `request.age.under_18` | Младше 18 | Аз 18 хурдтар |
+| 664 | apps/mobile/messages | `request.age.18_24` | 18–24 | 18–24 |
+| 665 | apps/mobile/messages | `request.format.online` | Онлайн (Telegram, видео) | Онлайн (Telegram, видео) |
+| 666 | apps/mobile/messages | `request.format.in_person` | Лично | Шахсан |
+| 667 | apps/mobile/messages | `request.when` | Когда удобно | Кай қулай аст |
+| 668 | apps/mobile/messages | `request.optional` | необязательно | ҳатмӣ нест |
+| 669 | apps/mobile/messages | `request.proxy` | Кто может ответить вместо тебя | Кӣ ба ҷои ту ҷавоб дода метавонад |
+| 670 | apps/mobile/messages | `request.proxyHint` | взрослый, которому доверяешь — необязательно | калонсоле, ки бовар дорӣ — ҳатмӣ нест |
+| 671 | apps/mobile/messages | `request.consent` | Я согласен(на), что эти данные получит выбранный специалист. Они удаляются, когда он подтвердит получение, или через 7 дней. | Розӣ ҳастам, ки ин маълумотро мутахассиси интихобшуда мегирад. Пас аз тасдиқи гирифтан ё баъди 7 рӯз нест карда мешавад. |
+| 672 | apps/mobile/messages | `request.submit` | Отправить запрос | Дархостро фиристодан |
+| 673 | apps/mobile/messages | `request.self` | Лучше свяжусь сам(а) | Беҳтараш худам тамос мегирам |
+| 674 | apps/mobile/messages | `request.err.summary` | Проверь поля ниже | Майдонҳои поёнро санҷ |
+| 675 | apps/mobile/messages | `request.err.name` | Напиши имя или ник. | Ном ё ник нависед. |
+| 676 | apps/mobile/messages | `request.err.phone` | Номер должен начинаться с +992 и содержать 9 цифр. | Рақам бояд бо +992 оғоз шавад ва 9 рақам дошта бошад. |
+| 677 | apps/mobile/messages | `request.err.telegram` | Укажи @username — буквы, цифры, от 5 символов. | @username-ро нависед — ҳарфҳо, рақамҳо, аз 5 аломат. |
+| 678 | apps/mobile/messages | `request.err.consent` | Нужно согласие, чтобы отправить. Без него мы ничего не передаём. | Барои фиристодан розигӣ лозим аст. Бе он мо ҳеҷ чиз намедиҳем. |
+| 679 | apps/mobile/messages | `request.sent.title` | Запрос готов | Дархост тайёр |
+| 680 | apps/mobile/messages | `request.sent.body` | Прототип: ничего не отправлено. Вот что получил(а) бы специалист. | Прототип: ҳеҷ чиз фиристода нашуд. Ана мутахассис чиро мегирифт. |
+| 681 | apps/mobile/messages | `request.sent.name` | Обращаться: | Ном: |
+| 682 | apps/mobile/messages | `request.sent.contact` | Связь: | Тамос: |
+| 683 | apps/mobile/messages | `request.sent.lang` | Язык: | Забон: |
+| 684 | apps/mobile/messages | `request.sent.age` | Возраст: | Синну сол: |
+| 685 | apps/mobile/messages | `request.sent.format` | Формат: | Формат: |
+| 686 | apps/mobile/messages | `request.sent.when` | Когда: | Кай: |
+| 687 | apps/mobile/messages | `request.sent.proxy` | Вместо тебя: | Ба ҷои ту: |
+| 688 | apps/mobile/messages | `request.sent.expires` | Удаляется: | Нест мешавад: |
+| 689 | apps/mobile/messages | `request.sent.expiresValue` | после подтверждения или через 7 дней | пас аз тасдиқ ё баъди 7 рӯз |
+| 690 | apps/mobile/messages | `request.sent.noPromise` | Мы не говорим «запись назначена», пока специалист не подтвердил. | То мутахассис тасдиқ накунад, мо «вақт таъин шуд» намегӯем. |
+| 691 | apps/mobile/messages | `request.sent.back` | Вернуться к моему случаю | Ба ҳолати ман баргаштан |
+| 692 | apps/mobile/messages | `request.sent.self` | Свяжусь сам(а) — показать контакт | Худам тамос мегирам — тамосро нишон деҳ |
+| 693 | apps/mobile/messages | `feelings.backToPlan` | Вернуться к плану | Ба нақша баргаштан |
+| 694 | apps/mobile/messages | `feelings.hint` | Выбери, что чувствуешь. Можно не отвечать. | Он чиро, ки ҳис мекунӣ, интихоб кун. Ҷавоб надодан мумкин аст. |
+| 695 | apps/mobile/messages | `feelings.breatheTitle` | Минутка, чтобы выдохнуть | Як дақиқа барои нафас кашидан |
+| 696 | apps/mobile/messages | `feelings.breatheSub` | Дыхательное упражнение · 60 секунд | Машқи нафаскашӣ · 60 сония |
+| 697 | apps/mobile/messages | `feelings.marks.title` | Твои отметки | Қайдҳои ту |
+| 698 | apps/mobile/messages | `feelings.marks.hint` | Видно только на этом телефоне. | Танҳо дар ҳамин телефон намоён аст. |
+| 699 | apps/mobile/messages | `feelings.marks.day` | {date}: {feelings} | {date}: {feelings} |
+| 700 | apps/mobile/messages | `feelings.marks.none` | {date}: нет отметок | {date}: қайд нест |
+| 701 | apps/mobile/messages | `feelings.minutes` | {n, plural, one {# минутка} few {# минутки} many {# минуток} other {# минутки}} на этой неделе | {n} дақиқа дар ин ҳафта |
+| 702 | apps/mobile/messages | `privacy.title` | Что мы храним | Мо чиро нигоҳ медорем |
+| 703 | apps/mobile/messages | `privacy.headline` | Ничего о тебе. | Дар бораи ту ҳеҷ чиз. |
+| 704 | apps/mobile/messages | `privacy.noReg.a` | Мы не спрашиваем имя, телефон или фото при входе. | Ҳангоми ворид шудан ном, телефон ё аксро намепурсем. |
+| 705 | apps/mobile/messages | `privacy.noReg.b` | Нет аккаунта — нечего взломать. | Ҳисоб нест — чизе барои рахна кардан нест. |
+| 706 | apps/mobile/messages | `privacy.onPhone.title` | Твой случай — на твоём телефоне | Ҳолати ту — дар телефони ту |
+| 707 | apps/mobile/messages | `privacy.onPhone.a` | Ссылки, скриншоты, заметки, шаги и твои отметки хранятся только здесь. Мы их не видим. | Пайвандҳо, скриншотҳо, қайдҳо, қадамҳо ва қайдҳои эҳсоси ту танҳо ин ҷо нигоҳ дошта мешаванд. Мо онҳоро намебинем. |
+| 708 | apps/mobile/messages | `privacy.onPhone.b` | «Удалить этот случай» удаляет всё. Насовсем. | «Ин ҳолатро нест кардан» ҳамаро нест мекунад. Якумрӣ. |
+| 709 | apps/mobile/messages | `privacy.leaves.title` | Что уходит с телефона | Чӣ аз телефон меравад |
+| 710 | apps/mobile/messages | `privacy.leaves.a` | Одно изображение — если ты сам(а) запустил(а) проверку. Оно удаляется сразу после ответа и не используется для обучения. | Як тасвир — агар худат санҷишро оғоз кунӣ. Пас аз ҷавоб фавран нест мешавад ва барои омӯзиш истифода намешавад. |
+| 711 | apps/mobile/messages | `privacy.leaves.b` | Одна ссылка — если ты попросил(а) её проверить. Не сохраняется. | Як пайванд — агар санҷиданашро пурсӣ. Нигоҳ дошта намешавад. |
+| 712 | apps/mobile/messages | `privacy.leaves.c` | Запрос на связь — пока это прототип: он никуда не отправляется и не сохраняется. | Дархости тамос — ҳоло прототип аст: ба ҳеҷ ҷо фиристода ва нигоҳ дошта намешавад. |
+| 713 | apps/mobile/messages | `privacy.leaves.d` | Твои слова в «Своими словами» — если ты их отправишь. Модель подбирает шаги из плана и не отвечает своими словами. Текст не сохраняется. | Суханони ту дар «Бо суханони худ» — агар онҳоро фиристӣ. Модел қадамҳоро аз нақша интихоб мекунад ва бо суханони худ ҷавоб намедиҳад. Матн нигоҳ дошта намешавад. |
+| 714 | apps/mobile/messages | `privacy.limits.title` | Границы честно | Ҳудудҳо ростқавлона |
+| 715 | apps/mobile/messages | `privacy.limits.a` | Мы не видим твои данные, поэтому не можем никому их передать — ни родителям, ни школе. | Мо маълумоти туро намебинем, бинобар ин ба касе дода наметавонем — на ба волидайн, на ба мактаб. |
+| 716 | apps/mobile/messages | `privacy.limits.b` | Но и защитить тебя мы не можем. Это могут только взрослые рядом и службы помощи. Поэтому мы всегда просим рассказать. | Аммо муҳофизат кардан ҳам наметавонем. Инро танҳо калонсолони наздик ва хадамоти кӯмак метавонанд. Барои ҳамин ҳамеша мепурсем, ки бигӯӣ. |
+| 717 | apps/mobile/messages | `privacy.limits.c` | Telegram и звонки — твой выбор канала. Это не наши серверы. | Telegram ва зангҳо — интихоби канали ту. Ин серверҳои мо нестанд. |
+| 718 | apps/mobile/messages | `privacy.deleteAll` | Удалить всё | Ҳамаро нест кардан |
+| 719 | apps/mobile/messages | `signs.categories` | Категории | Категорияҳо |
+| 720 | apps/mobile/messages | `signs.what` | Что это | Ин чист |
+| 721 | apps/mobile/messages | `signs.looks` | Как это выглядит | Ин чӣ гуна менамояд |
+| 722 | apps/mobile/messages | `signs.silent` | Почему молчат — и что на это ответить | Чаро хомӯшанд — ва ба ин чӣ ҷавоб додан |
+| 723 | apps/mobile/messages | `signs.reveal` | Что здесь не так? | Дар ин ҷо чӣ нодуруст аст? |
+| 724 | apps/mobile/messages | `signs.hide` | Скрыть подсказки | Маслиҳатҳоро пинҳон кардан |
+| 725 | apps/mobile/messages | `signs.start.sub` | Выбрать ситуацию и получить план | Ҳолатро интихоб кун ва нақша гир |
+| 726 | apps/mobile/messages | `chat.title` | Своими словами | Бо суханони худ |
+| 727 | apps/mobile/messages | `chat.intro` | Расскажи, что случилось. Коротко, как другу. Я подберу шаги из плана. | Бигӯ, чӣ рӯй дод. Кӯтоҳ, мисли ба дӯст. Ман қадамҳоро аз нақша интихоб мекунам. |
+| 728 | apps/mobile/messages | `chat.notHuman` | Это не человек и не чат с психологом. Все ответы — готовые шаги, проверенные людьми. Не пиши имена. | Ин одам нест ва чат бо равоншинос нест. Ҳамаи ҷавобҳо — қадамҳои тайёр, ки одамон санҷидаанд. Ном нанавис. |
+| 729 | apps/mobile/messages | `chat.placeholder` | Например: мне пишет незнакомый и просит код из смс… | Масалан: ношинос ба ман менависад ва рамзи СМС мепурсад… |
+| 730 | apps/mobile/messages | `chat.consent` | Текст уходит на проверку и удаляется сразу после ответа. Не сохраняется. | Матн барои санҷиш меравад ва фавран пас аз ҷавоб нест мешавад. Нигоҳ дошта намешавад. |
+| 731 | apps/mobile/messages | `chat.thinking` | Подбираю шаги… | Қадамҳоро интихоб мекунам… |
+| 732 | apps/mobile/messages | `chat.askMore` | Пока не понял(а). Напиши чуть подробнее: что прислали, кто пишет, что просят. | Ҳоло нафаҳмидам. Каме муфассалтар навис: чӣ фиристоданд, кӣ менависад, чӣ мепурсанд. |
+| 733 | apps/mobile/messages | `chat.noSteps` | Шагов под это у меня нет. Но есть люди. | Барои ин қадам надорам. Аммо одамон ҳастанд. |
+| 734 | apps/mobile/messages | `chat.urgentLine` | Это серьёзно. Сначала — безопасность и взрослый рядом. | Ин ҷиддӣ аст. Аввал — амният ва калонсол дар паҳлу. |
+| 735 | apps/mobile/messages | `chat.fallback` | Не получилось разобрать. Давай так: выбери ситуацию из списка или поговори с человеком. | Фаҳмидан нашуд. Биё ин тавр: ҳолатро аз рӯйхат интихоб кун ё бо одам сӯҳбат кун. |
+| 736 | apps/mobile/messages | `chat.route.urgent` | Мне нужна помощь сейчас | Ҳозир ба ман кӯмак лозим |
+| 737 | apps/mobile/messages | `chat.route.ask` | Выбрать из списка | Аз рӯйхат интихоб кардан |
+| 738 | apps/mobile/messages | `pwa.offline` | Нет сети. План и советы работают без интернета. | Шабака нест. Нақша ва маслиҳатҳо бе интернет кор мекунанд. |
+| 739 | apps/mobile/messages | `pwa.offlinePage.title` | Эта страница ещё не сохранена | Ин саҳифа ҳоло нигоҳ дошта нашудааст |
+| 740 | apps/mobile/messages | `pwa.offlinePage.body` | Открой её один раз с интернетом — и она будет работать офлайн. | Онро як бор бо интернет кушо — ва он офлайн кор мекунад. |
+| 741 | apps/mobile/messages | `pwa.install.title` | Добавить на экран «Домой» | Ба экрани «Асосӣ» илова кардан |
+| 742 | apps/mobile/messages | `pwa.install.body` | Приложение будет всегда под рукой и откроется без браузера. | Барнома ҳамеша дар даст мешавад ва бе браузер кушода мешавад. |
+| 743 | apps/mobile/messages | `pwa.install.ios` | Нажми «Поделиться» внизу Safari, затем «На экран Домой». | Дар поёни Safari «Мубодила»-ро пахш кун, баъд «Ба экрани Асосӣ». |
+| 744 | apps/mobile/messages | `pwa.install.later` | Позже | Дертар |
+| 745 | apps/mobile/messages | `pwa.install.ok` | Понятно | Фаҳмидам |
+| 746 | apps/mobile/messages | `splash.error` | Приложение не загрузилось. Проверь интернет и попробуй ещё раз. | Барнома бор нашуд. Интернетро санҷ ва боз кӯшиш кун. |
+| 747 | apps/mobile/messages | `settings.title` | Настройки | Танзимот |
+| 748 | apps/mobile/messages | `settings.privacy` | Что мы храним и что нет | Мо чиро нигоҳ медорем ва чиро не |
+| 749 | apps/mobile/messages | `start.title` | У тебя уже есть случай | Ту аллакай ҳолат дорӣ |
+| 750 | apps/mobile/messages | `start.body` | Начать новый — значит удалить текущий: шаги, ссылки, скриншоты. | Оғози нав — яъне нест кардани ҳолати ҷорӣ: қадамҳо, пайвандҳо, скриншотҳо. |
+| 751 | apps/mobile/messages | `start.keep` | Продолжить текущий | Ҳолати ҷориро давом додан |
+| 752 | apps/mobile/messages | `start.new` | Начать новый | Нав оғоз кардан |

@@ -1,0 +1,35 @@
+/* /situation as illustrated tiles (Ali's mockup, 2026-10-14). The tile look is Home's .tiles / .tile (shell.css); this
+   file adds only what a button and the wide variant need. Every rule is scoped to main.situation. */
+main.situation .sit-tile { width: 100%; text-align: left; }
+main.situation .sit-tile .body { display: flex; flex-direction: column; gap: 4px; }
+main.situation .sit-tile:disabled { opacity: 0.6; cursor: progress; }
+
+/* An odd last situation spans the row: picture left, text right. The same layout takes every tile while the
+   «У тебя уже есть случай» card or the storage error is open, so the grid never leaves a half-empty row. */
+main.situation .sit-wide,
+main.situation .sit-grid:has(> .start-confirm, > .banner) > .sit-tile {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-3);
+}
+main.situation .sit-wide img,
+main.situation .sit-grid:has(> .start-confirm, > .banner) > .sit-tile img { margin-bottom: 0; }
+main.situation .sit-grid > .start-confirm,
+main.situation .sit-grid > .banner { grid-column: 1 / -1; }
+/* Whatever scrolls into view here (an opened card, a tile or «Не уверен(а)» reached with the keyboard) stops above the
+   fixed bottom bar, not under it. */
+main.situation .start-confirm,
+main.situation .sit-tile,
+main.situation .sit-unsure { scroll-margin-bottom: calc(96px + env(safe-area-inset-bottom)); }
+
+/* «Не уверен(а), что из этого»: one quiet row right under the tiles, as in the mockup. */
+main.situation .sit-unsure { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 48px; padding: 0 var(--space-2); border: 0; border-radius: var(--radius-control); background: none; color: var(--text-secondary); text-align: left; transition: background-color 120ms ease; }
+main.situation .sit-unsure:active { background: var(--neutral-bg); }
+main.situation .sit-unsure:disabled { opacity: 0.6; cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  main.situation .sit-tile, main.situation .sit-unsure { transition: none; }
+  main.situation .sit-tile:active { transform: none; }
+}

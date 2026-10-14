@@ -1,6 +1,6 @@
 # `packages/guidance` — the content engine
 
-Plain TypeScript, no dependency on Next.js or the database. Consumed by `apps/mobile` and `apps/bot`; both render the same items from the same profile. One source of copy: a string that exists in one app and not the other is a bug.
+Plain TypeScript, no dependency on Next.js or the database. Consumed by `apps/mobile` and `apps/bot`; both render the same items from the same profile. One source of copy: a string that exists in one app and not the other is a bug. Scope (2026-10-14): a situation's name, every step and every answer live here and are shared; presentation copy only the app shows (Home's tile lines, the situation tiles' short titles and lines in `apps/mobile/messages`) may live in the app and must mean the same as the shared name.
 
 ## Shape
 

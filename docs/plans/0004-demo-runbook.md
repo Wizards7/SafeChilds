@@ -40,7 +40,7 @@ Projector: the laptop shows the app in the phone frame with the QR beside it. Ju
 
 **Before every run** (each rehearsal and the stage run), on the projector laptop and on every phone: Мой случай → «Удалить этот случай» → «Удалить». A case left from the last run makes step 1 ask «У тебя уже есть случай» instead of opening the safety check, and step 7a rewrites that case.
 
-1. **Home → "Кто-то сделал фейковое фото со мной".** Say: four categories from the organizers' scheme, each with concrete situations.
+1. **Home → «Поддельный контент» → «Фейковое фото».** Say: four categories from the organizers' scheme, each with concrete situations.
 2. **Safety: "Да, я в безопасности".** Say: this screen is always next; "мне угрожают" skips everything and opens the urgent screen.
 3. **Question: "Да, проверить"** → the prepared demo image → wait for the result. Say: metadata and Content Credentials are checked on the phone; one image goes to the model and is deleted; the model only points, it never judges. Point at the **"Проверено / Не проверено"** line: "we tell the kid what we could not check". If the tier comes back "не удалось определить", say that out loud: the honesty is the feature, and show the six self-check signs.
 4. **Plan, platform Instagram.** Tick "Сохрани ссылку" and "Сделай скриншот". Open "Пожалуйся в Instagram" to show the exact taps and the VERIFY badge. Say: three steps now, the rest later; the ready message for an adult.

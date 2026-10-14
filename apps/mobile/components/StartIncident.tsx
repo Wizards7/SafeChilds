@@ -6,7 +6,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { emptyProfile, type SituationId } from "@safechilds/guidance";
 import { incidentStore } from "../lib/incident-store";
 import { Icon } from "./Icon";
@@ -26,6 +26,19 @@ export function StartIncident({
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [failed, setFailed] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const keepRef = useRef<HTMLButtonElement>(null);
+
+  // The card replaces the tapped button, so focus would fall back to the page: it moves to the safe choice, «Продолжить
+  // текущий». A tile low on the screen opens its card under the bottom bar: the card is brought into view (2026-10-14).
+  useEffect(() => {
+    if (!confirming) return;
+    const id = setTimeout(() => {
+      keepRef.current?.focus({ preventScroll: true });
+      cardRef.current?.scrollIntoView({ block: "nearest" });
+    }, 0);
+    return () => clearTimeout(id);
+  }, [confirming]);
 
   // The store can fail (StorageUnavailable in lib/incident-store.ts): the button comes back and the error stays under it.
   const storeFailed = () => {
@@ -56,14 +69,14 @@ export function StartIncident({
 
   if (confirming) {
     return (
-      <div className="card card-danger start-confirm" role="group" aria-label={t("title")}>
+      <div ref={cardRef} className="card card-danger start-confirm" role="group" aria-label={t("title")}>
         <div className="head">
           <Icon name="triangle-alert" />
           {t("title")}
         </div>
         <p className="small">{t("body")}</p>
         <div className="row2">
-          <button className="btn btn-secondary" onClick={() => router.push("/plan")}>
+          <button ref={keepRef} className="btn btn-secondary" onClick={() => router.push("/plan")}>
             {t("keep")}
           </button>
           <button className="btn btn-danger" disabled={busy} onClick={start}>
