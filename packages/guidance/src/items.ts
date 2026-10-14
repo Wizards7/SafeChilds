@@ -1,6 +1,6 @@
 // Item kinds. Every item carries a showWhen, an order, and strings in both languages.
 
-import type { Category, Flag, Platform, Profile } from "./profile";
+import { PLATFORMS, type Category, type Flag, type Platform, type Profile } from "./profile";
 import type { ShowWhen } from "./showWhen";
 import { matches } from "./showWhen";
 
@@ -64,6 +64,17 @@ export function composePlan(items: readonly Item[], profile: Profile): Plan {
     .sort((a, b) => a.order - b.order);
   if (steps.length <= 4) return { now: steps, later: [] };
   return { now: steps.slice(0, 3), later: steps.slice(3) };
+}
+
+// The platform picker on the plan shows only when picking a platform changes the plan: a report path, restrict vs block
+// (2026-10-14). Extortion and «Не знаю» have no platform step, so a picker there would change nothing.
+export function platformMatters(items: readonly Item[], profile: Profile): boolean {
+  const ids = (p: Profile) => {
+    const plan = composePlan(items, p);
+    return [...plan.now, ...plan.later].map((s) => s.id).join(" ");
+  };
+  const none = ids({ ...profile, platform: null });
+  return PLATFORMS.some((platform) => ids({ ...profile, platform }) !== none);
 }
 
 export function questionFor(items: readonly Item[], profile: Profile): QuestionItem | null {

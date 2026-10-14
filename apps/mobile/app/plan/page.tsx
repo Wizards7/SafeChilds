@@ -5,7 +5,7 @@
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { composePlan, ITEMS, PLATFORM_LABEL, PLATFORMS, SITUATION_LABEL, type Platform, type StepItem } from "@safechilds/guidance";
+import { composePlan, ITEMS, PLATFORM_LABEL, PLATFORMS, platformMatters, SITUATION_LABEL, type Platform, type StepItem } from "@safechilds/guidance";
 import { Icon, ICONS_URL } from "../../components/Icon";
 import { InstallPrompt } from "../../components/InstallPrompt";
 import { MessageButton } from "../../components/MessageButton";
@@ -56,8 +56,8 @@ export default function PlanPage() {
   if (loading || !incident) return null;
 
   const plan = composePlan(ITEMS, incident.profile);
-  // «Не знаю» has no platform step, so a picker there would change nothing.
-  const needsPlatform = incident.profile.category !== "unknown" && ITEMS.some((i) => i.kind === "step" && JSON.stringify(i.showWhen).includes('"platform"'));
+  // Only when picking a platform changes a step (packages/guidance platformMatters): not on extortion or «Не знаю».
+  const needsPlatform = platformMatters(ITEMS, incident.profile);
   const toggle = async (id: string) => {
     await incidentStore.toggleStep(id);
     await refresh();

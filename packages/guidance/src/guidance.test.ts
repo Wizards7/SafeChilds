@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { PENDING_VERIFY } from "./content/extortion";
-import { ABOUT, BREATHE_FOR, FEELING_REPLY, FEELING_URGENT, ITEMS, SHAME_SILENT, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile, type Text } from "./index";
+import { ABOUT, BREATHE_FOR, platformMatters, FEELING_REPLY, FEELING_URGENT, ITEMS, SHAME_SILENT, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile, type Text } from "./index";
 
 describe("showWhen", () => {
   const p = { ...emptyProfile("fake_photo"), platform: "instagram" as const, flags: { ongoing: true } };
@@ -232,5 +232,16 @@ describe("feeling replies on the Поддержка tab", () => {
   });
   it("breathing is the reply for scared and overwhelmed only; anxious gets a plan step", () => {
     expect([...BREATHE_FOR].sort()).toEqual(["overwhelmed", "scared"]);
+  });
+});
+
+describe("platformMatters", () => {
+  it("the plan's platform picker shows only where a platform changes a step", () => {
+    for (const s of ["fake_photo", "impersonation", "profile_asks_money_or_code", "already_sent", "public_humiliation", "persistent_messages", "group_against_me"] as const) {
+      expect(platformMatters(ITEMS, emptyProfile(s)), s).toBe(true);
+    }
+    for (const s of ["threat_to_publish", "demand_money_or_photos", "unknown"] as const) {
+      expect(platformMatters(ITEMS, emptyProfile(s)), s).toBe(false);
+    }
   });
 });
