@@ -143,7 +143,7 @@ export default function BreathePage() {
       <TopBar title="" backHref={back} />
       <main className="no-nav breathe-page">
         {/* Mounted from the start, so a screen reader announces even the first «Вдох» */}
-        <span className="sr-only" aria-live="polite">{live ? (inhale ? t("inhale") : t("exhale")) : ""}</span>
+        <span className="sr-only" aria-live="polite">{live ? (inhale ? t("inhale") : t("exhale")) : mode === "done" ? t("doneTitle") : ""}</span>
         {mode === "idle" && (
           <>
             <h1>{t("title")}</h1>

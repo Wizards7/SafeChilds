@@ -81,6 +81,8 @@ function FeelingMarks({ picks, now, locale }: { picks: readonly Pick[]; now: Dat
     if (el) el.scrollLeft = el.scrollWidth;
   }, [cells.length]);
   const WEEKDAY = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
+  // Picks older than the strip's five weeks would leave only empty days under the title: then the section stays away.
+  if (!cells.some((c) => days.has(c.key))) return null;
   return (
     <section className="marks" aria-labelledby="marks-title">
       <h2 id="marks-title">{t("marks.title")}</h2>
