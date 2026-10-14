@@ -6,7 +6,7 @@
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { coverageLine, LINK_SOURCE_TEXT, LINK_SOURCES, LINK_TIER_TEXT, type LinkFinding, type LinkResult } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
@@ -48,6 +48,11 @@ export default function LinkPage() {
   const [savedId, setSavedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<"failed" | "noCase" | null>(null);
+  const openRef = useRef<HTMLAnchorElement>(null);
+  // The save button leaves once it has saved: focus goes to «Открыть», not back to the top of the page.
+  useEffect(() => {
+    if (savedId) openRef.current?.focus();
+  }, [savedId]);
   const check = useMutation(trpc.links.check.mutationOptions());
 
   const submit = () => {
@@ -69,7 +74,7 @@ export default function LinkPage() {
     setSaveError(null);
     try {
       const checked = url.trim();
-      const item = await incidentStore.addEvidence({ kind: "linkCheck", url: checked, finalHost: hostOf(r.finalUrl ?? checked), tier: r.tier });
+      const item = await incidentStore.addEvidence({ kind: "linkCheck", url: checked, finalHost: hostOf(r.finalUrl ?? checked), tier: r.tier, coverage: { checked: r.checked, unchecked: r.unchecked } });
       if (item) setSavedId(item.id);
       else setSaveError("noCase");
     } catch {
@@ -147,7 +152,7 @@ export default function LinkPage() {
             <div className="stack">
               <Link className="btn btn-primary" href="/plan">{t("plan")}</Link>
               {savedId ? (
-                <div className="saved-to" role="status"><Icon name="check" size={20} /><span>{tc("savedTo")}</span><Link href={`/incident#e-${savedId}`}>{tc("openCase")}</Link></div>
+                <div className="saved-to" role="status"><Icon name="check" size={20} /><span>{tc("savedTo")}</span><Link ref={openRef} href={`/incident#e-${savedId}`}>{tc("openCase")}</Link></div>
               ) : (
                 <>
                   <button className="btn btn-secondary" disabled={saving} onClick={() => save(result)}>

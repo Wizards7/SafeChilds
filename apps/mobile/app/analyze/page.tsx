@@ -71,6 +71,12 @@ export default function AnalyzePage() {
   const [withPhoto, setWithPhoto] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const originalRef = useRef<HTMLInputElement>(null);
+  const openRef = useRef<HTMLAnchorElement>(null);
+
+  // The save button leaves once it has saved: focus goes to «Открыть», not back to the top of the page.
+  useEffect(() => {
+    if (savedId) openRef.current?.focus();
+  }, [savedId]);
 
   useEffect(() => {
     if (!file) return;
@@ -112,7 +118,7 @@ export default function AnalyzePage() {
     setSaving(true);
     setSaveFailed(false);
     try {
-      const item = await incidentStore.addEvidence({ kind: "imageCheck", tier: decision.tier, facts: decision.evidence, originalMatches: decision.originalMatches, ...(withPhoto && file ? { image: file } : {}) });
+      const item = await incidentStore.addEvidence({ kind: "imageCheck", tier: decision.tier, facts: decision.evidence, originalMatches: decision.originalMatches, coverage: imageCoverage(decision), ...(withPhoto && file ? { image: file } : {}) });
       if (item) setSavedId(item.id);
       else setSaveFailed(true);
     } catch {
@@ -236,7 +242,7 @@ export default function AnalyzePage() {
 
             <div className="stack">
               {savedId ? (
-                <div className="saved-to" role="status"><Icon name="check" size={20} /><span>{tc("savedTo")}</span><Link href={`/incident#e-${savedId}`}>{tc("openCase")}</Link></div>
+                <div className="saved-to" role="status"><Icon name="check" size={20} /><span>{tc("savedTo")}</span><Link ref={openRef} href={`/incident#e-${savedId}`}>{tc("openCase")}</Link></div>
               ) : (
                 <>
                   {file && (

@@ -20,7 +20,7 @@ Invariants. A change that breaks one of these is wrong even if it works.
 
 - Nothing about an incident is sent to the server. The incident key, links, screenshots, notes and steps live in IndexedDB only.
 - Before upload the screen says: do not upload intimate images of yourself or anyone else; the file is deleted after the result.
-- Only the one image being analyzed leaves the phone. It is not stored anywhere.
+- Only the one image being analyzed leaves the phone. The server never stores it. On the phone it is kept only when the kid ticks «Сохранить вместе с фото» on the result (off by default, 2026-10-14), inside the case, and «Удалить этот случай» wipes it.
 - No analytics SDK, no third-party scripts, no cookies. Nothing identifies the device beyond its own IndexedDB.
 - "Start over" wipes the incident after a confirmation. Deletion is a real delete.
 

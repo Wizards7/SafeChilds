@@ -27,13 +27,14 @@ export function useObjectUrl(value: unknown) {
 export function pinToFrame(d: HTMLDialogElement) {
   const frame = document.querySelector(".shell-screen");
   if (!frame || !window.matchMedia("(min-width: 768px)").matches) {
-    for (const p of ["inset", "width", "height"]) d.style.removeProperty(p);
+    for (const p of ["inset", "width", "height", "max-height"]) d.style.removeProperty(p);
     return;
   }
   const r = frame.getBoundingClientRect();
   d.style.inset = `${r.top}px auto auto ${r.left}px`;
   d.style.width = `${r.width}px`;
   d.style.height = `${r.height}px`;
+  d.style.maxHeight = "none"; // the frame can be taller than a short laptop window; the dialog follows the frame
 }
 
 // While an overlay is open the page behind does not scroll.

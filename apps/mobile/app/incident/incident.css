@@ -1,7 +1,7 @@
 /* "Мой случай" tab (redesigned 2026-10-14): the case card, «Доказательства» as a day-grouped timeline with a week strip,
    bottom sheets (add, one item), the screenshot viewer, the device line, delete. Settings live on /settings. */
 .incident { --lift: 0 1px 2px rgb(15 23 42 / 0.04), 0 6px 18px rgb(15 23 42 / 0.06); --day-top: calc(56px + env(safe-area-inset-top)); }
-.top .gear { width: var(--touch-min); height: var(--touch-min); display: grid; place-items: center; border-radius: var(--radius-control); color: var(--text-secondary); flex: none; }
+.top .gear { width: var(--touch-min); height: var(--touch-min); display: grid; place-items: center; border-radius: var(--radius-control); color: var(--text-secondary); flex: none; background: var(--surface); border: 1px solid rgb(15 23 42 / 0.08); box-shadow: 0 1px 2px rgb(15 23 42 / 0.04); }
 .top .gear:active { background: var(--neutral-bg); }
 
 /* Case card */
@@ -30,22 +30,21 @@
   .ev-head .add .add-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
-/* Week strip: one row, Monday-first weeks, swipe for earlier ones; a dot = something saved or done that day.
-   Cells keep a 44 px hit area at 360 px wide (the 2 px gap is what makes that fit). */
+/* Week strip: one row of day cards (Ali's mockup), Monday-first weeks, swipe for earlier ones; a dot = something saved
+   or done that day. Cells never go under 44 px: at 360 px the strip runs closer to the edges, below that it scrolls. */
 .strip { margin: 0 calc(-1 * var(--space-4)); }
-.strip-track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 6 * 2px) / 7); gap: 2px; overflow-x: auto; padding: 2px var(--space-4) 6px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.strip-track { display: grid; grid-auto-flow: column; grid-auto-columns: max(44px, calc((100% - 6 * 4px) / 7)); gap: 4px; overflow-x: auto; padding: 2px var(--space-3) 6px; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .strip-track::-webkit-scrollbar { display: none; }
-.sd { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 66px; border-radius: 14px; border: 0; background: transparent; font: inherit; color: var(--text); padding: 0; }
+.sd { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 66px; border-radius: 14px; border: 1px solid rgb(15 23 42 / 0.08); background: var(--surface); box-shadow: 0 1px 2px rgb(15 23 42 / 0.04); font: inherit; color: var(--text); padding: 0; }
 .sd:nth-child(7n + 1) { scroll-snap-align: start; }
-.sd .wd { font-size: var(--text-small); color: var(--text-secondary); }
+.sd .wd { font-size: var(--text-small); color: var(--text-secondary); text-transform: capitalize; }
 .sd .n { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .sd .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
 .sd .dot.none { background: transparent; }
-.sd.future { color: var(--text-disabled); }
-.sd.future .wd { color: var(--text-disabled); }
+.sd.future { color: var(--text-secondary); }
 .sd.active { cursor: pointer; }
 .sd.active:active { background: var(--neutral-bg); }
-.sd.sel { background: var(--primary); color: #ffffff; box-shadow: var(--lift); }
+.sd.sel { background: var(--primary); border-color: var(--primary); color: #ffffff; box-shadow: var(--lift); }
 .sd.sel .wd { color: rgb(255 255 255 / 0.85); }
 .sd.sel .dot { background: #ffffff; }
 .sd.sel .dot.none { background: transparent; }
@@ -60,34 +59,41 @@
 @media (min-width: 768px) { .shell-screen .incident { --day-top: 0px; } }
 
 /* Timeline cards: one tap target each */
-.tl-list { display: flex; flex-direction: column; gap: var(--space-2); }
+/* Cards sit under the day label, right of the calendar tile column (44 px tile + 12 px gap) */
+.tl-list { display: flex; flex-direction: column; gap: var(--space-2); padding-left: 56px; }
 .tl-card { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 72px; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); background: var(--surface); border: 1px solid rgb(15 23 42 / 0.06); border-radius: var(--radius-card); box-shadow: var(--lift); font: inherit; color: var(--text); text-align: left; text-decoration: none; cursor: pointer; transition: transform 120ms ease, background-color 120ms ease; }
 .tl-card:active { transform: scale(0.99); background: #fbfcfe; }
 @media (hover: hover) and (pointer: fine) { .tl-card:hover { border-color: rgb(37 99 235 / 0.25); } }
-.tl-card .tile { position: relative; width: 48px; height: 48px; flex: none; display: grid; place-items: center; overflow: hidden; border-radius: 12px; background: var(--neutral-bg); color: var(--text-secondary); }
-.tl-card .tile.blue { background: color-mix(in srgb, var(--primary) 10%, #ffffff); color: var(--primary); }
-.tl-card .tile.ok { background: var(--success-bg); color: var(--success); }
-.tl-card .tile.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.tl-card .tile .badge-ic { position: absolute; right: 3px; bottom: 3px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 6px; background: rgb(255 255 255 / 0.92); color: var(--primary); }
+.tl-card .tl-tile { position: relative; width: 48px; height: 48px; flex: none; display: grid; place-items: center; overflow: hidden; border-radius: 12px; background: var(--neutral-bg); color: var(--text-secondary); }
+.tl-card .tl-tile.blue { background: color-mix(in srgb, var(--primary) 10%, #ffffff); color: var(--primary); }
+.tl-card .tl-tile.ok { background: var(--success); color: #ffffff; }
+.tl-card.tint-blue { background: color-mix(in srgb, var(--primary) 5%, #ffffff); border-color: rgb(37 99 235 / 0.1); }
+.tl-card.tint-ok { background: var(--success-bg); border-color: rgb(21 128 61 / 0.15); }
+.tl-card .tl-tile.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tl-card .tl-tile .badge-ic { position: absolute; right: 3px; bottom: 3px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 6px; background: var(--primary); color: #ffffff; }
+.tl-card .tl-tile .badge-ic.warn { background: var(--warning); }
+.tl-card .tl-tile .badge-ic.support { background: var(--support); }
 .tl-card .body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.tl-card .t { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Titles and result lines wrap to two lines instead of cutting a step's words; addresses stay on one line */
+.tl-card .t { font-weight: 600; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .tl-card .d { font-size: var(--text-small); color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tl-card .d.warn { color: var(--warning); font-weight: 500; }
 .tl-card .d.support { color: var(--support); font-weight: 500; }
-.tl-card .d.clamp { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.tl-card .d.clamp, .tl-card .d.warn, .tl-card .d.support, .tl-card .d.neutral { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .tl-card .tm { align-self: flex-start; flex: none; padding-top: 2px; font-size: var(--text-small); color: var(--neutral); font-variant-numeric: tabular-nums; }
-/* A card that just arrived (from a save, or added here): tinted, then a 300 ms fade back */
+/* A card that just arrived (from a save, or added here): a blue ring, then a 300 ms fade back (the ring, not the card's
+   own tint, so a tinted card keeps its colour) */
 .tl-card.is-new { animation: tl-new 1500ms ease-out both; }
 @keyframes tl-new {
-  0%, 80% { background: color-mix(in srgb, var(--primary) 9%, #ffffff); border-color: rgb(37 99 235 / 0.35); }
-  100% { background: var(--surface); border-color: rgb(15 23 42 / 0.06); }
+  0%, 80% { box-shadow: 0 0 0 2px rgb(37 99 235 / 0.5), var(--lift); }
+  100% { box-shadow: var(--lift); }
 }
 .tl-empty { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-card); background: var(--neutral-bg); color: var(--text-secondary); }
 
 /* Footer: where it lives, delete */
 .device { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-3); border-radius: var(--radius-control); background: var(--neutral-bg); font-size: var(--text-small); color: var(--text-secondary); }
 .device .i { flex: none; }
-.reset { color: var(--danger); justify-content: flex-start; padding: 0; }
+.reset { color: var(--danger); justify-content: center; font-size: var(--text-small); }
 .card.col { display: flex; flex-direction: column; gap: var(--space-2); }
 .card.empty { align-items: flex-start; gap: var(--space-3); }
 .card.empty .btn { width: auto; min-height: 44px; }
@@ -96,15 +102,17 @@
 .act { width: var(--touch-min); height: var(--touch-min); display: grid; place-items: center; border: 0; background: none; border-radius: var(--radius-control); color: var(--text-secondary); cursor: pointer; flex: none; }
 .act:active { background: var(--neutral-bg); }
 
-/* Bottom sheets: a transparent modal the size of the screen (the phone frame in the desktop shell), the panel at its foot */
-.sheet { border: 0; padding: 0; margin: 0; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; background: transparent; }
-.sheet[open] { display: flex; flex-direction: column; justify-content: flex-end; }
-.sheet::backdrop { background: var(--overlay); }
-.sheet-panel { max-height: 88%; overflow-y: auto; padding: var(--space-2) var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom)); border-radius: 20px 20px 0 0; background: var(--surface); box-shadow: 0 -8px 30px rgb(15 23 42 / 0.12); animation: sheet-in 240ms cubic-bezier(0.2, 0.8, 0.2, 1); }
-.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 52px; margin-right: -10px; }
-.sheet-head h2 { font-size: var(--text-h3); }
+/* Bottom sheets: a transparent modal the size of the screen (the phone frame in the desktop shell), the panel at its foot.
+   Own class names: the welcome's global "sheet" class, once loaded, showed these closed dialogs (2026-10-14). */
+.ev-sheet { border: 0; padding: 0; margin: 0; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; background: transparent; }
+.ev-sheet:not([open]) { display: none; }
+.ev-sheet[open] { display: flex; flex-direction: column; justify-content: flex-end; }
+.ev-sheet::backdrop { background: var(--overlay); }
+.ev-sheet-panel { max-height: 88%; overflow-y: auto; padding: var(--space-2) var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom)); border-radius: 20px 20px 0 0; background: var(--surface); box-shadow: 0 -8px 30px rgb(15 23 42 / 0.12); animation: sheet-in 240ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.ev-sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 52px; margin-right: -10px; }
+.ev-sheet-head h2 { font-size: var(--text-h3); }
 @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
-@media (min-width: 768px) { .sheet { border-radius: 34px; overflow: hidden; } }
+@media (min-width: 768px) { .ev-sheet { border-radius: 34px; overflow: hidden; } }
 .item-sheet .meta { color: var(--text-secondary); }
 .item-sheet .label { color: var(--text-secondary); margin-bottom: calc(-1 * var(--space-2)); }
 .item-sheet .addr-full, .item-sheet .note-full { margin: 0; padding: var(--space-3); border-radius: var(--radius-control); background: var(--neutral-bg); font-size: var(--text-small); user-select: text; }
@@ -117,9 +125,10 @@
 .item-sheet .result.support { background: var(--support-bg); }
 .item-sheet .result.support .head { color: var(--support); }
 .item-sheet .result.neutral { background: var(--neutral-bg); }
+.item-sheet .coverage { color: var(--text-secondary); }
 .item-sheet .facts { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--text-small); color: var(--text-secondary); }
-.sheet-actions { display: flex; flex-direction: column; gap: var(--space-2); }
-.sheet-actions .btn { min-height: 48px; }
+.ev-sheet-actions { display: flex; flex-direction: column; gap: var(--space-2); }
+.ev-sheet-actions .btn { min-height: 48px; }
 .incident .btn-quiet.danger { color: var(--danger); }
 
 /* Screenshot viewer: a native modal dialog, full screen on the phone, on the phone frame in the desktop shell */
@@ -128,6 +137,7 @@
 .viewer::backdrop { background: rgb(15 23 42 / 0.85); }
 .viewer .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: calc(env(safe-area-inset-top) + var(--space-2)) var(--space-3) var(--space-2) var(--space-4); }
 .viewer .bar .small { color: #cbd5e1; }
+.viewer .bar .small.fail { color: #fca5a5; }
 .viewer .act { color: #fff; }
 .viewer .act:active { background: rgb(255 255 255 / 0.12); }
 .viewer .pic { flex: 1; min-height: 0; display: grid; place-items: center; padding: var(--space-3); }
@@ -139,5 +149,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .progress span, .tl-card { transition: none; }
-  .tl-card.is-new, .sheet-panel { animation: none; }
+  .tl-card.is-new, .ev-sheet-panel { animation: none; }
 }

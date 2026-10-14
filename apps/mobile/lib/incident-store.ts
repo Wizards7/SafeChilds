@@ -3,18 +3,19 @@
 
 import { openDB, type IDBPDatabase } from "idb";
 import type { Feeling, Platform, Profile, SafetyAnswer } from "@safechilds/guidance";
-import type { Decision, LinkResult, TriageRoute } from "@safechilds/analysis";
+import type { Coverage, Decision, ImageCheck, LinkResult, LinkSource, TriageRoute } from "@safechilds/analysis";
 
 // What the kid saved, by kind. url / screenshot / note are the 2026-10-12 shape and every old record still reads as one
 // of them. imageCheck / linkCheck (2026-10-14) are a check result saved from /analyze or /link: the codes, never text,
-// so the card renders the reviewed wording in either language. A screenshot's takenAt is the file's own date when it is
-// clearly older than the moment it was added; otherwise it is absent and the card says "added", not "taken".
+// so the card renders the reviewed wording in either language, with the «Проверено / Не проверено» line it had on its own
+// screen (coverage; absent on checks saved before it was stored). A screenshot's takenAt is the file's own date when it
+// is clearly older than the moment it was added; otherwise it is absent and the card says "added", not "taken".
 export type Evidence = { id: string; createdAt: string } & (
   | { kind: "url"; value: string }
   | { kind: "screenshot"; value: Blob; takenAt?: string }
   | { kind: "note"; value: string }
-  | { kind: "imageCheck"; tier: Decision["tier"]; facts: Decision["evidence"]; originalMatches: boolean; image?: Blob }
-  | { kind: "linkCheck"; url: string; finalHost: string | null; tier: LinkResult["tier"] }
+  | { kind: "imageCheck"; tier: Decision["tier"]; facts: Decision["evidence"]; originalMatches: boolean; image?: Blob; coverage?: Coverage<ImageCheck> }
+  | { kind: "linkCheck"; url: string; finalHost: string | null; tier: LinkResult["tier"]; coverage?: Coverage<LinkSource> }
 );
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 export type NewEvidence = DistributiveOmit<Evidence, "id" | "createdAt">;

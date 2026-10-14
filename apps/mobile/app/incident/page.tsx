@@ -31,6 +31,7 @@ export default function IncidentPage() {
   const ts = useTranslations("settings");
   const { incident, loading, failed, refresh } = useIncident();
   const [confirming, setConfirming] = useState(false);
+  const [resetFailed, setResetFailed] = useState(false);
   const [adding, setAdding] = useState(false);
   const [openItem, setOpenItem] = useState<SheetItem | null>(null);
   const [viewing, setViewing] = useState<ShotItem | null>(null);
@@ -105,6 +106,16 @@ export default function IncidentPage() {
     await refresh();
     setNewKey(`e-${id}`);
   };
+  const resetCase = async () => {
+    setResetFailed(false);
+    try {
+      await incidentStore.clear();
+      setConfirming(false);
+      await refresh();
+    } catch {
+      setResetFailed(true);
+    }
+  };
   const pickDay = (key: string) => {
     setPickedDay(key);
     document.getElementById(`day-${key}`)?.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
@@ -150,9 +161,10 @@ export default function IncidentPage() {
             <div className="head"><Icon name="triangle-alert" />{t("reset.confirmTitle")}</div>
             <p className="small">{t("reset.confirmBody")}</p>
             <div className="row2">
-              <button type="button" className="btn btn-secondary" onClick={() => setConfirming(false)}>{t("reset.cancel")}</button>
-              <button type="button" className="btn btn-danger" onClick={async () => { await incidentStore.clear(); setConfirming(false); await refresh(); }}>{t("reset.confirm")}</button>
+              <button type="button" className="btn btn-secondary" onClick={() => { setConfirming(false); setResetFailed(false); }}>{t("reset.cancel")}</button>
+              <button type="button" className="btn btn-danger" onClick={resetCase}>{t("reset.confirm")}</button>
             </div>
+            {resetFailed && <div className="error" role="alert">{t("evidence.removeFailed")}</div>}
           </section>
         ) : (
           <button type="button" className="btn btn-quiet reset" onClick={() => setConfirming(true)}><Icon name="trash-2" size={18} />{t("reset.button")}</button>

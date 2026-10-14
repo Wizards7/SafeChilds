@@ -31,24 +31,30 @@ export function resultTitle(e: Extract<Evidence, { kind: "imageCheck" | "linkChe
   return pick(e.originalMatches ? ORIGINAL_MATCHES_TEXT.title : TIER_TEXT[e.tier].title, locale);
 }
 
-function Thumb({ blob, badge }: { blob: Blob; badge?: string }) {
+function Thumb({ blob, badge, tone }: { blob: Blob; badge?: string; tone?: Tone }) {
   const url = useObjectUrl(blob);
   return (
-    <span className="tile thumb">
+    <span className="tl-tile thumb">
       {url && <img src={url} alt="" width={48} height={48} />}
-      {badge && <span className="badge-ic"><Icon name={badge} size={14} /></span>}
+      {badge && <span className={`badge-ic ${tone ?? "neutral"}`}><Icon name={badge} size={14} /></span>}
     </span>
   );
 }
 
+// The card's own tint (Ali's mockup, 2026-10-14): links and link checks blue, a finished step green (green is for
+// completed steps only), everything else white.
+function tintOf(e: Evidence): string {
+  return e.kind === "url" || e.kind === "linkCheck" ? " tint-blue" : "";
+}
+
 function EntryCard({ entry, locale, isNew, onOpen }: { entry: Entry; locale: Locale; isNew: boolean; onOpen: (e: Evidence) => void }) {
   const t = useTranslations("incident");
-  const cls = `tl-card${isNew ? " is-new" : ""}`;
+  const mark = isNew ? " is-new" : "";
   const time = <time className="tm" dateTime={entry.at.toISOString()}>{formatTime(entry.at)}</time>;
   if (entry.type === "step") {
     return (
-      <Link id={entry.key} className={cls} href="/plan">
-        <span className="tile ok"><Icon name="circle-check" /></span>
+      <Link id={entry.key} className={`tl-card tint-ok${mark}`} href="/plan">
+        <span className="tl-tile ok"><Icon name="check" /></span>
         <span className="body"><span className="t">{pick(entry.step.title, locale)}</span><span className="d">{t("item.stepDone")}</span></span>
         {time}
       </Link>
@@ -65,17 +71,17 @@ function EntryCard({ entry, locale, isNew, onOpen }: { entry: Entry; locale: Loc
       lines = <span className="d">{e.takenAt ? t("item.taken") : t("item.added")}</span>;
       break;
     case "url":
-      tile = <span className="tile blue"><Icon name="link" /></span>;
+      tile = <span className="tl-tile blue"><Icon name="link" /></span>;
       title = t("item.link");
       lines = <span className="d addr">{shortUrl(e.value)}</span>;
       break;
     case "imageCheck":
-      tile = e.image ? <Thumb blob={e.image} badge="scan-search" /> : <span className="tile blue"><Icon name="scan-search" /></span>;
+      tile = e.image ? <Thumb blob={e.image} badge="scan-search" tone={toneOf(e)} /> : <span className="tl-tile blue"><Icon name="scan-search" /></span>;
       title = t("item.imageCheck");
       lines = <span className={`d ${toneOf(e)}`}>{resultTitle(e, locale)}</span>;
       break;
     case "linkCheck":
-      tile = <span className="tile blue"><Icon name="search" /></span>;
+      tile = <span className="tl-tile blue"><Icon name="search" /></span>;
       title = t("item.linkCheck");
       lines = (
         <>
@@ -85,13 +91,13 @@ function EntryCard({ entry, locale, isNew, onOpen }: { entry: Entry; locale: Loc
       );
       break;
     case "note":
-      tile = <span className="tile"><Icon name="notepad-text" /></span>;
+      tile = <span className="tl-tile"><Icon name="notepad-text" /></span>;
       title = t("item.note");
       lines = <span className="d clamp">{e.value}</span>;
       break;
   }
   return (
-    <button type="button" id={entry.key} className={cls} onClick={() => onOpen(e)}>
+    <button type="button" id={entry.key} className={`tl-card${tintOf(e)}${mark}`} onClick={() => onOpen(e)}>
       {tile}
       <span className="body"><span className="t">{title}</span>{lines}</span>
       {time}

@@ -26,8 +26,10 @@ Evidence                       one of five kinds; every record has id + createdA
   screenshot   value: Blob, takenAt?: ISO            the file's own date, only when clearly older than the add
   note         value: string                         free text (also every check saved before 2026-10-14)
   imageCheck   tier, facts[], originalMatches,       a photo check saved from /analyze, as codes; the photo only
-               image?: Blob                          when the kid ticked "save with photo"
-  linkCheck    url, finalHost, tier                  a link check saved from /link, as codes
+               image?: Blob, coverage?               when the kid ticked "save with photo"
+  linkCheck    url, finalHost, tier, coverage?       a link check saved from /link, as codes
+               coverage = { checked[], unchecked[] }: the «Проверено / Не проверено» line of the result, kept so the
+               saved check shows its limits too (absent on checks saved before 2026-10-14 afternoon)
 ```
 
 Blobs live in IndexedDB and are never uploaded. Checks are stored as codes, never as text, so «Мой случай» renders the reviewed wording in either language (2026-10-14).

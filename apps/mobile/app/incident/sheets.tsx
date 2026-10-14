@@ -8,7 +8,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { EVIDENCE_TEXT, LINK_TIER_TEXT, ORIGINAL_MATCHES_TEXT, TIER_TEXT } from "@safechilds/analysis";
+import { coverageLine, EVIDENCE_TEXT, IMAGE_CHECK_TEXT, LINK_SOURCE_TEXT, LINK_TIER_TEXT, ORIGINAL_MATCHES_TEXT, TIER_TEXT } from "@safechilds/analysis";
 import { Icon } from "../../components/Icon";
 import { incidentStore, type Evidence } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
@@ -39,9 +39,9 @@ function Sheet({ open, label, onClose, children }: { open: boolean; label: strin
   const t = useTranslations("incident");
   const ref = useModal(open);
   return (
-    <dialog ref={ref} className="sheet" aria-label={label} onClose={onClose} onClick={(ev) => { if (ev.target === ref.current) onClose(); }}>
-      <div className="sheet-panel">
-        <div className="sheet-head">
+    <dialog ref={ref} className="ev-sheet" aria-label={label} onClose={onClose} onClick={(ev) => { if (ev.target === ref.current) onClose(); }}>
+      <div className="ev-sheet-panel">
+        <div className="ev-sheet-head">
           <h2>{label}</h2>
           <button type="button" className="act" onClick={onClose} aria-label={t("evidence.close")}><Icon name="x" size={22} /></button>
         </div>
@@ -51,7 +51,7 @@ function Sheet({ open, label, onClose, children }: { open: boolean; label: strin
   );
 }
 
-export function AddSheet({ open, onClose, onAdded }: { open: boolean; onClose: () => void; onAdded: (id: string) => void }) {
+export function AddSheet({ open, onClose, onAdded }: { open: boolean; onClose: () => void; onAdded: (id: string) => Promise<void> }) {
   const t = useTranslations("incident");
   const tc = useTranslations("common");
   const [mode, setMode] = useState<"choose" | "link">("choose");
@@ -66,9 +66,9 @@ export function AddSheet({ open, onClose, onAdded }: { open: boolean; onClose: (
     setError(null);
     onClose();
   };
-  const saved = (item: Evidence | null) => {
+  const saved = async (item: Evidence | null) => {
     if (!item) return setError(tc("saveFailed"));
-    onAdded(item.id);
+    await onAdded(item.id);
     close();
   };
   const saveLink = async () => {
@@ -81,7 +81,7 @@ export function AddSheet({ open, onClose, onAdded }: { open: boolean; onClose: (
     }
     setBusy(true);
     try {
-      saved(await incidentStore.addEvidence({ kind: "url", value: url.href }));
+      await saved(await incidentStore.addEvidence({ kind: "url", value: url.href }));
     } catch {
       setError(tc("saveFailed"));
     } finally {
@@ -95,7 +95,7 @@ export function AddSheet({ open, onClose, onAdded }: { open: boolean; onClose: (
     setError(null);
     try {
       const taken = takenAt(file.lastModified, Date.now());
-      saved(await incidentStore.addEvidence({ kind: "screenshot", value: file, ...(taken ? { takenAt: taken } : {}) }));
+      await saved(await incidentStore.addEvidence({ kind: "screenshot", value: file, ...(taken ? { takenAt: taken } : {}) }));
     } catch {
       setError(tc("saveFailed"));
     } finally {
@@ -107,7 +107,7 @@ export function AddSheet({ open, onClose, onAdded }: { open: boolean; onClose: (
     <Sheet open={open} label={t("sheet.add")} onClose={close}>
       {mode === "choose" ? (
         <div className="stack">
-          <button type="button" className="option" onClick={() => setMode("link")}>
+          <button type="button" className="option" onClick={() => { setMode("link"); setError(null); }}>
             <span className="ic"><Icon name="link" /></span>
             <span className="body"><span className="t">{t("item.link")}</span><span className="d">{t("sheet.linkSub")}</span></span>
             <Icon name="chevron-right" className="i chev" />
@@ -147,9 +147,11 @@ export function ItemSheet({ item, now, locale, onClose, onRemove }: { item: Shee
   const canShareFiles = useCanShareFiles();
   const [asking, setAsking] = useState(false);
   const [status, setStatus] = useState<"copied" | "copyFailed" | "shareFailed" | null>(null);
+  const [removeFailed, setRemoveFailed] = useState(false);
   const photo = useObjectUrl(item?.kind === "imageCheck" ? item.image : undefined);
+  // «Скопировано» fades; a failure stays where it happened until the next action or the sheet closes.
   useEffect(() => {
-    if (!status) return;
+    if (status !== "copied") return;
     const id = setTimeout(() => setStatus(null), 2000);
     return () => clearTimeout(id);
   }, [status]);
@@ -157,9 +159,21 @@ export function ItemSheet({ item, now, locale, onClose, onRemove }: { item: Shee
   const close = () => {
     setAsking(false);
     setStatus(null);
+    setRemoveFailed(false);
     onClose();
   };
+  const remove = async () => {
+    if (!item) return;
+    setRemoveFailed(false);
+    try {
+      await onRemove(item.id);
+      close();
+    } catch {
+      setRemoveFailed(true);
+    }
+  };
   const copy = async (text: string) => {
+    setStatus(null);
     try {
       await navigator.clipboard.writeText(text);
       setStatus("copied");
@@ -168,6 +182,7 @@ export function ItemSheet({ item, now, locale, onClose, onRemove }: { item: Shee
     }
   };
   const share = async (data: ShareData) => {
+    setStatus(null);
     try {
       if (data.files && !navigator.canShare(data)) return setStatus("shareFailed");
       await navigator.share(data);
@@ -200,6 +215,7 @@ export function ItemSheet({ item, now, locale, onClose, onRemove }: { item: Shee
           <p className="small">{pick(item.originalMatches ? ORIGINAL_MATCHES_TEXT.body : TIER_TEXT[item.tier].body, locale)}</p>
         </div>
         {facts.length > 0 && <ul className="facts">{facts.map((f) => <li key={f}>{pick(EVIDENCE_TEXT[f].what, locale)}</li>)}</ul>}
+        {item.coverage && <p className="small coverage">{coverageLine(item.coverage, IMAGE_CHECK_TEXT, locale)}</p>}
       </>
     );
     const image = item.image;
@@ -215,6 +231,7 @@ export function ItemSheet({ item, now, locale, onClose, onRemove }: { item: Shee
           <div className="head">{resultTitle(item, locale)}</div>
           <p className="small">{pick(LINK_TIER_TEXT[item.tier].body, locale)}</p>
         </div>
+        {item.coverage && <p className="small coverage">{coverageLine(item.coverage, LINK_SOURCE_TEXT, locale)}</p>}
         <div className="small label">{t("sheet.address")}</div>
         <p className="addr-full">{item.url}</p>
       </>
@@ -232,12 +249,13 @@ export function ItemSheet({ item, now, locale, onClose, onRemove }: { item: Shee
           <section className="card card-danger col">
             <div className="head"><Icon name="triangle-alert" />{t("evidence.removeItemAsk")}</div>
             <div className="row2">
-              <button type="button" className="btn btn-secondary" onClick={() => setAsking(false)}>{t("evidence.keep")}</button>
-              <button type="button" className="btn btn-danger" onClick={async () => { if (item) await onRemove(item.id); close(); }}>{t("evidence.remove")}</button>
+              <button type="button" className="btn btn-secondary" onClick={() => { setAsking(false); setRemoveFailed(false); }}>{t("evidence.keep")}</button>
+              <button type="button" className="btn btn-danger" onClick={remove}>{t("evidence.remove")}</button>
             </div>
+            {removeFailed && <div className="error" role="alert">{t("evidence.removeFailed")}</div>}
           </section>
         ) : (
-          <div className="sheet-actions">
+          <div className="ev-sheet-actions">
             {actions}
             <button type="button" className="btn btn-quiet danger" onClick={() => setAsking(true)}><Icon name="trash-2" size={18} />{t("evidence.remove")}</button>
           </div>
@@ -254,18 +272,27 @@ export function ShotViewer({ e, now, onClose, onRemove }: { e: ShotItem | null; 
   const canShareFiles = useCanShareFiles();
   const [asking, setAsking] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [removeFailed, setRemoveFailed] = useState(false);
   const url = useObjectUrl(e?.value);
-  useEffect(() => {
-    if (!failed) return;
-    const id = setTimeout(() => setFailed(false), 2000);
-    return () => clearTimeout(id);
-  }, [failed]);
   const close = () => {
     setAsking(false);
+    setFailed(false);
+    setRemoveFailed(false);
     onClose();
+  };
+  const remove = async () => {
+    if (!e) return;
+    setRemoveFailed(false);
+    try {
+      await onRemove(e.id);
+      close();
+    } catch {
+      setRemoveFailed(true);
+    }
   };
   const share = async () => {
     if (!e) return;
+    setFailed(false);
     const type = e.value.type || "image/png";
     const file = e.value instanceof File ? e.value : new File([e.value], `safechilds-${e.id.slice(0, 8)}.${type.split("/")[1] ?? "png"}`, { type });
     if (!navigator.canShare({ files: [file] })) return setFailed(true);
@@ -279,7 +306,7 @@ export function ShotViewer({ e, now, onClose, onRemove }: { e: ShotItem | null; 
   return (
     <dialog ref={ref} className="viewer" onClose={close} onClick={(ev) => { if (ev.target === ref.current) close(); }} aria-label={t("evidence.open")}>
       <div className="bar">
-        <span className="small" aria-live="polite">{failed ? t("evidence.shareFailed") : e ? t(e.takenAt ? "meta.taken" : "meta.added", { date: formatDay(when, now), time: formatTime(when) }) : ""}</span>
+        <span className={`small${failed ? " fail" : ""}`} aria-live="polite">{failed ? t("evidence.shareFailed") : e ? t(e.takenAt ? "meta.taken" : "meta.added", { date: formatDay(when, now), time: formatTime(when) }) : ""}</span>
         <button type="button" className="act" onClick={close} aria-label={t("evidence.close")}><Icon name="x" size={22} /></button>
       </div>
       <div className="pic">{url && <img src={url} alt="" />}</div>
@@ -287,9 +314,10 @@ export function ShotViewer({ e, now, onClose, onRemove }: { e: ShotItem | null; 
         <section className="card card-danger col ask-card">
           <div className="head"><Icon name="triangle-alert" />{t("evidence.removeShotAsk")}</div>
           <div className="row2">
-            <button type="button" className="btn btn-secondary" onClick={() => setAsking(false)}>{t("evidence.keep")}</button>
-            <button type="button" className="btn btn-danger" onClick={async () => { if (e) await onRemove(e.id); close(); }}>{t("evidence.remove")}</button>
+            <button type="button" className="btn btn-secondary" onClick={() => { setAsking(false); setRemoveFailed(false); }}>{t("evidence.keep")}</button>
+            <button type="button" className="btn btn-danger" onClick={remove}>{t("evidence.remove")}</button>
           </div>
+          {removeFailed && <div className="error" role="alert">{t("evidence.removeFailed")}</div>}
         </section>
       ) : (
         <div className="foot">
