@@ -54,6 +54,7 @@ function Look({ n, ex, locale, kind }: { n: string; ex: Explanation; locale: Loc
 
 export default function AnalyzePage() {
   const t = useTranslations("analyze");
+  const tc = useTranslations("common");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const { incident, loading, failed } = useIncident({ requireIncident: true });
@@ -64,7 +65,10 @@ export default function AnalyzePage() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [localEvidence, setLocalEvidence] = useState<Evidence[]>([]);
   const [decision, setDecision] = useState<(Decision & { offline: boolean }) | null>(null);
-  const [saved, setSaved] = useState(false);
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
+  const [withPhoto, setWithPhoto] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const originalRef = useRef<HTMLInputElement>(null);
 
@@ -86,6 +90,8 @@ export default function AnalyzePage() {
 
   const run = async (orig: File | null) => {
     if (!file) return;
+    setSavedId(null); // a new run is a new result to save
+    setSaveFailed(false);
     setStep("checks");
     const evidence: Evidence[] = [...(await exifEvidence(file)), await c2paEvidence(file)];
     if (orig) {
@@ -99,11 +105,21 @@ export default function AnalyzePage() {
     setStep("result");
   };
 
+  // Saved as codes, never as text: «Мой случай» renders the reviewed wording in either language (2026-10-14). The photo
+  // stays only when the kid ticks the box: the rules screen promises the file is not kept, so by default it is not.
   const saveToEvidence = async () => {
-    if (!decision) return;
-    const summary = [pick(TIER_TEXT[decision.tier].title, locale), ...decision.evidence.map((e) => pick(EVIDENCE_TEXT[e].what, locale))].join(" · ");
-    await incidentStore.addEvidence({ kind: "note", value: `${t("title")}: ${summary}` });
-    setSaved(true);
+    if (!decision || saving || savedId) return;
+    setSaving(true);
+    setSaveFailed(false);
+    try {
+      const item = await incidentStore.addEvidence({ kind: "imageCheck", tier: decision.tier, facts: decision.evidence, originalMatches: decision.originalMatches, ...(withPhoto && file ? { image: file } : {}) });
+      if (item) setSavedId(item.id);
+      else setSaveFailed(true);
+    } catch {
+      setSaveFailed(true);
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (failed) return <StoreFailed />;
@@ -219,7 +235,20 @@ export default function AnalyzePage() {
             )}
 
             <div className="stack">
-              <button className="btn btn-primary" onClick={saveToEvidence} disabled={saved}><Icon name={saved ? "check" : "folder"} size={20} />{saved ? t("result.saved") : t("result.save")}</button>
+              {savedId ? (
+                <div className="saved-to" role="status"><Icon name="check" size={20} /><span>{tc("savedTo")}</span><Link href={`/incident#e-${savedId}`}>{tc("openCase")}</Link></div>
+              ) : (
+                <>
+                  {file && (
+                    <div className="consent">
+                      <input id="with-photo" type="checkbox" checked={withPhoto} onChange={(e) => setWithPhoto(e.target.checked)} />
+                      <label htmlFor="with-photo">{t("result.withPhoto")}</label>
+                    </div>
+                  )}
+                  <button className="btn btn-primary" onClick={saveToEvidence} disabled={saving}><Icon name="folder" size={20} />{t("result.save")}</button>
+                  {saveFailed && <div className="error" role="alert">{tc("saveFailed")}</div>}
+                </>
+              )}
               <Link className="btn btn-secondary" href="/plan">{decision.originalMatches ? t("result.planMisuse") : t("result.plan")}</Link>
               {(decision.tier === "indicators" || decision.tier === "inconclusive") && <Link className="btn btn-quiet" href="/people?review=1">{t("result.askPerson")}</Link>}
               {decision.offline && <button className="btn btn-quiet" onClick={() => run(original)}>{t("result.retry")}</button>}

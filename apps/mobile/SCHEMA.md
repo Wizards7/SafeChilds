@@ -21,12 +21,16 @@ Incident
 ```
 
 ```
-Evidence
-  id              string
-  kind            "url" | "screenshot" | "note"
-  value           string for url/note; Blob for screenshot (stored in IndexedDB, never uploaded)
-  createdAt       ISO string
+Evidence                       one of five kinds; every record has id + createdAt (ISO, UTC)
+  url          value: string                         a link the kid added; shown, never opened
+  screenshot   value: Blob, takenAt?: ISO            the file's own date, only when clearly older than the add
+  note         value: string                         free text (also every check saved before 2026-10-14)
+  imageCheck   tier, facts[], originalMatches,       a photo check saved from /analyze, as codes; the photo only
+               image?: Blob                          when the kid ticked "save with photo"
+  linkCheck    url, finalHost, tier                  a link check saved from /link, as codes
 ```
+
+Blobs live in IndexedDB and are never uploaded. Checks are stored as codes, never as text, so «Мой случай» renders the reviewed wording in either language (2026-10-14).
 
 Deleting the incident deletes every row above. There is no soft delete.
 

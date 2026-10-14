@@ -15,6 +15,14 @@ import { pick, type Locale } from "../../lib/locale";
 import { useTRPC } from "../../lib/trpc";
 import "../analyze/analyze.css";
 
+function hostOf(url: string): string | null {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return null; // not an address: the card shows the address as typed instead
+  }
+}
+
 function findingText(f: LinkFinding, t: ReturnType<typeof useTranslations<"link">>): { what: string; how: string; fact: boolean } {
   switch (f.kind) {
     case "blocklist":
@@ -32,21 +40,44 @@ function findingText(f: LinkFinding, t: ReturnType<typeof useTranslations<"link"
 
 export default function LinkPage() {
   const t = useTranslations("link");
+  const tc = useTranslations("common");
   const locale = useLocale() as Locale;
   const trpc = useTRPC();
   const [url, setUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [saved, setSaved] = useState(false);
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<"failed" | "noCase" | null>(null);
   const check = useMutation(trpc.links.check.mutationOptions());
 
   const submit = () => {
     const v = url.trim();
     if (!/^https?:\/\//i.test(v)) return setError(t("urlError"));
     setError(null);
+    setSavedId(null); // a new check is a new result to save
+    setSaveError(null);
     check.mutate({ url: v });
   };
 
   const result: LinkResult | undefined = check.isError ? { tier: "unavailable", findings: [], finalUrl: null, checked: [], unchecked: [...LINK_SOURCES] } : check.data;
+
+  // Saved as codes (2026-10-14): «Мой случай» renders the reviewed tier wording. Without a case there is nowhere to save,
+  // and the screen says so instead of a "saved" that saved nothing.
+  const save = async (r: LinkResult) => {
+    if (saving || savedId) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const checked = url.trim();
+      const item = await incidentStore.addEvidence({ kind: "linkCheck", url: checked, finalHost: hostOf(r.finalUrl ?? checked), tier: r.tier });
+      if (item) setSavedId(item.id);
+      else setSaveError("noCase");
+    } catch {
+      setSaveError("failed");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <>
@@ -115,9 +146,16 @@ export default function LinkPage() {
 
             <div className="stack">
               <Link className="btn btn-primary" href="/plan">{t("plan")}</Link>
-              <button className="btn btn-secondary" disabled={saved} onClick={async () => { await incidentStore.addEvidence({ kind: "note", value: `${t("title")}: ${url.trim()} — ${pick(LINK_TIER_TEXT[result.tier].title, locale)}` }); setSaved(true); }}>
-                <Icon name={saved ? "check" : "folder"} size={20} />{saved ? t("saved") : t("save")}
-              </button>
+              {savedId ? (
+                <div className="saved-to" role="status"><Icon name="check" size={20} /><span>{tc("savedTo")}</span><Link href={`/incident#e-${savedId}`}>{tc("openCase")}</Link></div>
+              ) : (
+                <>
+                  <button className="btn btn-secondary" disabled={saving} onClick={() => save(result)}>
+                    <Icon name="folder" size={20} />{t("save")}
+                  </button>
+                  {saveError && <div className="error" role="alert">{tc(saveError === "noCase" ? "noCase" : "saveFailed")}</div>}
+                </>
+              )}
               {result.tier === "unavailable" && <button className="btn btn-quiet" onClick={() => check.reset()}>{t("retry")}</button>}
             </div>
           </>

@@ -3,14 +3,21 @@
 
 import { openDB, type IDBPDatabase } from "idb";
 import type { Feeling, Platform, Profile, SafetyAnswer } from "@safechilds/guidance";
-import type { Decision, TriageRoute } from "@safechilds/analysis";
+import type { Decision, LinkResult, TriageRoute } from "@safechilds/analysis";
 
-export interface Evidence {
-  id: string;
-  kind: "url" | "screenshot" | "note";
-  value: string | Blob;
-  createdAt: string;
-}
+// What the kid saved, by kind. url / screenshot / note are the 2026-10-12 shape and every old record still reads as one
+// of them. imageCheck / linkCheck (2026-10-14) are a check result saved from /analyze or /link: the codes, never text,
+// so the card renders the reviewed wording in either language. A screenshot's takenAt is the file's own date when it is
+// clearly older than the moment it was added; otherwise it is absent and the card says "added", not "taken".
+export type Evidence = { id: string; createdAt: string } & (
+  | { kind: "url"; value: string }
+  | { kind: "screenshot"; value: Blob; takenAt?: string }
+  | { kind: "note"; value: string }
+  | { kind: "imageCheck"; tier: Decision["tier"]; facts: Decision["evidence"]; originalMatches: boolean; image?: Blob }
+  | { kind: "linkCheck"; url: string; finalHost: string | null; tier: LinkResult["tier"] }
+);
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+export type NewEvidence = DistributiveOmit<Evidence, "id" | "createdAt">;
 
 // One turn of the guided chat. "me" carries the kid's words; "app" carries step ids and a route, never generated text.
 export interface ChatTurn {
@@ -141,8 +148,12 @@ export const incidentStore = {
   setAnalysis: (decision: Decision) => incidentStore.update((i) => ({ ...i, analysis: { ...decision, at: new Date().toISOString() } })),
   toggleStep: (stepId: string) =>
     incidentStore.update((i) => ({ ...i, steps: { ...i.steps, [stepId]: { done: !(i.steps[stepId]?.done ?? false), at: new Date().toISOString() } } })),
-  addEvidence: (e: Omit<Evidence, "id" | "createdAt">) =>
-    incidentStore.update((i) => ({ ...i, evidence: [...i.evidence, { ...e, id: randomKey(), createdAt: new Date().toISOString() }] })),
+  // Returns the saved item, so a screen can link straight to its card (/incident#e-<id>); null when there is no case.
+  async addEvidence(e: NewEvidence): Promise<Evidence | null> {
+    const item: Evidence = { ...e, id: randomKey(), createdAt: new Date().toISOString() };
+    const next = await incidentStore.update((i) => ({ ...i, evidence: [...i.evidence, item] }));
+    return next ? item : null;
+  },
   removeEvidence: (id: string) => incidentStore.update((i) => ({ ...i, evidence: i.evidence.filter((e) => e.id !== id) })),
   addChat: (turn: Omit<ChatTurn, "id" | "at">) =>
     incidentStore.update((i) => ({ ...i, chat: [...(i.chat ?? []), { ...turn, id: randomKey(), at: new Date().toISOString() }] })),

@@ -25,6 +25,8 @@ const noop = () => () => undefined;
 const useCanShare = () => useSyncExternalStore(noop, () => typeof navigator.share === "function", () => false);
 const useCanShareFiles = () => useSyncExternalStore(noop, () => typeof navigator.canShare === "function", () => false);
 const isAbort = (e: unknown) => e instanceof DOMException && e.name === "AbortError"; // the kid closed the share sheet
+type LinkItem = Extract<Evidence, { kind: "url" }>;
+type ShotItem = Extract<Evidence, { kind: "screenshot" }>;
 
 function useObjectUrl(value: unknown) {
   const [url, setUrl] = useState<string | null>(null);
@@ -39,7 +41,7 @@ function useObjectUrl(value: unknown) {
 
 // A saved link: copy, share where the phone has a sheet, remove behind an inline confirm. Never "open": a saved scam
 // link must not be one tap from opening.
-function LinkRow({ e, saved, onRemove }: { e: Evidence; saved: string; onRemove: () => Promise<void> }) {
+function LinkRow({ e, saved, onRemove }: { e: LinkItem; saved: string; onRemove: () => Promise<void> }) {
   const t = useTranslations("incident");
   const tc = useTranslations("common");
   const canShare = useCanShare();
@@ -90,7 +92,7 @@ function LinkRow({ e, saved, onRemove }: { e: Evidence; saved: string; onRemove:
   );
 }
 
-function Thumb({ e, onOpen }: { e: Evidence; onOpen: () => void }) {
+function Thumb({ e, onOpen }: { e: ShotItem; onOpen: () => void }) {
   const t = useTranslations("incident");
   const url = useObjectUrl(e.value);
   return <button type="button" className="img thumb" style={url ? { backgroundImage: `url(${url})`, backgroundSize: "cover" } : undefined} aria-label={t("evidence.open")} onClick={onOpen} />;
@@ -98,7 +100,7 @@ function Thumb({ e, onOpen }: { e: Evidence; onOpen: () => void }) {
 
 // Full-screen view of one screenshot: a native modal dialog (the page behind is inert, focus stays inside, Esc and the
 // backdrop close it, body scroll locked). Share the file where the phone can, remove behind an inline confirm.
-function ShotViewer({ e, onClose, onRemove }: { e: Evidence | null; onClose: () => void; onRemove: (id: string) => Promise<void> }) {
+function ShotViewer({ e, onClose, onRemove }: { e: ShotItem | null; onClose: () => void; onRemove: (id: string) => Promise<void> }) {
   const t = useTranslations("incident");
   const ref = useRef<HTMLDialogElement>(null);
   const canShareFiles = useCanShareFiles();
@@ -175,7 +177,7 @@ export default function IncidentPage() {
   const [confirming, setConfirming] = useState(false);
   const [linkInput, setLinkInput] = useState("");
   const [linkError, setLinkError] = useState<string | null>(null);
-  const [viewing, setViewing] = useState<Evidence | null>(null);
+  const [viewing, setViewing] = useState<ShotItem | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   if (failed) return <StoreFailed />;
   if (loading) return null;
@@ -243,8 +245,8 @@ export default function IncidentPage() {
     await refresh();
   };
 
-  const links = incident.evidence.filter((e) => e.kind === "url");
-  const shots = incident.evidence.filter((e) => e.kind === "screenshot");
+  const links = incident.evidence.filter((e): e is LinkItem => e.kind === "url");
+  const shots = incident.evidence.filter((e): e is ShotItem => e.kind === "screenshot");
 
   return (
     <>
