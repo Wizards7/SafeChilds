@@ -29,7 +29,7 @@ Every item has an `id`, `kind`, `showWhen`, `order`, and strings in `ru` and `tg
 | `stop` | a card shown before anything else | the extortion stop card |
 | `question` | the one category question | "Это один раз или продолжается?" → sets `ongoing` |
 | `step` | a plan step: one line, "как" (exact taps, per platform), "почему" (one line) | "Ограничь, не только блокируй" with Instagram *Restrict* taps when `platform = instagram` |
-| `tool` | a link into a tool screen | analyze when `situation in (fake_photo, fake_video)` or `photoShared`; link check when `category = fraud` |
+| `tool` | a link into a tool screen | analyze when `situation in (fake_photo, fake_video)` or `photoShared`; link check when `situation = profile_asks_money_or_code` (the `fraud.link` question) |
 | `message` | a ready message to copy or share | "Мне нужна помощь. Меня шантажируют в интернете…" |
 | `support` | a support offer | feelings first when `situation = group_against_me` |
 | `directory` | a directory filter or entry | school psychologist when `category = cyberbullying` |

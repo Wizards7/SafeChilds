@@ -6,8 +6,9 @@
      query (QUERY_PAGES) is cached and found with that query, so offline it never shows another category's copy
    - API calls (another origin) are never cached: analysis and directory results must be live or honestly unavailable
 */
-// sc-v15, not sc-v14: the tile branches still say sc-v14, so whichever lands later conflicts here and picks its own name.
-const VERSION = "sc-v15";
+// A new name with every change to this file, so installed phones drop their old copies (sc-v16: fraud and
+// cyberbullying tiles, 2026-10-15).
+const VERSION = "sc-v16";
 const SHELL = [
   "/", "/welcome", "/safety", "/urgent", "/question", "/stop", "/analyze", "/link",
   "/plan", "/feelings", "/breathe", "/people", "/request", "/incident", "/settings", "/privacy", "/offline", "/chat", "/signs",
@@ -18,6 +19,8 @@ const SHELL = [
   "/home/fake_content.webp", "/home/extortion.webp", "/home/fraud.webp", "/home/cyberbullying.webp",
   "/situation/fake_photo.webp", "/situation/fake_video.webp", "/situation/impersonation.webp",
   "/situation/threat_to_publish.webp", "/situation/demand_money_or_photos.webp",
+  "/situation/profile_asks_money_or_code.webp", "/situation/already_sent.webp",
+  "/situation/public_humiliation.webp", "/situation/persistent_messages.webp", "/situation/group_against_me.webp",
   "/feelings/person.webp", "/feelings/scared.webp", "/feelings/anxious.webp", "/feelings/angry.webp", "/feelings/sad.webp", "/feelings/ashamed.webp", "/feelings/overwhelmed.webp",
 ];
 

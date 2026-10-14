@@ -4,7 +4,7 @@ import { Icon } from "../../components/Icon";
 import { StartIncident } from "../../components/StartIncident";
 import { TopBar } from "../../components/TopBar";
 import { pick, type Locale } from "../../lib/locale";
-import { SITUATION_ART } from "../../lib/situation-art";
+import { NO_UNSURE, SITUATION_ART } from "../../lib/situation-art";
 import "./situation.css";
 
 const SITUATION_ICON: Record<string, string> = {
@@ -59,10 +59,9 @@ export default async function SituationPage({ searchParams }: { searchParams: Pr
               );
             })}
           </div>
-          {/* Not on extortion (Ali, 2026-10-14): both its tiles give the same plan, every extortion step is keyed on the
-              category, while «Не уверен(а)» would start a "don't know" case without the stop card and the urgent line.
-              An unsure kid taps either tile. */}
-          {category !== "extortion" && (
+          {/* Not where the "don't know" case costs more than any tile (Ali, 2026-10-14); the categories and their reasons
+              sit with NO_UNSURE in lib/situation-art.ts. */}
+          {!NO_UNSURE.has(category) && (
             <StartIncident situation="unknown" className="sit-unsure">
               <Icon name="circle-help" />
               <span>{t("unsure")}</span>
