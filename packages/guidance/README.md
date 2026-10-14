@@ -50,6 +50,7 @@ Steps carry an `order`. The renderer shows the first three matching steps as "с
 - Never suggest contacting, confronting, negotiating with or paying the perpetrator. Never "просто не обращай внимания" as the only advice.
 - Evidence before blocking, always. Nothing is deleted before it is saved.
 - Every number on a screen is verified by a human on a recorded date; until then the item renders its empty state.
+- A step that states an unverified fact (a service, a number, how a platform behaves) waits outside the catalogue, in `PENDING_VERIFY` (`content/extortion.ts` holds Take It Down, 2026-10-14), until a human verified it: `ITEMS` feeds every screen, the bot and the chat model, so a flag is not a gate. The VERIFY badge is only for report taps (`verifyOnDay`). A test fails if any catalogue text carries "VERIFY".
 - Tajik strings written by anyone other than a native speaker carry `VERIFY` until reviewed.
 - Warm and direct: "Что-то случилось?", not "Сообщить об инциденте".
 

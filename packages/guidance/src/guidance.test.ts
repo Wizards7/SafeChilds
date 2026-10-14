@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { ABOUT, ITEMS, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile } from "./index";
+import { PENDING_VERIFY } from "./content/extortion";
+import { ABOUT, ITEMS, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile, type Text } from "./index";
 
 describe("showWhen", () => {
   const p = { ...emptyProfile("fake_photo"), platform: "instagram" as const, flags: { ongoing: true } };
@@ -192,5 +193,21 @@ describe("learn-the-signs cards", () => {
     expect(splitMarkers("Привет [1], это ты? [2]")).toEqual(["Привет ", 1, ", это ты? ", 2]);
     expect(splitMarkers("[фото Мадины]")).toEqual(["[фото Мадины]"]);
     expect(markerNumbers("[3] a [1]")).toEqual([3, 1]);
+  });
+});
+
+describe("unverified facts stay off every screen", () => {
+  // Every user-facing Text in the catalogue: a "VERIFY" there would render to a kid, in the app, the bot or the chat.
+  const texts = (v: unknown): string[] =>
+    v && typeof v === "object" ? ("ru" in v && "tg" in v ? [String((v as Text).ru), String((v as Text).tg)] : Object.values(v).flatMap(texts)) : [];
+  it("no catalogue item carries a VERIFY in its text", () => {
+    for (const item of ITEMS) for (const s of texts(item)) expect(s, item.id).not.toMatch(/VERIFY/);
+  });
+  it("Take It Down waits outside the catalogue until it is verified", () => {
+    expect(ITEMS.some((i) => i.id === "ext.take_it_down")).toBe(false);
+    expect(PENDING_VERIFY.map((i) => i.id)).toContain("ext.take_it_down");
+    const extortionIntimate = { ...emptyProfile("threat_to_publish"), flags: { intimate: true } };
+    const plan = composePlan(ITEMS, extortionIntimate);
+    expect([...plan.now, ...plan.later].map((s) => s.id)).not.toContain("ext.take_it_down");
   });
 });

@@ -83,16 +83,6 @@ export const EXTORTION: readonly Item[] = [
   },
   {
     kind: "step",
-    id: "ext.take_it_down",
-    showWhen: { all: [cat, { flag: "intimate" }] },
-    order: 35,
-    verifyOnDay: true,
-    title: { ru: "Take It Down", tg: "Take It Down", verify: true },
-    // Nothing about this reaches a screen until VERIFY (works from Tajikistan; participating platforms) is done — plan 0001.
-    how: { ru: "VERIFY: сервис NCMEC для несовершеннолетних. Создаёт отпечаток изображения на твоём телефоне, само фото никуда не уходит; платформы-участники блокируют его публикацию.", tg: "VERIFY: хидмати NCMEC барои ноболиғон. Дар телефони ту нақши тасвирро месозад, худи акс ба ҳеҷ ҷо намеравад; платформаҳои иштирокчӣ нашри онро мебанданд.", verify: true },
-  },
-  {
-    kind: "step",
     id: "ext.helpline",
     showWhen: cat,
     order: 60,
@@ -106,5 +96,22 @@ export const EXTORTION: readonly Item[] = [
     order: 5,
     title: { ru: "Не плати больше", tg: "Дигар напардоз", verify: true },
     why: { ru: "После оплаты не заканчивается — потребуют ещё. Те же шаги, без стыда.", tg: "Пас аз пардохт тамом намешавад — боз талаб мекунанд. Ҳамон қадамҳо, бе шарм.", verify: true },
+  },
+];
+
+// Waiting for a VERIFY, outside the catalogue (2026-10-14). ITEMS never sees these, so no screen, no plan, no chat reply
+// and no model prompt can show them. Take It Down leaked through the guided chat while it sat in EXTORTION gated only by
+// the intimate flag: the model could return its id or set the flag. Bring it back by moving it into EXTORTION once a
+// human verified that it works from Tajikistan and which platforms take part today (plan 0001 § 9), with the
+// "VERIFY:" prefix dropped from its text.
+export const PENDING_VERIFY: readonly Item[] = [
+  {
+    kind: "step",
+    id: "ext.take_it_down",
+    showWhen: { all: [cat, { flag: "intimate" }] },
+    order: 35,
+    verifyOnDay: true,
+    title: { ru: "Take It Down", tg: "Take It Down", verify: true },
+    how: { ru: "VERIFY: сервис NCMEC для несовершеннолетних. Создаёт отпечаток изображения на твоём телефоне, само фото никуда не уходит; платформы-участники блокируют его публикацию.", tg: "VERIFY: хидмати NCMEC барои ноболиғон. Дар телефони ту нақши тасвирро месозад, худи акс ба ҳеҷ ҷо намеравад; платформаҳои иштирокчӣ нашри онро мебанданд.", verify: true },
   },
 ];

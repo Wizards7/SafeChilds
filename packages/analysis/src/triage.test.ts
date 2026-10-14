@@ -38,4 +38,10 @@ describe("parseTriage", () => {
     expect(TRIAGE_PROMPT).toContain("CODES ONLY");
     expect(STEP_TITLES.size).toBeGreaterThan(30);
   });
+  it("never offers or passes through a step that waits for a VERIFY (Take It Down leaked through the chat, 2026-10-14)", () => {
+    expect(TRIAGE_PROMPT).not.toContain("take_it_down");
+    expect(TRIAGE_PROMPT).not.toContain("VERIFY");
+    const r = parseTriage('{"safety":"ok","category":"extortion","situation":"threat_to_publish","flags":["intimate"],"platform":null,"items":["ext.take_it_down","ext.evidence"],"route":"plan","confidence":"high"}');
+    expect(r?.items).toEqual(["ext.evidence"]);
+  });
 });
