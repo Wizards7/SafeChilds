@@ -1,173 +1,29 @@
 "use client";
 
-// The "Мой случай" tab (route /incident; redesigned 2026-10-12 night from Ali's mockup): the page title under the brand
-// row, the one incident as a card (started, situation, platform chip, analysis tier when checked, progress, continue),
-// evidence (on this phone only), the steps as real checkboxes (the same toggleStep the plan uses), the device line,
-// delete with confirmation. Settings sit behind the gear in the header (/settings). No account anywhere.
-// Evidence has a door out (2026-10-12 night): copy / share / remove on every saved link, a full-screen viewer with share
-// and remove for every screenshot. Nothing leaves the phone unless the kid taps share.
+// The "Мой случай" tab (route /incident). Redesigned 2026-10-14 (Ali): the case card (platform, situation, started,
+// progress, continue), then «Доказательства» as a timeline of everything the kid saved here or from a check and every
+// step they finished, grouped by day, with a week strip once the case spans two or more days; «+ Добавить» opens a sheet
+// (a link or a screenshot), a card opens its sheet (copy / share / remove). Arriving from a save (/incident#e-<id>)
+// scrolls to the new card and marks it for a moment. The steps checklist left this page: the plan owns the steps.
+// Settings sit behind the gear (/settings); no "Помощь" pill on this tab (DESIGN.md); no account anywhere.
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { composePlan, ITEMS, PLATFORM_LABEL, SITUATION_LABEL } from "@safechilds/guidance";
-import { TIER_TEXT } from "@safechilds/analysis";
-import { Icon, ICONS_URL } from "../../components/Icon";
+import { Icon } from "../../components/Icon";
 import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Evidence } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
+import { dayKey, entriesOf, groupByDay, relativeDay } from "../../lib/timeline";
 import { useIncident } from "../../lib/use-incident";
+import { formatDay } from "./format";
+import { AddSheet, ItemSheet, ShotViewer, type SheetItem, type ShotItem } from "./sheets";
+import { Timeline, WeekStrip } from "./Timeline";
 import "./incident.css";
 
-// Whether this phone has a share sheet; false on the server so hydration matches. No effect needed.
-const noop = () => () => undefined;
-const useCanShare = () => useSyncExternalStore(noop, () => typeof navigator.share === "function", () => false);
-const useCanShareFiles = () => useSyncExternalStore(noop, () => typeof navigator.canShare === "function", () => false);
-const isAbort = (e: unknown) => e instanceof DOMException && e.name === "AbortError"; // the kid closed the share sheet
-type LinkItem = Extract<Evidence, { kind: "url" }>;
-type ShotItem = Extract<Evidence, { kind: "screenshot" }>;
-
-function useObjectUrl(value: unknown) {
-  const [url, setUrl] = useState<string | null>(null);
-  useEffect(() => {
-    if (!(value instanceof Blob)) return;
-    const u = URL.createObjectURL(value);
-    setUrl(u);
-    return () => URL.revokeObjectURL(u);
-  }, [value]);
-  return url;
-}
-
-// A saved link: copy, share where the phone has a sheet, remove behind an inline confirm. Never "open": a saved scam
-// link must not be one tap from opening.
-function LinkRow({ e, saved, onRemove }: { e: LinkItem; saved: string; onRemove: () => Promise<void> }) {
-  const t = useTranslations("incident");
-  const tc = useTranslations("common");
-  const canShare = useCanShare();
-  const [state, setState] = useState<"idle" | "copied" | "copyFailed" | "shareFailed">("idle");
-  const [asking, setAsking] = useState(false);
-  useEffect(() => {
-    if (state === "idle") return;
-    const id = setTimeout(() => setState("idle"), 2000);
-    return () => clearTimeout(id);
-  }, [state]);
-  const url = String(e.value);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(url);
-      setState("copied");
-    } catch {
-      setState("copyFailed");
-    }
-  };
-  const share = async () => {
-    try {
-      await navigator.share({ url });
-    } catch (err) {
-      if (!isAbort(err)) setState("shareFailed");
-    }
-  };
-  if (asking) {
-    return (
-      <div className="ev ask">
-        <span className="body"><span className="t">{t("evidence.removeAsk")}</span><span className="d">{url}</span></span>
-        <div className="row2">
-          <button type="button" className="btn btn-secondary" onClick={() => setAsking(false)}>{t("evidence.keep")}</button>
-          <button type="button" className="btn btn-danger" onClick={onRemove}>{t("evidence.remove")}</button>
-        </div>
-      </div>
-    );
-  }
-  const sub = state === "copied" ? tc("copied") : state === "copyFailed" ? tc("copyFailed") : state === "shareFailed" ? t("evidence.shareFailed") : saved;
-  return (
-    <div className="ev">
-      <span className="body"><span className="t">{url}</span><span className="d" aria-live="polite">{sub}</span></span>
-      <div className="acts">
-        <button type="button" className="act" onClick={copy} aria-label={t("evidence.copy")}><Icon name={state === "copied" ? "check" : "copy"} size={20} /></button>
-        {canShare && <button type="button" className="act" onClick={share} aria-label={t("evidence.share")}><Icon name="share" size={20} /></button>}
-        <button type="button" className="act danger" onClick={() => setAsking(true)} aria-label={t("evidence.remove")}><Icon name="trash-2" size={20} /></button>
-      </div>
-    </div>
-  );
-}
-
-function Thumb({ e, onOpen }: { e: ShotItem; onOpen: () => void }) {
-  const t = useTranslations("incident");
-  const url = useObjectUrl(e.value);
-  return <button type="button" className="img thumb" style={url ? { backgroundImage: `url(${url})`, backgroundSize: "cover" } : undefined} aria-label={t("evidence.open")} onClick={onOpen} />;
-}
-
-// Full-screen view of one screenshot: a native modal dialog (the page behind is inert, focus stays inside, Esc and the
-// backdrop close it, body scroll locked). Share the file where the phone can, remove behind an inline confirm.
-function ShotViewer({ e, onClose, onRemove }: { e: ShotItem | null; onClose: () => void; onRemove: (id: string) => Promise<void> }) {
-  const t = useTranslations("incident");
-  const ref = useRef<HTMLDialogElement>(null);
-  const canShareFiles = useCanShareFiles();
-  const [asking, setAsking] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const url = useObjectUrl(e?.value);
-  useEffect(() => {
-    const d = ref.current;
-    if (!d) return;
-    if (e && !d.open) d.showModal();
-    if (!e && d.open) d.close();
-  }, [e]);
-  useEffect(() => {
-    if (!e) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [e]);
-  useEffect(() => {
-    if (!failed) return;
-    const id = setTimeout(() => setFailed(false), 2000);
-    return () => clearTimeout(id);
-  }, [failed]);
-  const close = () => {
-    setAsking(false);
-    onClose();
-  };
-  const share = async () => {
-    if (!e || !(e.value instanceof Blob)) return;
-    const type = e.value.type || "image/png";
-    const file = e.value instanceof File ? e.value : new File([e.value], `safechilds-${e.id.slice(0, 8)}.${type.split("/")[1] ?? "png"}`, { type });
-    if (!navigator.canShare({ files: [file] })) {
-      setFailed(true);
-      return;
-    }
-    try {
-      await navigator.share({ files: [file] });
-    } catch (err) {
-      if (!isAbort(err)) setFailed(true);
-    }
-  };
-  return (
-    <dialog ref={ref} className="viewer" onClose={close} onClick={(ev) => { if (ev.target === ref.current) close(); }} aria-label={t("evidence.open")}>
-      <div className="bar">
-        <span className="small" aria-live="polite">{failed ? t("evidence.shareFailed") : ""}</span>
-        <button type="button" className="act" onClick={close} aria-label={t("evidence.close")}><Icon name="x" size={22} /></button>
-      </div>
-      <div className="pic">{url && <img src={url} alt="" />}</div>
-      {asking ? (
-        <section className="card card-danger col ask-card">
-          <div className="head"><Icon name="triangle-alert" />{t("evidence.removeShotAsk")}</div>
-          <div className="row2">
-            <button type="button" className="btn btn-secondary" onClick={() => setAsking(false)}>{t("evidence.keep")}</button>
-            <button type="button" className="btn btn-danger" onClick={async () => { if (e) await onRemove(e.id); close(); }}>{t("evidence.remove")}</button>
-          </div>
-        </section>
-      ) : (
-        <div className="foot">
-          {canShareFiles && <button type="button" className="btn btn-secondary" onClick={share}><Icon name="share" size={18} />{t("evidence.share")}</button>}
-          <button type="button" className="btn btn-danger" onClick={() => setAsking(true)}><Icon name="trash-2" size={18} />{t("evidence.remove")}</button>
-        </div>
-      )}
-    </dialog>
-  );
-}
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function IncidentPage() {
   const locale = useLocale() as Locale;
@@ -175,14 +31,37 @@ export default function IncidentPage() {
   const ts = useTranslations("settings");
   const { incident, loading, failed, refresh } = useIncident();
   const [confirming, setConfirming] = useState(false);
-  const [linkInput, setLinkInput] = useState("");
-  const [linkError, setLinkError] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
+  const [openItem, setOpenItem] = useState<SheetItem | null>(null);
   const [viewing, setViewing] = useState<ShotItem | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [newKey, setNewKey] = useState<string | null>(null);
+  const [pickedDay, setPickedDay] = useState<string | null>(null);
+
+  // Arriving from a save on /analyze or /link: the hash names the new card. Read once the case is loaded, then dropped
+  // from the address so a reload does not mark it again.
+  useEffect(() => {
+    if (loading) return;
+    const id = window.location.hash.slice(1);
+    if (!id.startsWith("e-")) return;
+    window.history.replaceState(window.history.state, "", window.location.pathname); // keep the router's own state
+    setNewKey(id);
+  }, [loading]);
+  // The new card comes into view and keeps its mark for a moment (CSS fades it; none with reduced motion). A jump after
+  // the commit, not a smooth scroll or an animation frame: both were dropped on arrival in testing (2026-10-14).
+  useEffect(() => {
+    if (!newKey) return;
+    const jump = setTimeout(() => document.getElementById(newKey)?.scrollIntoView({ block: "center" }), 0);
+    const id = setTimeout(() => setNewKey(null), 1600);
+    return () => {
+      clearTimeout(jump);
+      clearTimeout(id);
+    };
+  }, [newKey]);
+
   if (failed) return <StoreFailed />;
   if (loading) return null;
 
-  // The gear: the only way to Настройки. Sits left of the "Помощь" pill, which stays on every screen (0001 § 5).
+  // The gear: the only way to Настройки.
   const gear = (
     <Link className="gear" href="/settings" aria-label={ts("title")}>
       <Icon name="settings" />
@@ -205,48 +84,31 @@ export default function IncidentPage() {
     );
   }
 
+  const now = new Date();
   const plan = composePlan(ITEMS, incident.profile);
   const steps = [...plan.now, ...plan.later];
   const done = steps.filter((s) => incident.steps[s.id]?.done).length;
   const progress = t("steps", { done, total: steps.length });
   const percent = steps.length ? Math.round((done / steps.length) * 100) : 0;
-  // Browsers ship no Tajik date locale; Russian month names are read by every Tajik speaker, English ones are not.
-  const dayMonth = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long" });
-  const started = dayMonth.format(new Date(incident.createdAt));
+  const createdAt = new Date(incident.createdAt);
+  const startedRel = relativeDay(createdAt, now);
+  const startedDate = formatDay(createdAt, now);
+  const started = startedRel === "today" ? t("startedToday", { date: startedDate }) : startedRel === "yesterday" ? t("startedYesterday", { date: startedDate }) : t("started", { date: startedDate });
+  const days = groupByDay(entriesOf(incident));
 
+  const open = (e: Evidence) => (e.kind === "screenshot" ? setViewing(e) : setOpenItem(e));
   const removeEvidence = async (id: string) => {
     await incidentStore.removeEvidence(id);
     await refresh();
   };
-
-  const toggle = async (id: string) => {
-    await incidentStore.toggleStep(id);
+  const added = async (id: string) => {
     await refresh();
+    setNewKey(`e-${id}`);
   };
-
-  const addLink = async () => {
-    let url: URL;
-    try {
-      url = new URL(linkInput.trim());
-      if (url.protocol !== "https:" && url.protocol !== "http:") throw new Error();
-    } catch {
-      setLinkError(t("evidence.linkError"));
-      return;
-    }
-    await incidentStore.addEvidence({ kind: "url", value: url.href });
-    setLinkInput("");
-    setLinkError(null);
-    await refresh();
+  const pickDay = (key: string) => {
+    setPickedDay(key);
+    document.getElementById(`day-${key}`)?.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
   };
-
-  const addScreenshot = async (file: File | undefined) => {
-    if (!file || !file.type.startsWith("image/")) return;
-    await incidentStore.addEvidence({ kind: "screenshot", value: file });
-    await refresh();
-  };
-
-  const links = incident.evidence.filter((e): e is LinkItem => e.kind === "url");
-  const shots = incident.evidence.filter((e): e is ShotItem => e.kind === "screenshot");
 
   return (
     <>
@@ -255,66 +117,30 @@ export default function IncidentPage() {
         <h1 className="page">{t("title")}</h1>
 
         <section className="card summary">
-          <div className="small">{t("started", { date: started })}</div>
+          {incident.profile.platform && <span className="chip-case">{PLATFORM_LABEL[incident.profile.platform]}</span>}
           <h2>{pick(SITUATION_LABEL[incident.profile.situation], locale)}</h2>
-          {(incident.profile.platform || incident.analysis) && (
-            <div className="chips-case">
-              {incident.profile.platform && <span className="chip-case">{PLATFORM_LABEL[incident.profile.platform]}</span>}
-              {incident.analysis && <span className="chip-case">{t("analysis")}: {pick(TIER_TEXT[incident.analysis.tier].title, locale)}</span>}
-            </div>
-          )}
-          <div className="small">{progress}</div>
+          <div className="small">{started}</div>
+          <div className="small prog-t">{progress}</div>
           <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={steps.length} aria-valuenow={done} aria-label={progress}>
             <span style={{ width: `${percent}%` }} />
           </div>
           <Link className="btn btn-primary" href="/plan">{t("continue")}</Link>
         </section>
 
-        <section className="stack">
-          <div>
-            <h3>{t("evidence.title")}</h3>
-            <p className="sub small">{t("evidence.hint")}</p>
+        <section className="evidence" aria-labelledby="ev-title">
+          <div className="ev-head">
+            <h2 id="ev-title">{t("evidence.title")}{incident.evidence.length > 0 && <span className="count">{incident.evidence.length}</span>}</h2>
+            <button type="button" className="btn add" onClick={() => setAdding(true)}><Icon name="plus" size={20} /><span className="add-label">{t("evidence.addButton")}</span></button>
           </div>
-          {links.map((e) => (
-            <LinkRow key={e.id} e={e} saved={t("evidence.saved", { date: dayMonth.format(new Date(e.createdAt)) })} onRemove={() => removeEvidence(e.id)} />
-          ))}
-          <div className={`field${linkError ? " has-error" : ""}`}>
-            <label htmlFor="link">{t("evidence.addLink")}</label>
-            <div className="addrow">
-              <input id="link" type="url" inputMode="url" autoComplete="off" placeholder={t("evidence.placeholder")} value={linkInput} onChange={(e) => setLinkInput(e.target.value)} aria-invalid={!!linkError} aria-describedby={linkError ? "link-error" : undefined} />
-              <button type="button" className="btn btn-secondary" onClick={addLink} disabled={!linkInput.trim()}>{t("evidence.add")}</button>
-            </div>
-            {linkError && <div id="link-error" className="error">{linkError}</div>}
-          </div>
-          {shots.length > 0 && (
-            <div className="thumbs">
-              {shots.map((e) => <Thumb key={e.id} e={e} onOpen={() => setViewing(e)} />)}
-            </div>
-          )}
-          <button type="button" className="btn addshot" onClick={() => fileRef.current?.click()}>
-            <Icon name="image-plus" size={20} />
-            {t("evidence.addShot")}
-          </button>
-          <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => addScreenshot(e.target.files?.[0])} />
-          <ShotViewer e={viewing} onClose={() => setViewing(null)} onRemove={removeEvidence} />
-        </section>
+          <p className="small ev-hint">{t("evidence.hint")}</p>
 
-        <section className="stack">
-          <div>
-            <h3>{t("stepsTitle")}</h3>
-            <p className="sub small">{t("stepsHint")}</p>
-          </div>
-          <div className="steps">
-            {steps.map((s) => {
-              const isDone = incident.steps[s.id]?.done ?? false;
-              return (
-                <button key={s.id} type="button" className={`row${isDone ? " done" : ""}`} role="checkbox" aria-checked={isDone} onClick={() => toggle(s.id)}>
-                  <span className="box">{isDone && <svg><use href={`${ICONS_URL}#check`} /></svg>}</span>
-                  <span className="t">{pick(s.title, locale)}</span>
-                </button>
-              );
-            })}
-          </div>
+          {days.length >= 2 && <WeekStrip days={days} now={now} selected={pickedDay ?? dayKey(now)} onPick={pickDay} />}
+
+          {days.length === 0 ? (
+            <div className="tl-empty"><Icon name="folder" /><p className="small">{t("evidence.empty")}</p></div>
+          ) : (
+            <Timeline days={days} now={now} locale={locale} newKey={newKey} onOpen={open} />
+          )}
         </section>
 
         <div className="device"><Icon name="smartphone" size={18} />{t("privacy")}</div>
@@ -329,8 +155,12 @@ export default function IncidentPage() {
             </div>
           </section>
         ) : (
-          <button type="button" className="btn btn-quiet reset" onClick={() => setConfirming(true)}>{t("reset.button")}</button>
+          <button type="button" className="btn btn-quiet reset" onClick={() => setConfirming(true)}><Icon name="trash-2" size={18} />{t("reset.button")}</button>
         )}
+
+        <AddSheet open={adding} onClose={() => setAdding(false)} onAdded={added} />
+        <ItemSheet item={openItem} now={now} locale={locale} onClose={() => setOpenItem(null)} onRemove={removeEvidence} />
+        <ShotViewer e={viewing} now={now} onClose={() => setViewing(null)} onRemove={removeEvidence} />
       </main>
     </>
   );
