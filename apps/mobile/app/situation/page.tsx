@@ -59,10 +59,15 @@ export default async function SituationPage({ searchParams }: { searchParams: Pr
               );
             })}
           </div>
-          <StartIncident situation="unknown" className="sit-unsure">
-            <Icon name="circle-help" />
-            <span>{t("unsure")}</span>
-          </StartIncident>
+          {/* Not on extortion (Ali, 2026-10-14): both its tiles give the same plan, every extortion step is keyed on the
+              category, while «Не уверен(а)» would start a "don't know" case without the stop card and the urgent line.
+              An unsure kid taps either tile. */}
+          {category !== "extortion" && (
+            <StartIncident situation="unknown" className="sit-unsure">
+              <Icon name="circle-help" />
+              <span>{t("unsure")}</span>
+            </StartIncident>
+          )}
         </main>
       </>
     );

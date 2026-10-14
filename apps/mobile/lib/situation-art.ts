@@ -9,4 +9,7 @@ export const SITUATION_ART: Partial<Record<SituationId, readonly [width: number,
   fake_photo: [512, 498],
   fake_video: [512, 464],
   impersonation: [512, 471],
+  threat_to_publish: [512, 592],
+  // The £ on the banknote was painted over with the coin's own navy (not the somoni; a plain mark instead).
+  demand_money_or_photos: [512, 477],
 };
