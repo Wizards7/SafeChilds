@@ -16,7 +16,7 @@ Every folder in the repo gets an entry the day it is created: what it is for, wh
 
 ### `apps/`
 - **Purpose:** what ships to a user; one folder per deployable
-- **Contains:** `backend/`, `mobile/`, `bot/`, `crm/` (deferred)
+- **Contains:** `backend/`, `mobile/`, `bot/`, `crm/` (deferred), `website/` (placeholder)
 - **Do NOT put here:** shared code (that's `packages/`); an app importing another app
 
 ### `assets/` (gitignored)
@@ -60,6 +60,11 @@ Every folder in the repo gets an entry the day it is created: what it is for, wh
 - **Purpose:** deferred directory admin (spec only)
 - **Contains:** spec files
 - **Do NOT put here:** code before the re-add trigger fires (first real professional, or a partner sending requests)
+
+### `apps/website/`
+- **Purpose:** placeholder so collaborators see where the website will live (2026-10-14)
+- **Contains:** `README.md` only; no `package.json`, so no build and no deploy
+- **Do NOT put here:** a built site before plan 0001's Surface decision is reopened in writing
 
 ## `packages/`
 

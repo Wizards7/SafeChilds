@@ -19,6 +19,7 @@ apps/
   mobile/    Next.js PWA — the product. No API routes, no DB. IndexedDB holds the one incident.
   bot/       grammY. Second entrance to the same guidance. No uploads, no storage.
   crm/       DEFERRED — spec kept, see apps/crm/README.md.
+  website/   PLACEHOLDER — empty, so collaborators see where it will live; see apps/website/README.md.
 packages/
   config/    tsconfig base, prettier.
   ui/        tokens.css + app.css promoted from the sketches, Inter woff2, icon sprite.
