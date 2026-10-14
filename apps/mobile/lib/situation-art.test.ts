@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { SITUATION_CATEGORY, SITUATIONS } from "@safechilds/guidance";
-import { SITUATION_ART } from "./situation-art";
+import { composePlan, emptyProfile, ITEMS, SITUATION_CATEGORY, SITUATIONS, type SituationId } from "@safechilds/guidance";
+import { NO_UNSURE, SITUATION_ART } from "./situation-art";
 
 // A situation tile breaks silently in four ways: a missing title or description in one language, a missing picture,
 // a picture whose real size no longer matches the box the page reserves for it (the art gets swapped), or a picture
@@ -45,4 +45,29 @@ describe("situation tile art", () => {
       expect(sw).toContain(`"/situation/${id}.webp"`);
     });
   }
+});
+
+// NO_UNSURE hides «Не уверен(а)» where a "don't know" case costs more than either tile. These pin the reasons, not the
+// list: when a reason stops holding, the test fails and the row can come back.
+describe("«Не уверен(а)» is hidden only where it costs the kid real help", () => {
+  const planIds = (s: SituationId) => {
+    const plan = composePlan(ITEMS, emptyProfile(s));
+    return [...plan.now, ...plan.later].map((step) => step.id).sort();
+  };
+
+  it("extortion: both tiles give the same plan, so picking either loses nothing", () => {
+    expect(NO_UNSURE.has("extortion")).toBe(true);
+    expect(planIds("threat_to_publish")).toEqual(planIds("demand_money_or_photos"));
+  });
+
+  it("fraud: only «Уже отправил(а)» gets the bank step, and no fraud question can add it later", () => {
+    expect(NO_UNSURE.has("fraud")).toBe(true);
+    expect(planIds("already_sent")).toContain("fraud.bank");
+    expect(planIds("unknown")).not.toContain("fraud.bank");
+    // If a fraud answer starts setting alreadySent (e.g. «Я уже ввёл(а) код»), the wrong tile becomes recoverable:
+    // reconsider fraud in NO_UNSURE.
+    const sets = ITEMS.flatMap((i) => (i.kind === "question" && i.id.startsWith("fraud.") ? i.answers.map((a) => [`${i.id}.${a.id}`, a.sets?.alreadySent] as const) : []));
+    expect(sets.length).toBeGreaterThan(0);
+    for (const [id, alreadySent] of sets) expect(alreadySent, id).toBeUndefined();
+  });
 });
