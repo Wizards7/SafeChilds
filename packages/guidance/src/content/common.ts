@@ -48,8 +48,30 @@ export const FEELING_LABEL: Record<Feeling, Text> = {
   prefer_not: { ru: "Не хочу отвечать", tg: "Ҷавоб додан намехоҳам", verify: true },
 };
 
-// Feelings that lead to the breathing offer first.
-export const BREATHE_FOR: ReadonlySet<Feeling> = new Set(["scared", "anxious", "overwhelmed"]);
+// Feelings whose reply on the Поддержка tab is the one-minute breathing (2026-10-14: anxious now gets one plan step).
+export const BREATHE_FOR: ReadonlySet<Feeling> = new Set(["scared", "overwhelmed"]);
+
+// The reply under the feelings grid on the Поддержка tab (Ali, 2026-10-14, after a safety / coping / honesty review):
+// one reviewed line per feeling, never generated, and the app picks one action for it (apps/mobile/app/feelings).
+// The ashamed reply is NOT_YOUR_FAULT plus the category's reviewed answer (SHAME_SILENT in content/signs.ts).
+// tg: AI-written, verify. Wording about danger and feeling very bad: VERIFY with a child-protection professional.
+export const FEELING_REPLY = {
+  scared: { ru: "Страшно — это понятно. Давай сначала выдохнем.", tg: "Тарсидан фаҳмост. Биё аввал нафас ором кашем.", verify: true },
+  overwhelmed: { ru: "Когда всего слишком много, не нужно решать всё сразу. Начни с одной минуты.", tg: "Вақте ки ҳама чиз аз ҳад зиёд аст, ҳамаашро якбора ҳал кардан лозим нест. Аз як дақиқа оғоз кун.", verify: true },
+  sad: { ru: "Грусть не нужно прятать. Вот готовые слова — их можно отправить взрослому, которому доверяешь.", tg: "Ғамро пинҳон кардан лозим нест. Ана суханони тайёр — онҳоро ба калонсоле, ки ба ӯ бовар дорӣ, фиристодан мумкин аст.", verify: true },
+  anxious: {
+    step: { ru: "Тревожно, когда не знаешь, что будет дальше. Не нужно всё сразу — вот один шаг.", tg: "Вақте намедонӣ, ки баъд чӣ мешавад, ташвиш меоварад. Ҳамаашро якбора кардан лозим нест — ана як қадам.", verify: true },
+    noCase: { ru: "Тревожно, когда не знаешь, что будет дальше. Можно разобраться по шагам.", tg: "Вақте намедонӣ, ки баъд чӣ мешавад, ташвиш меоварад. Метавон қадам ба қадам фаҳмид.", verify: true },
+    allDone: { ru: "Все шаги плана уже отмечены. Можно просто выдохнуть.", tg: "Ҳамаи қадамҳои нақша аллакай қайд шудаанд. Метавонӣ танҳо нафас ором кашӣ.", verify: true },
+  },
+  angry: {
+    withCase: { ru: "Злиться — нормально. Только не отвечай и не мсти — лучше сохрани доказательства.", tg: "Хашмгин шудан муқаррарист. Танҳо ҷавоб надеҳ ва интиқом нагир — беҳтараш далелҳоро нигоҳ дор.", verify: true },
+    noCase: { ru: "Злиться — нормально. Только не отвечай и не мсти.", tg: "Хашмгин шудан муқаррарист. Танҳо ҷавоб надеҳ ва интиқом нагир.", verify: true },
+  },
+} satisfies Record<string, Text | Record<string, Text>>;
+
+// On every feeling reply: the door to /urgent (quiet, or full-size on scared, extortion, or an unsafe safety answer).
+export const FEELING_URGENT: Text = { ru: "Если тебе опасно или очень плохо прямо сейчас", tg: "Агар ҳозир ба ту хатар дорад ё хеле вазнин аст", verify: true };
 
 export const NOT_YOUR_FAULT: Text = { ru: "Ты не виноват(а).", tg: "Ту гунаҳкор нестӣ.", verify: true };
 

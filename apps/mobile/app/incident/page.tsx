@@ -38,14 +38,15 @@ export default function IncidentPage() {
   const [newKey, setNewKey] = useState<string | null>(null);
   const [pickedDay, setPickedDay] = useState<string | null>(null);
 
-  // Arriving from a save on /analyze or /link: the hash names the new card. Read once the case is loaded, then dropped
-  // from the address so a reload does not mark it again.
+  // Arriving from a save on /analyze or /link: the hash names the new card (#e-<id>); from Поддержка, #add opens the add
+  // sheet. Read once the case is loaded, then dropped from the address so a reload does not repeat it.
   useEffect(() => {
     if (loading) return;
     const id = window.location.hash.slice(1);
-    if (!id.startsWith("e-")) return;
+    if (id !== "add" && !id.startsWith("e-")) return;
     window.history.replaceState(window.history.state, "", window.location.pathname); // keep the router's own state
-    setNewKey(id);
+    if (id === "add") setAdding(true); // from the «Злюсь» reply on Поддержка
+    else setNewKey(id);
   }, [loading]);
   // The new card comes into view and keeps its mark for a moment (CSS fades it; none with reduced motion). A jump after
   // the commit, not a smooth scroll or an animation frame: both were dropped on arrival in testing (2026-10-14).

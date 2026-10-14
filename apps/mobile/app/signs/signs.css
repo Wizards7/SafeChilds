@@ -38,3 +38,5 @@
 .silent li { background: var(--support-bg); border-radius: var(--radius-control); padding: var(--space-3) var(--space-4); display: flex; flex-direction: column; gap: 4px; }
 .silent li b { color: var(--support); font-weight: 600; }
 .silent li span { font-size: var(--text-small); color: var(--text-secondary); }
+/* The «Почему молчат» answers are linked from the Поддержка «Стыдно» reply (#silent): land below the sticky top bar */
+.silent { scroll-margin-top: calc(56px + env(safe-area-inset-top) + 8px); }

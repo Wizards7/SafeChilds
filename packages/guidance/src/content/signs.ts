@@ -57,6 +57,10 @@ export const ABOUT: Record<SignCategory, CategoryAbout> = {
   },
 };
 
+// For the "Стыдно" reply on the Поддержка tab: which of ABOUT[category].silent answers the shame itself (reviewed copy,
+// reused rather than written again).
+export const SHAME_SILENT: Record<SignCategory, number> = { fake_content: 2, extortion: 0, fraud: 0, cyberbullying: 1 };
+
 export const SIGNS: Record<SignCategory, SignCard[]> = {
   fake_content: [
     {

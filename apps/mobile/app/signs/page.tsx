@@ -40,7 +40,7 @@ export default async function SignsPage({ searchParams }: { searchParams: Promis
           ))}
         </section>
 
-        <section className="silent">
+        <section className="silent" id="silent">
           <h2>{t("silent")}</h2>
           <ul>
             {about.silent.map((s, i) => (

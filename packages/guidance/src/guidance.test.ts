@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { PENDING_VERIFY } from "./content/extortion";
-import { ABOUT, ITEMS, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile, type Text } from "./index";
+import { ABOUT, BREATHE_FOR, FEELING_REPLY, FEELING_URGENT, ITEMS, SHAME_SILENT, SIGN_CATEGORIES, SIGNS, cardMarkers, composePlan, emptyProfile, markerNumbers, matches, questionFor, splitMarkers, stopCardFor, type Profile, type Text } from "./index";
 
 describe("showWhen", () => {
   const p = { ...emptyProfile("fake_photo"), platform: "instagram" as const, flags: { ongoing: true } };
@@ -209,5 +209,28 @@ describe("unverified facts stay off every screen", () => {
     const extortionIntimate = { ...emptyProfile("threat_to_publish"), flags: { intimate: true } };
     const plan = composePlan(ITEMS, extortionIntimate);
     expect([...plan.now, ...plan.later].map((s) => s.id)).not.toContain("ext.take_it_down");
+  });
+});
+
+describe("feeling replies on the Поддержка tab", () => {
+  const texts = (v: unknown): Text[] => (v && typeof v === "object" ? ("ru" in v && "tg" in v ? [v as Text] : Object.values(v).flatMap(texts)) : []);
+  it("every reply line exists in both languages and states no VERIFY", () => {
+    const all = [...texts(FEELING_REPLY), FEELING_URGENT];
+    expect(all.length).toBe(9);
+    for (const x of all) {
+      expect(x.ru.length, x.ru).toBeGreaterThan(0);
+      expect(x.tg.length, x.ru).toBeGreaterThan(0);
+      expect(`${x.ru} ${x.tg}`).not.toMatch(/VERIFY/);
+    }
+  });
+  it("the shame answer points at a real, reviewed silent answer in every category", () => {
+    for (const c of SIGN_CATEGORIES) {
+      const s = ABOUT[c].silent[SHAME_SILENT[c]];
+      expect(s, c).toBeDefined();
+      expect(s?.answer.ru, c).toBeTruthy();
+    }
+  });
+  it("breathing is the reply for scared and overwhelmed only; anxious gets a plan step", () => {
+    expect([...BREATHE_FOR].sort()).toEqual(["overwhelmed", "scared"]);
   });
 });
