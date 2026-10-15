@@ -94,34 +94,26 @@
     demoOpen: "Ин сенарияро кушо",
     toolsTitle: "Боз якчанд абзор",
     toolsBody: "Онҳо ҳатмӣ нестанд: нақша бе онҳо ҳам дастрас аст.",
-    t1: "Санҷиши тасвир",
-    t1d: "Нишонаҳои тағйиротро нишон медиҳад ва мефаҳмонад, ки куҷо нигоҳ кунӣ. Ҳукми «аслӣ ё қалбакӣ» намебарорад.",
-    t1m: "JPEG, PNG, WebP · то 8 МБ",
-    vizWhere: "Нишон медиҳад, ки куҷо нигоҳ кунӣ",
-    vizNoVerdict: "Бе ҳукми «қалбакӣ» ё «аслӣ»",
-    sg1: "Салом! Ин ту дар ин акс?", sg2: "bit.ly/3x… худат бин", sg3: "Танҳо зудтар, то нест накардаанд",
-    sgNote: "Пайванди кӯтоҳшуда ё сомонаи бегона: мақсад — ки ту пахш кунӣ ва парол ворид кунӣ.",
     linkCheck: "Санҷиш бе кушодан",
     breatheIn: "Нафас гир", breatheOut: "Нафас барор",
     t2: "Санҷиши пайванд",
     t2d: "Бе он ки худат онро кушоӣ. Агар нишонаҳои хатарнок набошанд, ин маънои бехатар будани пайвандро надорад.",
-    t3: "Намунаҳои таълимӣ", t3d: "Нишонаҳои фиреб ва таҳқир дар мисолҳо.",
+    tgBot: "бот", tgQ1: "Дар интернет чизе рӯй дод? Он чиро, ки наздиктар аст, интихоб кун.",
+    tBot: "Боти Telegram", tBotD: "Ҳамон нақша дар Telegram: мепурсад, ки чӣ шуд, месанҷад, ки ту дар амон ҳастӣ ё не, ва қадамҳо медиҳад. Бе бақайдгирӣ ва бе файлҳо.", tBotGo: "Дар Telegram кушодан",
+    apkTag: "Ҳоло дар Telegram", apkT: "Эҳтиёт: «Даъватномаи туй.apk»",
+    apkD: "Аз ҳисобҳои шикастаи дӯстон «даъватнома ба туй» меояд. Ин даъватнома нест, балки барнома аст.",
+    apkMsg: "Ассалому алейкум! Даъватномаи туй 💍",
+    apkNote: "Агар насб кунӣ, қаллобон ба телефон дастрасӣ мегиранд: рамзҳои СМС, Telegram ва ҳамёне, ки ба он пайваст аст (масалан, Dushanbe City). .apk-ро аз чат накушо: барномаҳоро танҳо аз Play Store мегузоранд.",
     t4: "Як дақиқа нафаскашӣ", t4d: "Танаффуси кӯтоҳ, вақте ки ҳама чиз аз ҳад зиёд аст.",
-    prTitle: "Ҳолати ту дар дастгоҳи ту нигоҳ дошта мешавад.",
-    pr1: "Ҳолат, далелҳои нигоҳдошташуда ва қадамҳои иҷрошуда дар ҳамин дастгоҳ нигоҳ дошта мешаванд. Бақайдгирӣ лозим нест.",
-    pr2: "Агар ту санҷиши тасвир, пайванд ё тавсифи ҳолатро оғоз кунӣ, маълумоти дахлдор барои коркард фиристода мешавад. Барнома дар ин бора пешакӣ хабар медиҳад.",
-    prLink: "Бештар дар бораи махфият",
     qKicker: "Ба наздикӣ дар барнома", qTitle: "Ҳама чизи муҳим бо як ламс",
-    qBody: "Тугмаи шинокунанда болои шабакаҳои иҷтимоӣ. Дар лента чизи бадро дидӣ — пахш кун, ва дар назди ту кӯмак, санҷиши акс ва ҳолати ту ҳастанд.",
+    qBody: "Тугмаи шинокунанда болои шабакаҳои иҷтимоӣ. Чизи бадро дидӣ — пахш кун, ва дар назди ту кӯмак, санҷиши акс, пайванд, паёми овозӣ ва занг ҳастанд.",
     qL1: "Барномаро ҷустан лозим нест: кӯмак дар ҳамон ҷо, ки ҳама чиз рӯй дод", qL2: "Тугмаро ба кунҷи қулай кашидан мумкин", qL3: "«Кӯмак ҳозир» ҳамеша дар ҷои аввал",
     qHint: "Тугмаро дар телефон пахш кун", igNew: "3 рӯз пеш сохта шуд", igCap: "Салом, ин ҳисоби нави ман, кӯҳнаро шикастанд. Илова кун!", qBtn: "Менюи зуд",
-    qBreathe: "Нафаскашӣ", qPhoto: "Аксро санҷидан", qHome: "SafeChilds", qLink: "Пайвандро санҷидан",
-    prP1T: "Ҳама чиз дар телефон мемонад", prP2T: "Санҷиш танҳо вақте ки худат онро оғоз мекунӣ",
-    vCase: "Ҳолати ман", vLink: "Пайванди пост", vShot: "Скриншот", vSteps: "Қадамҳои иҷрошуда",
-    vHere: "Танҳо дар ҳамин телефон нигоҳ дошта мешавад", vNoId: "Бе ном, телефон ва акс ҳангоми ворид шудан",
-    stageT: "Чӣ ҳоло ҳамчун прототип кор мекунад.",
-    stageD: "Ҳоло феҳрист кортҳои демои мутахассисонро дорад. Шакли дархости тамос сенарияи ояндаро нишон медиҳад: дархост ба ҳеҷ ҷо фиристода намешавад.",
+    qVoice: "Паёми овозиро санҷидан", qCall: "Зангро санҷидан", qNew: "ба наздикӣ",
+    qL4: "Паёмҳои овозӣ ва зангҳо: нишонаҳои фиреб ё овози қалбакиро нишон медиҳад",
+    qBreathe: "Нафаскашӣ", vCase: "Ҳолати ман", qPhoto: "Аксро санҷидан", qHome: "SafeChilds", qLink: "Пайвандро санҷидан",
     faqTitle: "Саволҳои маъмул",
+    faqKicker: "Саволҳо", faqBody: "Кӯтоҳ дар бораи он чи бештар мепурсанд. Ҷавоб наёфтӣ — ба бот навис.",
     q1: "Бақайдгирӣ лозим аст?", a1: "Не. Барнома ҳангоми ворид шудан ном, телефон ё аксро намепурсад.",
     q2: "SafeChilds-ро дар телефон чӣ тавр кушоям?", a2: "Ин барномаи веб аст: дар браузер кушода мешавад. Онро ба экрани асосӣ мисли барномаи оддӣ илова кардан мумкин аст.",
     q3: "Санҷиш қалбакиро аниқ муайян мекунад?", a3: "Не. Санҷиш нишонаҳои тағйирот ва маҳдудиятҳои худро нишон медиҳад, аммо ҷавоби кафолатноки «аслӣ» ё «қалбакӣ» намедиҳад. Нақшаи амал аз санҷиш вобаста нест.",
@@ -129,6 +121,7 @@
     q5: "Агар ба ман таҳдид кунанд, чӣ кор кунам?", a5: "Кӯмаки таъҷилиро кушо ва ба калонсоле, ки ба ӯ бовар дорӣ, бигӯ. Ту гунаҳкор нестӣ.",
     a5link: "Кӯмаки таъҷилӣ",
     finalTitle: "Аз як қадам оғоз кун.",
+    finalSub: "Барномаро кушо ё ба бот дар Telegram навис. Бе бақайдгирӣ, бо забони русӣ ва тоҷикӣ.",
     qr: "Дар телефон кушо",
     qrHint: "Камераро ба код равона кун",
     qrAlt: "QR-код: SafeChilds-ро дар телефон кушо",
@@ -202,6 +195,7 @@
     $$(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === lang)); });
     renderCase();
     splitWords($(".quiet__title"));
+    splitWords($(".close__title"));
     try { localStorage.setItem("sc-landing-lang", lang); } catch (e) { /* convenience only */ }
   }
   $$(".lang button").forEach(function (b) { b.addEventListener("click", function () { setLang(b.getAttribute("data-lang")); }); });
@@ -379,7 +373,7 @@
   // ---------- route nav: progress line + where you are ----------
   var root = document.documentElement;
   var stops = $$(".route a").map(function (a) { return { a: a, el: document.getElementById(a.getAttribute("data-stop")) }; });
-  var closeRoute = $(".close__route path"), closeLen = 0, closeAct = $("#go");
+  var closeRoute = $(".close__route path"), closeLen = 0, closeAct = $("#go"), closeDot = $(".close__dot"), closeTitle = $(".close__title");
 
   var hero = $(".hero"), probs = $("#problems");
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -415,10 +409,15 @@
     }
     if (closeRoute) {
       if (!closeLen) { try { closeLen = closeRoute.getTotalLength(); } catch (e) { closeLen = 700; } closeRoute.style.strokeDasharray = closeLen; }
-      var cp = parseFloat(closeAct.style.getPropertyValue("--sc-p")) || 0;
       var r = closeAct.getBoundingClientRect();
-      var enter = Math.min(1, Math.max(0, (innerHeight - r.top) / innerHeight)); // draws while the close slides in
-      closeRoute.style.strokeDashoffset = closeLen * (1 - Math.min(1, enter * 0.8 + cp * 0.6));
+      var enter = Math.min(1, Math.max(0, (innerHeight - r.top) / innerHeight));   // 0 below the fold, 1 when its top reaches the top
+      var c = reduce ? 1 : enter;
+      root.style.setProperty("--c-in", c.toFixed(4));
+      var draw = Math.min(1, Math.max(0, (c - 0.15) / 0.5));                       // the route draws from 15% to 65%
+      closeRoute.style.strokeDashoffset = (closeLen * (1 - draw)).toFixed(2);
+      var dot = Math.min(1, Math.max(0, (draw - 0.9) / 0.1));
+      closeDot.style.setProperty("--dot", (dot * dot * (3 - 2 * dot)).toFixed(4)); // lands only once the line is there
+      closeAct.style.setProperty("--q", Math.min(1, Math.max(0, (c - 0.3) / 0.45)).toFixed(4));
     }
     requestAnimationFrame(frame);
   }
