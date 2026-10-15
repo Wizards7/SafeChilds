@@ -16,6 +16,7 @@ import { StoreFailed } from "../../components/StoreFailed";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Evidence } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
+import { resumeHref } from "../../lib/next-step";
 import { dayKey, entriesOf, groupByDay, relativeDay } from "../../lib/timeline";
 import { useIncident } from "../../lib/use-incident";
 import { formatDay } from "./format";
@@ -136,7 +137,7 @@ export default function IncidentPage() {
           <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={steps.length} aria-valuenow={done} aria-label={progress}>
             <span style={{ width: `${percent}%` }} />
           </div>
-          <Link className="btn btn-primary" href="/plan">{t("continue")}</Link>
+          <Link className="btn btn-primary" href={resumeHref(incident.profile)}>{t("continue")}</Link>
         </section>
 
         <section className="evidence" aria-labelledby="ev-title">

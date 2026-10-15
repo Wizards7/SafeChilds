@@ -1,14 +1,17 @@
 "use client";
 
-// Tapping a situation starts the one incident on the device and goes to the safety check. If a case already exists, the
-// tap asks first: starting a new case deletes the old one (steps, links, screenshots), and that never happens on a
-// single tap (2026-10-12).
+// Tapping a situation starts the one incident on the device and goes to the safety check. If a case already exists
+// (lib/next-step.ts startChoice, 2026-10-15): the same situation continues it where it stopped; another situation replaces
+// a case with nothing in it at once, and asks first when something would be deleted (steps, links, screenshots), which
+// never happens on a single tap (2026-10-12). «Продолжить текущий» goes where the case stopped, never past an unanswered
+// safety check.
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { emptyProfile, type SituationId } from "@safechilds/guidance";
 import { incidentStore } from "../lib/incident-store";
+import { resumeHref, startChoice } from "../lib/next-step";
 import { Icon } from "./Icon";
 
 export function StartIncident({
@@ -26,6 +29,7 @@ export function StartIncident({
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [keepHref, setKeepHref] = useState("/plan");
   const cardRef = useRef<HTMLDivElement>(null);
   const keepRef = useRef<HTMLButtonElement>(null);
 
@@ -76,7 +80,7 @@ export function StartIncident({
         </div>
         <p className="small">{t("body")}</p>
         <div className="row2">
-          <button ref={keepRef} className="btn btn-secondary" onClick={() => router.push("/plan")}>
+          <button ref={keepRef} className="btn btn-secondary" onClick={() => router.push(keepHref)}>
             {t("keep")}
           </button>
           <button className="btn btn-danger" disabled={busy} onClick={start}>
@@ -102,7 +106,13 @@ export function StartIncident({
           } catch {
             return storeFailed();
           }
-          if (existing) {
+          const choice = startChoice(existing, situation);
+          if (existing && choice === "resume") {
+            router.push(resumeHref(existing.profile));
+            return;
+          }
+          if (existing && choice === "confirm") {
+            setKeepHref(resumeHref(existing.profile));
             setBusy(false);
             setConfirming(true);
             return;

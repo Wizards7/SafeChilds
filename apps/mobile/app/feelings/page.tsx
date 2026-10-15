@@ -33,6 +33,7 @@ import { MessageButton } from "../../components/MessageButton";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore, type Incident } from "../../lib/incident-store";
 import { pick, type Locale } from "../../lib/locale";
+import { resumeHref } from "../../lib/next-step";
 import { dayKey, stripDays } from "../../lib/timeline";
 import { useIncident } from "../../lib/use-incident";
 import { minutesThisWeek, picksByDay, type Pick } from "../../lib/wellbeing";
@@ -225,7 +226,7 @@ export default function FeelingsPage() {
 
         {incident && (
           <div className="center">
-            <Link className="btn btn-quiet back" href="/plan">
+            <Link className="btn btn-quiet back" href={resumeHref(incident.profile)}>
               {t("backToPlan")}
             </Link>
           </div>

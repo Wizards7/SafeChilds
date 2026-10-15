@@ -17,6 +17,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "../../components/Icon";
 import { TopBar } from "../../components/TopBar";
 import { incidentStore } from "../../lib/incident-store";
+import { resumeHref } from "../../lib/next-step";
 import { useIncident } from "../../lib/use-incident";
 import "./breathe.css";
 
@@ -63,7 +64,7 @@ export default function BreathePage() {
       setVibrate(false); // storage blocked (private mode): the switch simply starts off
     }
   }, []);
-  const back = fromFeelings || !incident ? "/feelings" : "/plan";
+  const back = fromFeelings || !incident ? "/feelings" : resumeHref(incident.profile);
   const hasCase = !!incident;
 
   // The one clock. It ticks only while running; a switch between in and out may buzz.
@@ -192,7 +193,7 @@ export default function BreathePage() {
             <h2>{t("doneTitle")}</h2>
             <p className="sub">{incident ? t("doneBody") : t("doneBodyNoCase")}</p>
             <div className="cta">
-              <Link className="btn btn-primary" href={incident ? "/plan" : "/"}>{t("next")}</Link>
+              <Link className="btn btn-primary" href={incident ? resumeHref(incident.profile) : "/"}>{t("next")}</Link>
               <button type="button" className="btn btn-secondary" onClick={start}>{t("again")}</button>
               <Link className="btn btn-quiet" href="/people">{t("person")}</Link>
             </div>
