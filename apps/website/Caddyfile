@@ -1,0 +1,23 @@
+# The landing's only server: the static files in /srv with the app's security headers (apps/mobile/next.config.ts),
+# minus the camera, which this page never uses. Page code is revalidated on every visit because its file names carry no
+# hash, so a redeploy never leaves an old script behind; images and fonts are cached.
+{
+	admin off
+}
+
+:{$PORT:8080} {
+	root * /srv
+	encode zstd gzip
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+	@code path / /index.html *.css *.js
+	header @code Cache-Control "no-cache"
+	header /img/* Cache-Control "public, max-age=86400"
+	header /fonts/* Cache-Control "public, max-age=604800"
+	file_server
+}
