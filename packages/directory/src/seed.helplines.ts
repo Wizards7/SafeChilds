@@ -1,6 +1,7 @@
 // Helpline candidates. Numbers stay null and nothing renders until a team member has CALLED the line and set
 // verifiedBy + verifiedAt (plan 0001 § VERIFY). The candidates come from the organizers' example app (Лупа),
 // which itself says "verified from open sources, re-verify before the demo".
+// `categories` only orders /urgent: a verified line shows for every case, the case's own lines first (2026-10-15).
 
 import type { Helpline } from "./types";
 

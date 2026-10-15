@@ -12,6 +12,7 @@ import { Icon } from "../../components/Icon";
 import { MessageButton } from "../../components/MessageButton";
 import { TopBar } from "../../components/TopBar";
 import { pick, type Locale } from "../../lib/locale";
+import { urgentHelplines } from "../../lib/helplines";
 import { afterSafety } from "../../lib/next-step";
 import { useTRPC } from "../../lib/trpc";
 import { useIncident } from "../../lib/use-incident";
@@ -30,7 +31,7 @@ export default function UrgentPage() {
   const lines = incident ? urgentLinesFor(ITEMS, incident.profile) : [];
   const message = pick(ADULT_MESSAGE[category], locale);
   const continueHref = incident ? afterSafety(incident.profile) : "/";
-  const verified = (helplines.data ?? []).filter((h) => h.verifiedAt && h.number && (category === "unknown" || h.categories.includes(category)));
+  const verified = urgentHelplines(helplines.data ?? [], category);
 
   return (
     <>

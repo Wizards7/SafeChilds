@@ -42,7 +42,7 @@ export interface Helpline {
   number: string | null; // null until verified — nothing renders without verifiedAt
   hours: Text | null;
   languages: Lang[];
-  categories: ("fake_content" | "extortion" | "fraud" | "cyberbullying")[];
+  categories: ("fake_content" | "extortion" | "fraud" | "cyberbullying")[]; // order only: /urgent shows every verified line, these first
   verifiedBy: string | null;
   verifiedAt: string | null;
   note: Text | null; // where the candidate came from; VERIFY notes
