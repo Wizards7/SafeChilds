@@ -1,6 +1,7 @@
 "use client";
 
-// Small helpers the "Мой случай" screen and its sheets share.
+// Small helpers the "Мой случай" screen and its sheets share; useBodyScrollLock also serves the laptop QR zoom
+// (components/QrZoom.tsx).
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 

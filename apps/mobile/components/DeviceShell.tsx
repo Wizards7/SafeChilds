@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { QrZoom } from "./QrZoom";
 
 // ≥ 768px: the app inside a phone frame with the landing content beside it. This is the landing page.
 // Below 768px it renders nothing extra (CSS in app/shell.css).
 // The QR is a static public/qr.svg for the production URL with ?from=qr (bypasses the welcome). Regenerate: see ARCHITECTURE.md.
+// A click opens it big for the room (QrZoom, a client leaf; this component stays on the server).
 // Layout from Ali's landing mockup (2026-10-15): the phone left; his headline with the product promise under it; the
 // teen + adult picture beside the QR (a CSS background in app/shell.css, so phones and narrow windows never download it);
 // three true benefit chips; the image-check line and the prototype note.
@@ -66,11 +68,7 @@ export async function DeviceShell({ children }: { children: ReactNode }) {
         </div>
         <div className="shell-media">
           <div className="shell-art" aria-hidden="true" />
-          <div className="shell-qr">
-            <img className="shell-qr-img" src="/qr.svg" width={168} height={168} alt={t("qrAlt")} />
-            <b>{t("qr")}</b>
-            <span>{t("qrHint")}</span>
-          </div>
+          <QrZoom title={t("qr")} hint={t("qrHint")} alt={t("qrAlt")} zoom={t("qrZoom")} close={t("qrClose")} />
         </div>
         <ul className="shell-chips">
           {CHIPS.map(({ key, tone, icon }) => (

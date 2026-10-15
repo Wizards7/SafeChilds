@@ -54,7 +54,8 @@ body { margin: 0; }
   .shell-media { display: flex; gap: 16px; align-items: stretch; }
   /* The picture is a CSS background declared only from 1100 px wide (below): phones and narrow windows never download it. */
   .shell-art { display: none; flex: 1 1 0; min-width: 0; max-height: 300px; aspect-ratio: 1200 / 751; border-radius: 24px; background: #e8eefb center / cover no-repeat; }
-  .shell-qr { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 18px 14px; border-radius: 24px; background: #fff; border: 1px solid rgb(37 99 235 / 0.16); box-shadow: 0 10px 28px rgb(37 99 235 / 0.1); text-align: center; }
+  .shell-qr { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 18px 14px; border-radius: 24px; background: #fff; border: 1px solid rgb(37 99 235 / 0.16); box-shadow: 0 10px 28px rgb(37 99 235 / 0.1); text-align: center; cursor: zoom-in; transition-property: transform, box-shadow, border-color; transition-duration: 160ms; transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+  .shell-qr:active { transform: scale(0.97); }
   .shell-qr-img { display: block; width: 168px; height: 168px; }
   .shell-qr b { font-size: 17px; line-height: 1.2; }
   .shell-qr span { font-size: 14px; color: var(--text-secondary); }
@@ -114,4 +115,41 @@ body { margin: 0; }
 
 @media (max-width: 767.98px) {
   .shell-aside { display: none; }
+}
+
+/* The QR card opens the QR big for the room (components/QrZoom.tsx, 2026-10-15). The card lifts on a mouse hover and
+   presses in on click; the dialog fades in while growing from 96 % in 220 ms and leaves in 150 ms (closing animates only
+   where the browser can animate a dialog's exit; elsewhere it closes at once). The QR is as big as the window allows:
+   about 520 px on a 1280x720 projector, never over 760 px, centred by margin: auto (app.css zeroes every margin).
+   Reduced motion keeps the fades and drops the growing. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .shell-qr:hover { border-color: rgb(37 99 235 / 0.32); box-shadow: 0 14px 32px rgb(37 99 235 / 0.16); }
+}
+.qr-zoom { margin: auto; padding: 0; border: 0; border-radius: 28px; background: #fff; color: var(--text); max-width: none; max-height: none; overflow: visible; box-shadow: 0 30px 80px rgb(15 23 42 / 0.35);
+  transition-property: opacity, transform, overlay, display; transition-duration: 150ms; transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); transition-behavior: allow-discrete; }
+.qr-zoom:not([open]) { opacity: 0; transform: scale(0.96); }
+.qr-zoom[open] { transition-duration: 220ms; }
+@starting-style { .qr-zoom[open] { opacity: 0; transform: scale(0.96); } }
+.qr-zoom::backdrop { background-color: rgb(15 23 42 / 0); transition-property: background-color, overlay, display; transition-duration: 150ms; transition-timing-function: ease-out; transition-behavior: allow-discrete; }
+.qr-zoom[open]::backdrop { background-color: rgb(15 23 42 / 0.55); transition-duration: 220ms; }
+@starting-style { .qr-zoom[open]::backdrop { background-color: rgb(15 23 42 / 0); } }
+.qr-zoom-panel { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 32px 56px 28px; text-align: center; }
+.qr-zoom-panel img { display: block; width: min(calc(100dvh - 200px), calc(100vw - 160px), 760px); height: auto; aspect-ratio: 1; }
+.qr-zoom-panel b { font-size: 26px; line-height: 1.2; font-weight: 800; }
+.qr-zoom-panel span { font-size: 18px; line-height: 1.4; color: var(--text-secondary); }
+.qr-zoom-close { position: absolute; top: 12px; right: 12px; width: var(--touch-min); height: var(--touch-min); display: grid; place-items: center; border: 0; border-radius: 12px; background: none; color: var(--text-secondary); }
+.qr-zoom-close:active { background: var(--neutral-bg); }
+@media (hover: hover) and (pointer: fine) {
+  .qr-zoom-close:hover { background: var(--neutral-bg); }
+}
+/* Without the overlay property (Safari, Firefox in 2026) a closing dialog leaves the top layer at once, so a discrete exit
+   would show it for 150 ms at its place in the aside: there it closes at once instead. The opening needs no discrete step. */
+@supports not (overlay: auto) {
+  .qr-zoom, .qr-zoom::backdrop { transition-behavior: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell-qr { transition: none; }
+  .shell-qr:active { transform: none; }
+  .qr-zoom:not([open]) { transform: none; }
+  @starting-style { .qr-zoom[open] { transform: none; } }
 }
