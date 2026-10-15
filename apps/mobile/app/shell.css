@@ -40,23 +40,34 @@ body { margin: 0; }
 .shell-screen { min-height: 100dvh; display: flex; flex-direction: column; position: relative; }
 
 @media (min-width: 768px) {
-  /* Direction A (Ali, 2026-10-15): the app's own light surface around the phone, the bezel the one dark object, a soft
-     brand-blue glow behind it; the honesty lines as labelled rows readable on a projector. */
+  /* Ali's landing (2026-10-15): the app's own light surface, the phone left with a soft brand-blue glow behind it, the
+     content right: his headline + the product promise, the teen + adult picture beside the QR, three benefit chips, the
+     image-check line and the prototype note. */
   body { background: #f3f6fb; }
-  .shell { min-height: 100dvh; overflow: clip; display: grid; grid-template-columns: minmax(280px, 420px) 390px; justify-content: center; align-items: center; gap: clamp(32px, 5vw, 64px); padding: 40px 24px; }
-  .shell-aside { color: var(--text); display: flex; flex-direction: column; gap: 28px; }
-  .shell-brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
-  .shell-brand img { display: block; width: 36px; height: 36px; }
-  .shell-pitch { font-size: 34px; font-weight: 700; line-height: 1.18; letter-spacing: -0.02em; text-wrap: balance; }
-  .shell-qr { align-self: flex-start; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 16px 12px; border-radius: 20px; background: #fff; border: 1px solid rgb(37 99 235 / 0.18); box-shadow: 0 10px 28px rgb(37 99 235 / 0.1); }
+  .shell { min-height: 100dvh; overflow: clip; display: grid; grid-template-columns: 390px minmax(0, 720px); justify-content: center; align-items: center; gap: clamp(32px, 5vw, 72px); padding: 40px 24px; }
+  .shell-aside { color: var(--text); display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .shell-brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 24px; letter-spacing: -0.01em; }
+  .shell-brand img { display: block; width: 40px; height: 40px; }
+  .shell-head { display: flex; flex-direction: column; gap: 12px; }
+  .shell-head h2 { font-size: 48px; line-height: 1.08; font-weight: 800; letter-spacing: -0.025em; text-wrap: balance; }
+  .shell-head p { font-size: 19px; line-height: 1.45; color: var(--text-secondary); max-width: 36em; text-wrap: pretty; }
+  .shell-media { display: flex; gap: 16px; align-items: stretch; }
+  /* The picture is a CSS background declared only from 1100 px wide (below): phones and narrow windows never download it. */
+  .shell-art { display: none; flex: 1 1 0; min-width: 0; max-height: 300px; aspect-ratio: 1200 / 751; border-radius: 24px; background: #e8eefb center / cover no-repeat; }
+  .shell-qr { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 18px 14px; border-radius: 24px; background: #fff; border: 1px solid rgb(37 99 235 / 0.16); box-shadow: 0 10px 28px rgb(37 99 235 / 0.1); text-align: center; }
   .shell-qr-img { display: block; width: 168px; height: 168px; }
-  .shell-qr span { font-size: 15px; font-weight: 600; color: var(--text-secondary); }
-  .shell-honest { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-  .shell-honest li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; }
-  .shell-honest .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgb(37 99 235 / 0.09); color: var(--primary); }
-  .shell-honest svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .shell-honest b { display: block; font-size: 15px; line-height: 1.3; }
-  .shell-honest p { font-size: 15px; line-height: 1.45; color: var(--text-secondary); }
+  .shell-qr b { font-size: 17px; line-height: 1.2; }
+  .shell-qr span { font-size: 14px; color: var(--text-secondary); }
+  .shell-chips { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .shell-chips li { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; font-size: 16px; line-height: 1.3; font-weight: 500; }
+  .shell-chips .ic { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgb(37 99 235 / 0.09); color: var(--primary); }
+  .shell-chips .ic.support { background: var(--support-bg); color: var(--support); }
+  .shell-aside svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .shell-fine { font-size: 14px; color: var(--text-secondary); }
+  .shell-note { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border-radius: 16px; background: #fff; border: 1px solid var(--border); }
+  .shell-note svg { color: var(--text-secondary); margin-top: 1px; }
+  .shell-note b { display: block; font-size: 15px; }
+  .shell-note span { font-size: 14px; color: var(--text-secondary); }
   /* On a short window the phone keeps its width and gets shorter, like a smaller phone: text stays full size on the
      projector, and dialogs pinned to the frame (incident/hooks.ts pinToFrame) still match its measured box. */
   .shell-frame { position: relative; isolation: isolate; width: 390px; height: clamp(560px, calc(100dvh - 80px), 844px); border-radius: 44px; background: #0b1220; padding: 12px; box-shadow: 0 30px 70px rgb(15 23 42 / 0.22); }
@@ -69,19 +80,36 @@ body { margin: 0; }
   .shell-screen main { overflow-y: auto; }
 }
 
-/* Short laptop windows (a 1280x720 projector) and narrow ones (a tablet held upright): the left column tightens to fit
-   beside the phone; on a short window the padding shrinks and the phone takes the room it frees. */
+@media (min-width: 1100px) {
+  .shell-art { display: block; background-image: url("/landing/support.webp"); }
+}
+/* Short laptop windows (a 1280x720 projector) and narrow ones (a tablet held upright): the content tightens to fit beside
+   the phone; on a short window the padding shrinks and the phone takes the room it frees. */
 @media (min-width: 768px) and (max-height: 800px) {
   .shell { padding-block: 32px; }
   .shell-frame { height: clamp(560px, calc(100dvh - 64px), 844px); }
 }
 @media (min-width: 768px) and (max-height: 800px), (min-width: 768px) and (max-width: 1023.98px) {
-  .shell-aside { gap: 16px; }
+  .shell-aside { gap: 14px; }
+  .shell-brand { font-size: 20px; }
   .shell-brand img { width: 32px; height: 32px; }
-  .shell-pitch { font-size: 28px; }
+  .shell-head h2 { font-size: 38px; }
+  .shell-head p { font-size: 17px; }
+  .shell-art { max-height: 200px; }
   .shell-qr { padding: 12px 12px 10px; }
   .shell-qr-img { width: 120px; height: 120px; }
-  .shell-honest { gap: 10px; }
+  .shell-qr b { font-size: 15px; }
+  .shell-qr span { font-size: 13px; }
+  .shell-chips li { font-size: 15px; grid-template-columns: 36px 1fr; }
+  .shell-chips .ic { width: 36px; height: 36px; }
+  .shell-chips .ic svg { width: 19px; height: 19px; }
+  .shell-note { padding: 10px 14px; }
+}
+/* Narrow windows (below 1100 px): no picture, the chips stack. */
+@media (min-width: 768px) and (max-width: 1099.98px) {
+  .shell { grid-template-columns: 390px minmax(0, 1fr); }
+  .shell-chips { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .shell-head h2 { font-size: 34px; }
 }
 
 @media (max-width: 767.98px) {
