@@ -202,7 +202,6 @@
     $$(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === lang)); });
     renderCase();
     splitWords($(".quiet__title"));
-    try { localStorage.setItem("sc-landing-lang", lang); } catch (e) { /* convenience only */ }
   }
   $$(".lang button").forEach(function (b) { b.addEventListener("click", function () { setLang(b.getAttribute("data-lang")); }); });
 
@@ -423,10 +422,32 @@
     requestAnimationFrame(frame);
   }
 
+  // ---------- keyboard on the sideways rail ----------
+  // The problems rail moves only with page scroll and its stage clips, so Tab could land on a card far off screen. On
+  // focus the page scrolls to where that card is in view. Reduced motion makes the rail an ordinary scroll box instead.
+  (function () {
+    var probs = $("#problems"), rail = probs && probs.querySelector("[data-sc-pan]");
+    if (!rail || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    probs.addEventListener("focusin", function (ev) {
+      var card = ev.target.closest("[data-sc-pan] > *");
+      if (!card) return;
+      var shift = new DOMMatrixReadOnly(getComputedStyle(rail).transform).m41;
+      var railLeft = rail.getBoundingClientRect().left - shift;
+      var cardRight = railLeft + (card.getBoundingClientRect().right - rail.getBoundingClientRect().left);
+      var over = rail.scrollWidth - innerWidth;
+      if (over <= 0) return;
+      var extra = parseFloat(rail.getAttribute("data-sc-pan")) || 0;
+      var p = Math.min(1, Math.max(0, (cardRight + 24 - innerWidth) / (over * (1 + extra))));
+      var top = probs.getBoundingClientRect().top + scrollY;
+      scrollTo({ top: top + p * (probs.offsetHeight - innerHeight), behavior: "instant" });
+    });
+  })();
+
   // ---------- init ----------
-  var saved = null;
-  try { saved = localStorage.getItem("sc-landing-lang"); } catch (e) { /* ignore */ }
+  // Russian only for the demo (Ali, 2026-10-15): TG is an unreviewed AI draft and the page has no language switch, so
+  // nothing is saved or restored. Before turning Tajik on: a native review, the switch in the nav, and the same four
+  // truth fixes the Russian copy got (prP1T, a3, t1d, qKicker; see README.md).
   ScrollCraft.mount(document.body);
-  setLang(saved || "ru");
+  setLang("ru");
   requestAnimationFrame(frame);
 })();
