@@ -340,9 +340,12 @@
   // ---------- quick menu demo: the floating button opens the app's main doors ----------
   var qbtn = $(".qbtn"), qmenu = $("#qmenu");
   function setQuick(open) {
+    var hadFocus = document.activeElement === qbtn;
     qmenu.classList.toggle("is-open", open);
     qbtn.setAttribute("aria-expanded", String(open));
     qmenu.inert = !open;
+    // the open menu hides its button (page.css), so focus moves to the first item rather than falling to the page
+    if (open && hadFocus) qmenu.querySelector(".qm__it").focus();
   }
   setQuick(false);
   qbtn.addEventListener("click", function () { setQuick(!qmenu.classList.contains("is-open")); });
@@ -424,13 +427,16 @@
 
   // ---------- keyboard on the sideways rail ----------
   // The problems rail moves only with page scroll and its stage clips, so Tab could land on a card far off screen. On
-  // focus the page scrolls to where that card is in view. Reduced motion makes the rail an ordinary scroll box instead.
+  // keyboard focus the page scrolls to where that card is in view (a click on a card already in view never moves the
+  // page). Reduced motion makes the rail an ordinary scroll box instead.
   (function () {
     var probs = $("#problems"), rail = probs && probs.querySelector("[data-sc-pan]");
     if (!rail || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     probs.addEventListener("focusin", function (ev) {
       var card = ev.target.closest("[data-sc-pan] > *");
-      if (!card) return;
+      if (!card || !card.matches(":focus-visible")) return;
+      var now = card.getBoundingClientRect();
+      if (now.left >= 0 && now.right <= innerWidth) return;
       var shift = new DOMMatrixReadOnly(getComputedStyle(rail).transform).m41;
       var railLeft = rail.getBoundingClientRect().left - shift;
       var cardRight = railLeft + (card.getBoundingClientRect().right - rail.getBoundingClientRect().left);

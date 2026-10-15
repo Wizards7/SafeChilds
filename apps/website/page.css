@@ -704,6 +704,7 @@ body { font-size: 18px; line-height: 1.5; letter-spacing: 0; font-weight: 400; }
 .qm.is-open .qm__it { opacity: 1; transform: none; transition-delay: calc(.12s + var(--d) * .05s), calc(.12s + var(--d) * .05s), 0s; }
 .qm__it:hover, .qm__it:focus-visible { background: rgba(255, 255, 255, .1); outline: none; }
 .qm__it:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+.sol__tabs button:focus-visible, .switch button:focus-visible { outline-offset: -3px; }
 .qm__it .ic { width: 11.5cqw; height: 11.5cqw; stroke-width: 1.8; }
 .qm__it--help { grid-area: help; } .qm__it--help .ic { color: #fca5a5; }
 .qm__it--breathe { grid-area: breathe; } .qm__it--breathe .ic { color: #a7e08a; }
@@ -1030,14 +1031,15 @@ body { font-size: 18px; line-height: 1.5; letter-spacing: 0; font-weight: 400; }
 .sol__demo { margin: 0; font-size: 15px; line-height: 1.4; color: #a4b8dd; }
 .quick__note { margin: 12px 0 0; font-size: 15px; line-height: 1.4; color: var(--stone); }
 
-/* Short phones (iPhone SE, 360x640 Android, landscape): a pinned stage is exactly one screen tall, so the example switch
+/* Short phones held upright (iPhone SE, 360x640 Android; a landscape phone, under 500 px high, keeps the original
+   layout, which is cramped there either way): a pinned stage is exactly one screen tall, so the example switch
    becomes one scrolling row and the solution phone shrinks, which leaves the plan card room for «Скопировать текст» and
    «Открыть срочную помощь» inside it (2026-10-15). */
-@media (max-width: 960px) and (max-height: 660px) {
+@media (max-width: 960px) and (max-height: 660px) and (min-height: 500px) {
   .switch { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
   .switch button { flex: none; white-space: nowrap; }
-  .stack { padding-top: 16px; }
-  .scard { min-height: 0; height: calc(100svh - var(--bar-h) - 190px); }
+  .stack { padding-top: 24px; }   /* the back cards peek up to 20 px above the front one: clear of the progress bar */
+  .scard { min-height: 0; height: calc(100svh - var(--bar-h) - 198px); }
   .sol__right { height: 150px; }
   .sol__title { font-size: 24px; }
 }
