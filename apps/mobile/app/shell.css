@@ -40,23 +40,48 @@ body { margin: 0; }
 .shell-screen { min-height: 100dvh; display: flex; flex-direction: column; position: relative; }
 
 @media (min-width: 768px) {
-  body { background: #0f172a; }
-  .shell { min-height: 100dvh; display: grid; grid-template-columns: minmax(280px, 420px) 390px; justify-content: center; align-items: center; gap: 48px; padding: 32px 24px; }
-  .shell-aside { color: #e2e8f0; display: flex; flex-direction: column; gap: 20px; }
-  .shell-brand { font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
-  .shell-pitch { font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; color: #fff; }
-  .shell-qr { align-self: flex-start; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px; border: 1px solid #334155; border-radius: 16px; }
-  .shell-qr-img { display: block; width: 160px; height: 160px; border-radius: 12px; background: #fff; }
-  .shell-qr .small { color: #94a3b8; }
-  .shell-honest { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #cbd5e1; }
-  .shell-honest li::before { content: "·"; margin-right: 8px; color: #64748b; }
-  .shell-frame { width: 390px; height: 844px; border-radius: 44px; background: #0b1220; padding: 12px; box-shadow: 0 30px 80px rgb(0 0 0 / 0.5); }
+  /* Direction A (Ali, 2026-10-15): the app's own light surface around the phone, the bezel the one dark object, a soft
+     brand-blue glow behind it; the honesty lines as labelled rows readable on a projector. */
+  body { background: #f3f6fb; }
+  .shell { min-height: 100dvh; overflow: clip; display: grid; grid-template-columns: minmax(280px, 420px) 390px; justify-content: center; align-items: center; gap: clamp(32px, 5vw, 64px); padding: 40px 24px; }
+  .shell-aside { color: var(--text); display: flex; flex-direction: column; gap: 28px; }
+  .shell-brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
+  .shell-brand img { display: block; width: 36px; height: 36px; }
+  .shell-pitch { font-size: 34px; font-weight: 700; line-height: 1.18; letter-spacing: -0.02em; text-wrap: balance; }
+  .shell-qr { align-self: flex-start; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 16px 12px; border-radius: 20px; background: #fff; border: 1px solid rgb(37 99 235 / 0.18); box-shadow: 0 10px 28px rgb(37 99 235 / 0.1); }
+  .shell-qr-img { display: block; width: 168px; height: 168px; }
+  .shell-qr span { font-size: 15px; font-weight: 600; color: var(--text-secondary); }
+  .shell-honest { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .shell-honest li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; }
+  .shell-honest .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgb(37 99 235 / 0.09); color: var(--primary); }
+  .shell-honest svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .shell-honest b { display: block; font-size: 15px; line-height: 1.3; }
+  .shell-honest p { font-size: 15px; line-height: 1.45; color: var(--text-secondary); }
+  /* On a short window the phone keeps its width and gets shorter, like a smaller phone: text stays full size on the
+     projector, and dialogs pinned to the frame (incident/hooks.ts pinToFrame) still match its measured box. */
+  .shell-frame { position: relative; isolation: isolate; width: 390px; height: clamp(560px, calc(100dvh - 80px), 844px); border-radius: 44px; background: #0b1220; padding: 12px; box-shadow: 0 30px 70px rgb(15 23 42 / 0.22); }
+  .shell-frame::before { content: ""; position: absolute; inset: -140px; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgb(37 99 235 / 0.16), transparent); pointer-events: none; }
   .shell-screen { height: 100%; min-height: 0; border-radius: 34px; overflow: hidden; background: var(--background); }
   /* fixed elements become frame-relative inside the phone */
   .shell-screen .nav, .shell-screen .help, .shell-screen .top { position: absolute; }
   .shell-screen .splash { position: absolute; }
   .shell-screen .top { position: sticky; }
   .shell-screen main { overflow-y: auto; }
+}
+
+/* Short laptop windows (a 1280x720 projector) and narrow ones (a tablet held upright): the left column tightens to fit
+   beside the phone; on a short window the padding shrinks and the phone takes the room it frees. */
+@media (min-width: 768px) and (max-height: 800px) {
+  .shell { padding-block: 32px; }
+  .shell-frame { height: clamp(560px, calc(100dvh - 64px), 844px); }
+}
+@media (min-width: 768px) and (max-height: 800px), (min-width: 768px) and (max-width: 1023.98px) {
+  .shell-aside { gap: 16px; }
+  .shell-brand img { width: 32px; height: 32px; }
+  .shell-pitch { font-size: 28px; }
+  .shell-qr { padding: 12px 12px 10px; }
+  .shell-qr-img { width: 120px; height: 120px; }
+  .shell-honest { gap: 10px; }
 }
 
 @media (max-width: 767.98px) {
