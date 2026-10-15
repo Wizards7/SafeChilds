@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SafeChilds video screens</title>
+<!-- Phone-screen clips for the concept video. Open screens.html?s=dm|bubble|link|photo|share|message (360×780, record at 2×)
+     or ?s=end (1920×1080). Add &frame=1 for a 16:9 version with the phone on the navy stage and a caption.
+     Every animation is a CSS keyframe with a delay, so a recorder can pause them and step currentTime frame by frame.
+     Result wording comes from the app (packages/analysis templates, apps/mobile/messages). Concept only: nothing is checked. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --ink: #0f172a; --slate: #475569; --mute: #94a3b8; --line: #e2e8f0; --bg: #f7f9fc; --blue: #2563eb; --red: #b91c1c;
+  --navy: #0b1e45; --grass: #8ed462; --cream: #f5f1e4;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font-family: Inter, system-ui, sans-serif; color: var(--ink); background: #fff; -webkit-font-smoothing: antialiased; overflow: hidden; }
+.ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+img { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* every animated thing starts from its "from" state and holds its "to" state */
+.a { animation-duration: .5s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); animation-fill-mode: both; }
+@keyframes up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.4); } 60% { opacity: 1; transform: scale(1.08); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@keyframes tap { 0% { opacity: 0; transform: scale(.4); } 25% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes ping { 0% { opacity: .9; transform: scale(.9); } 100% { opacity: 0; transform: scale(1.5); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dots { 0%, 60%, 100% { opacity: .3; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@keyframes press { 0%, 100% { transform: none; } 50% { transform: scale(.94); } }
+
+/* ---------- the phone screen (360 × 780) ---------- */
+.screen { position: relative; width: 360px; height: 780px; overflow: hidden; background: var(--bg); color: var(--ink); text-align: left; }
+.status { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; height: 46px; padding: 6px 28px 0; font-size: 15px; font-weight: 600; }
+.status__isl { position: absolute; left: 50%; top: 11px; width: 108px; height: 30px; border-radius: 99px; background: #000; transform: translateX(-50%); }
+.status__ic { display: flex; align-items: center; gap: 5px; }
+.status__ic i { display: block; height: 11px; background: currentColor; border-radius: 2px; }
+.status__ic i:nth-child(1) { width: 17px; clip-path: polygon(0 100%, 100% 0, 100% 100%); border-radius: 0; }
+.status__ic i:nth-child(2) { width: 15px; border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+.status__ic i:nth-child(3) { width: 25px; border-radius: 4px; }
+.tapdot { position: absolute; z-index: 30; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: rgba(255, 255, 255, .55); border: 2px solid rgba(37, 99, 235, .8); opacity: 0; animation: tap .6s ease-out both; }
+
+/* app chrome (SafeChilds look) */
+.bar { display: flex; align-items: center; gap: 10px; padding: 6px 18px 12px; }
+.bar b { flex: 1; font-size: 18px; font-weight: 700; }
+.help { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border-radius: 99px; border: 1px solid #fca5a5; background: #fef2f2; color: var(--red); font-size: 12.5px; font-weight: 600; }
+.help .ic { width: 15px; height: 15px; }
+.body { padding: 0 18px; display: flex; flex-direction: column; gap: 12px; }
+.card { padding: 14px 15px; border-radius: 18px; background: #fff; border: 1px solid var(--line); }
+.tier { padding: 13px 15px; border-radius: 18px; background: #fff7e6; border: 1px solid #f6d58e; }
+.tier b { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; }
+.tier b .ic { color: #b45309; }
+.tier p { margin: 4px 0 0; color: var(--slate); font-size: 13px; line-height: 1.4; }
+.h3 { margin: 4px 0 0; font-size: 16px; font-weight: 700; }
+.find { display: flex; gap: 10px; padding: 11px 13px; border-radius: 15px; background: #fff; border: 1px solid var(--line); font-size: 12.5px; color: var(--slate); line-height: 1.38; }
+.find b { display: block; color: var(--ink); font-size: 13.5px; font-weight: 700; }
+.find .n { flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #1e293b; color: #fff; font-size: 12px; font-weight: 700; }
+.badge { margin-left: 4px; padding: 1px 7px; border-radius: 99px; background: #eef2f7; color: var(--slate); font-size: 10.5px; font-weight: 600; vertical-align: 1px; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 14px; background: var(--blue); color: #fff; font-size: 15px; font-weight: 600; }
+.spin { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--line); border-top-color: var(--blue); animation: spin .8s linear infinite; }
+.typing { display: inline-flex; gap: 4px; padding: 11px 14px; border-radius: 18px; background: #efefef; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: #8e8e8e; animation: dots 1.1s ease-in-out infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+
+/* social look (DM + feed) */
+.sbar { display: flex; align-items: center; gap: 10px; padding: 6px 16px 10px; border-bottom: 1px solid #efefef; background: #fff; }
+.av { width: 34px; height: 34px; border-radius: 50%; background: url(../v2/assets/demo-face.jpg) center / cover; flex: none; }
+.sbar b { display: block; font-size: 15px; font-weight: 600; }
+.sbar small { color: #737373; font-size: 12px; }
+.dm { position: absolute; inset: 46px 0 0; display: flex; flex-direction: column; background: #fff; }
+.msgs { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; padding: 14px 14px 18px; }
+.m { align-self: flex-start; max-width: 78%; padding: 10px 14px; border-radius: 20px 20px 20px 6px; background: #efefef; font-size: 15px; line-height: 1.35; }
+.m--me { align-self: flex-end; border-radius: 20px 20px 6px 20px; background: #3797f0; color: #fff; }
+.m--link { padding: 0; overflow: hidden; width: 230px; }
+.m--link .pv { height: 120px; background: url(../v2/assets/demo-face.jpg) center 30% / cover; filter: blur(7px) saturate(.8); transform: scale(1.1); }
+.m--link .lk { padding: 9px 12px 11px; }
+.m--link .lk b { display: block; font-size: 13.5px; font-weight: 600; }
+.m--link .lk span { color: #3797f0; font-size: 13px; }
+.compose { display: flex; align-items: center; gap: 10px; margin: 0 12px 22px; padding: 10px 14px; border-radius: 99px; background: #efefef; color: #8e8e8e; font-size: 14px; }
+
+/* floating button + panel */
+.qbtn { position: absolute; z-index: 20; right: 12px; top: 470px; width: 52px; height: 52px; border-radius: 16px; background: rgba(28, 33, 44, .8); display: grid; place-items: center; }
+.qbtn::before { content: ""; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.25); box-shadow: inset 0 0 0 5px rgba(255,255,255,.35), inset 0 0 0 9px rgba(28,33,44,.2), inset 0 0 0 16px rgba(255,255,255,.9); }
+.qbtn::after { content: ""; position: absolute; inset: -6px; border-radius: 22px; border: 2px solid rgba(37, 99, 235, .85); animation: ping 1.8s ease-out infinite; }
+.dim { position: absolute; z-index: 21; inset: 0; background: rgba(15, 23, 42, .4); opacity: 0; }
+.panel {
+  position: absolute; z-index: 22; left: 18px; right: 18px; top: 220px; height: 324px; padding: 18px 10px; border-radius: 34px; background: rgba(28, 33, 44, .95);
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); grid-template-areas: ". a ." "b . c" "d e f";
+  transform-origin: 92% 82%; opacity: 0;
+}
+@keyframes grow { from { opacity: 0; transform: scale(.15); } to { opacity: 1; transform: none; } }
+.it { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border-radius: 18px; color: #fff; font-size: 13px; font-weight: 500; line-height: 1.15; text-align: center; }
+.it .ic { width: 38px; height: 38px; stroke-width: 1.8; }
+.it.is-hot { animation: hot .3s ease-out both; }
+@keyframes hot { to { background: rgba(255, 255, 255, .14); } }
+.homeb { width: 38px; height: 38px; border-radius: 50%; box-shadow: inset 0 0 0 3px rgba(255,255,255,.55), inset 0 0 0 6px rgba(28,33,44,.95), inset 0 0 0 40px #fff; }
+
+/* feed + share sheet */
+.feed { position: absolute; inset: 46px 0 0; display: flex; flex-direction: column; background: #fff; }
+.feed__top { display: flex; align-items: center; justify-content: space-between; padding: 4px 16px 10px; }
+.feed__top b { font-family: "Snell Roundhand", "Brush Script MT", cursive; font-size: 30px; font-weight: 600; }
+.post__h { display: flex; align-items: center; gap: 10px; padding: 8px 14px; font-size: 14px; }
+.post__h b { font-weight: 600; } .post__h small { display: block; color: #737373; font-size: 11.5px; }
+.post__img { width: 100%; aspect-ratio: 1; background: url(../v2/assets/demo-face.jpg) center / cover; }
+.post__acts { display: flex; gap: 16px; padding: 10px 14px 6px; }
+.post__acts .ic { width: 25px; height: 25px; stroke-width: 1.9; }
+.post__cap { padding: 0 14px; font-size: 13.5px; } .post__cap b { font-weight: 600; }
+.sheet { position: absolute; z-index: 22; left: 0; right: 0; bottom: 0; padding: 10px 16px 30px; border-radius: 26px 26px 0 0; background: #f2f2f7; transform: translateY(100%); }
+@keyframes sheetin { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes sheetout { from { transform: none; } to { transform: translateY(100%); } }
+.sheet__grab { width: 38px; height: 5px; margin: 0 auto 12px; border-radius: 3px; background: #c7c7cc; }
+.sheet__t { margin: 0 0 14px; font-size: 15px; font-weight: 600; text-align: center; }
+.apps { display: flex; justify-content: space-between; margin-bottom: 16px; }
+.app { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 70px; font-size: 11.5px; color: #3a3a3c; }
+.app i { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 15px; color: #fff; }
+.app i .ic { width: 28px; height: 28px; }
+.app i img { width: 58px; height: 58px; }
+.app--sc i { animation: ringon .3s 2.5s both; }
+@keyframes ringon { from { box-shadow: 0 0 0 0 #fff, 0 0 0 0 var(--blue); transform: none; } 50% { transform: scale(.92); } to { box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--blue); transform: none; } }
+.rows { border-radius: 14px; background: #fff; }
+.rows div { display: flex; justify-content: space-between; padding: 13px 15px; border-bottom: 1px solid #e5e5ea; font-size: 15px; }
+.rows div:last-child { border: 0; }
+
+/* layered scenes inside one screen */
+.layer { position: absolute; inset: 46px 0 0; display: flex; flex-direction: column; background: var(--bg); opacity: 0; }
+
+/* chat with mum */
+.chat { background: #fff; }
+.chat .m--me { background: #3797f0; }
+.ticks { align-self: flex-end; margin: -4px 4px 0 0; color: #3797f0; font-size: 11px; font-weight: 600; }
+
+/* ---------- end card (1920 × 1080) ---------- */
+.end { position: relative; width: 1920px; height: 1080px; overflow: hidden; color: #fff; background: radial-gradient(120% 95% at 72% 0%, #1b4590 0%, #112f6b 38%, #0b1e45 72%, #08163a 100%); display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 0 200px; }
+.glow { position: absolute; border-radius: 50%; filter: blur(90px); }
+.end h1 { margin: 26px 0 22px; font-size: 128px; line-height: .98; font-weight: 500; letter-spacing: -0.055em; }
+.end h1 span { display: inline-block; padding: 0 .14em .04em; border-radius: .26em; background: var(--grass); color: #2c2e2a; }
+.end p { margin: 0; font-size: 36px; color: #c8d6f0; }
+.mark { display: flex; align-items: center; gap: 22px; font-size: 52px; font-weight: 600; letter-spacing: -0.02em; }
+.mark img { width: 92px; height: 92px; }
+.tagc { display: inline-flex; align-items: center; gap: 14px; margin-top: 40px; padding: 12px 26px; border-radius: 99px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); font-size: 28px; }
+.tagc::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: #f5e211; }
+.qr { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 28px; border-radius: 44px; background: #fff; color: #2c2e2a; font-size: 30px; font-weight: 500; }
+.qr img { width: 330px; height: 330px; }
+
+/* ---------- 16:9 framed version ---------- */
+.stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: radial-gradient(120% 95% at 72% 0%, #1b4590 0%, #112f6b 38%, #0b1e45 72%, #08163a 100%); display: grid; grid-template-columns: 1fr 520px; align-items: center; gap: 120px; padding: 0 220px; color: #fff; }
+.stage .cap small { display: inline-flex; align-items: center; gap: 12px; padding: 10px 22px; border-radius: 99px; background: rgba(255,255,255,.1); font-size: 26px; color: #dbe6fb; }
+.stage .cap small::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--grass); }
+.stage .cap h2 { margin: 28px 0 0; font-size: 92px; line-height: 1; font-weight: 500; letter-spacing: -0.05em; }
+.stage .cap p { margin: 26px 0 0; max-width: 18em; font-size: 34px; line-height: 1.4; color: #c8d6f0; }
+.phone { position: relative; width: 420px; height: 910px; margin-top: 10px; padding: 14px; border-radius: 70px; background: linear-gradient(150deg, #5b5e57, #1b1d1a 18%, #121311 60%, #3d403a); box-shadow: inset 0 0 0 2px #6d7068, inset 0 0 0 6px #1b1d1a; transform: rotate(-3deg); }
+.phone__in { width: 392px; height: 882px; overflow: hidden; border-radius: 56px; }
+.phone__in .screen { transform: scale(1.0889); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
+      <!-- Lucide icons (ISC). One family for the whole product. -->
+      <symbol id="image" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <circle cx="9" cy="9" r="2" />
+        <path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21" />
+      </symbol>
+      <symbol id="video" viewBox="0 0 24 24">
+        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
+        <rect x="2" y="6" width="14" height="12" rx="2" />
+      </symbol>
+      <symbol id="user-x" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <line x1="17" x2="22" y1="8" y2="13" />
+        <line x1="22" x2="17" y1="8" y2="13" />
+      </symbol>
+      <symbol id="shield-alert" viewBox="0 0 24 24">
+        <path
+          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+        />
+        <path d="M12 8v4" />
+        <path d="M12 16h.01" />
+      </symbol>
+      <symbol id="banknote" viewBox="0 0 24 24">
+        <rect width="20" height="12" x="2" y="6" rx="2" />
+        <circle cx="12" cy="12" r="2" />
+        <path d="M6 12h.01M18 12h.01" />
+      </symbol>
+      <symbol id="message-circle" viewBox="0 0 24 24">
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+      </symbol>
+      <symbol id="message-warning" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        <path d="M12 7v2" />
+        <path d="M12 13h.01" />
+      </symbol>
+      <symbol id="circle-help" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <path d="M12 17h.01" />
+      </symbol>
+      <symbol id="heart" viewBox="0 0 24 24">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        />
+      </symbol>
+      <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol>
+      <symbol id="x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </symbol>
+      <symbol id="chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+      <symbol id="arrow-left" viewBox="0 0 24 24">
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </symbol>
+      <symbol id="phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        />
+      </symbol>
+      <symbol id="users" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </symbol>
+      <symbol id="house" viewBox="0 0 24 24">
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+        <path
+          d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+        />
+      </symbol>
+      <symbol id="folder" viewBox="0 0 24 24">
+        <path
+          d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+        />
+      </symbol>
+      <symbol id="lock" viewBox="0 0 24 24">
+        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </symbol>
+      <symbol id="copy" viewBox="0 0 24 24">
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+      </symbol>
+      <symbol id="share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+        <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
+      </symbol>
+      <symbol id="camera" viewBox="0 0 24 24">
+        <path
+          d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
+        />
+        <circle cx="12" cy="13" r="3" />
+      </symbol>
+      <symbol id="info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 16v-4" />
+        <path d="M12 8h.01" />
+      </symbol>
+      <symbol id="triangle-alert" viewBox="0 0 24 24">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+      </symbol>
+      <symbol id="search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </symbol>
+      <symbol id="wifi-off" viewBox="0 0 24 24">
+        <path d="M12 20h.01" />
+        <path d="M8.5 16.429a5 5 0 0 1 7 0" />
+        <path d="M5 12.859a10 10 0 0 1 5.17-2.69" />
+        <path d="M19 12.859a10 10 0 0 0-2.007-1.523" />
+        <path d="M2 8.82a15 15 0 0 1 4.177-2.643" />
+        <path d="M22 8.82a15 15 0 0 0-11.288-3.764" />
+        <path d="m2 2 20 20" />
+      </symbol>
+      <symbol id="user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="life-buoy" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m4.93 4.93 4.24 4.24" />
+        <path d="m14.83 9.17 4.24-4.24" />
+        <path d="m14.83 14.83 4.24 4.24" />
+        <path d="m9.17 14.83-4.24 4.24" />
+        <circle cx="12" cy="12" r="4" />
+      </symbol>
+      <symbol id="notepad-text" viewBox="0 0 24 24">
+        <path d="M8 2v4" />
+        <path d="M12 2v4" />
+        <path d="M16 2v4" />
+        <rect width="16" height="18" x="4" y="4" rx="2" />
+        <path d="M8 10h6" />
+        <path d="M8 14h8" />
+        <path d="M8 18h5" />
+      </symbol>
+      <symbol id="settings" viewBox="0 0 24 24">
+        <path
+          d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+        />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="image-plus" viewBox="0 0 24 24">
+        <path d="M16 5h6" />
+        <path d="M19 2v6" />
+        <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+        <circle cx="9" cy="9" r="2" />
+      </symbol>
+      <symbol id="smartphone" viewBox="0 0 24 24">
+        <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+        <path d="M12 18h.01" />
+      </symbol>
+      <symbol id="trash-2" viewBox="0 0 24 24">
+        <path d="M10 11v6" />
+        <path d="M14 11v6" />
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+        <path d="M3 6h18" />
+        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      </symbol>
+      <symbol id="link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </symbol>
+      <symbol id="plus" viewBox="0 0 24 24">
+        <path d="M5 12h14" />
+        <path d="M12 5v14" />
+      </symbol>
+      <symbol id="scan-search" viewBox="0 0 24 24">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+        <circle cx="12" cy="12" r="3" />
+        <path d="m16 16-1.9-1.9" />
+      </symbol>
+      <symbol id="circle-check" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m9 12 2 2 4-4" />
+      </symbol>
+      <symbol id="pause" viewBox="0 0 24 24">
+        <rect x="14" y="4" width="4" height="16" rx="1" />
+        <rect x="6" y="4" width="4" height="16" rx="1" />
+      </symbol>
+      <symbol id="play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" /></symbol>
+      <symbol id="waves" viewBox="0 0 24 24">
+        <path
+          d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+        />
+        <path
+          d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+        />
+        <path
+          d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+        />
+      </symbol>
+    </svg>
+
+<div id="root"></div>
+
+<template id="t-status"><div class="status"><span>9:41</span><span class="status__isl"></span><span class="status__ic"><i></i><i></i><i></i></span></div></template>
+
+<!-- 1 · a suspicious DM arrives (6 s) -->
+<template id="s-dm">
+  <div class="screen">
+    <div class="dm">
+      <div class="sbar"><svg class="ic"><use href="#arrow-left"/></svg><span class="av"></span><span><b>zarina_r_official</b><small>в сети</small></span></div>
+      <div class="msgs">
+        <div class="typing a" style="animation: up .3s .2s both, out .2s 1s both"><i></i><i></i><i></i></div>
+        <div class="m a" style="animation-name: up; animation-delay: 1.05s">Привет! Это ты на этом фото? 👀</div>
+        <div class="m m--link a" style="animation-name: up; animation-delay: 2s"><div class="pv"></div><div class="lk"><b>Фото с вечеринки 😳</b><span>bit.ly/3xF9k2</span></div></div>
+        <div class="m a" style="animation-name: up; animation-delay: 3.1s">Только быстрее, пока не удалили</div>
+      </div>
+      <div class="compose">Сообщение…</div>
+    </div>
+  </div>
+</template>
+
+<!-- 2 · the floating button opens the panel, «Проверить ссылку» is tapped (6 s) -->
+<template id="s-bubble">
+  <div class="screen">
+    <div class="dm">
+      <div class="sbar"><svg class="ic"><use href="#arrow-left"/></svg><span class="av"></span><span><b>zarina_r_official</b><small>в сети</small></span></div>
+      <div class="msgs">
+        <div class="m">Привет! Это ты на этом фото? 👀</div>
+        <div class="m m--link"><div class="pv"></div><div class="lk"><b>Фото с вечеринки 😳</b><span>bit.ly/3xF9k2</span></div></div>
+        <div class="m">Только быстрее, пока не удалили</div>
+      </div>
+      <div class="compose">Сообщение…</div>
+    </div>
+    <div class="qbtn a" style="animation: out .2s 1.75s both"></div>
+    <span class="tapdot" style="left: 322px; top: 496px; animation-delay: 1.4s"></span>
+    <div class="dim a" style="animation: fade .35s 1.7s both"></div>
+    <div class="panel a" style="animation: grow .45s 1.7s cubic-bezier(.3,1.3,.5,1) both">
+      <div class="it a" style="grid-area: a; animation-name: up; animation-delay: 2s"><svg class="ic" style="color:#fca5a5"><use href="#life-buoy"/></svg>Помощь<br>сейчас</div>
+      <div class="it a" style="grid-area: b; animation-name: up; animation-delay: 2.06s"><svg class="ic" style="color:#a7e08a"><use href="#waves"/></svg>Дыхание</div>
+      <div class="it a" style="grid-area: c; animation-name: up; animation-delay: 2.12s"><svg class="ic"><use href="#folder"/></svg>Мой случай</div>
+      <div class="it a" style="grid-area: d; animation-name: up; animation-delay: 2.18s"><svg class="ic" style="color:#93c5fd"><use href="#scan-search"/></svg>Проверить<br>фото</div>
+      <div class="it a" style="grid-area: e; animation-name: up; animation-delay: 2.24s"><span class="homeb"></span>SafeChilds</div>
+      <div class="it a" style="grid-area: f; animation: up .5s 2.3s both, hot .3s 3.6s both"><svg class="ic" style="color:#fde68a"><use href="#link"/></svg>Проверить<br>ссылку</div>
+    </div>
+    <span class="tapdot" style="left: 285px; top: 488px; animation-delay: 3.5s"></span>
+  </div>
+</template>
+
+<!-- 3 · link check, without opening it (7 s) -->
+<template id="s-link">
+  <div class="screen">
+    <div class="bar" style="margin-top: 46px"><svg class="ic"><use href="#arrow-left"/></svg><b>Проверка ссылки</b><span class="help"><svg class="ic"><use href="#shield-alert"/></svg>Помощь</span></div>
+    <div class="body">
+      <div class="card" style="display:flex; align-items:center; gap:10px; font-size:15px"><svg class="ic" style="color:#64748b"><use href="#link"/></svg><span>bit.ly/3xF9k2</span><span class="badge" style="margin-left:auto">из чата</span></div>
+      <div class="btn a" style="animation: press .3s .7s both, out .25s 1.1s both">Проверить</div>
+      <div class="card a" style="display:flex; align-items:center; gap:10px; margin-top:-60px; animation: fade .2s 1.1s both, out .25s 2.7s both; font-size:14px; color:var(--slate)"><span class="spin"></span>Проверяем, не открывая ссылку…</div>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:-60px">
+        <div class="tier a" style="animation-name: up; animation-delay: 2.8s"><b><svg class="ic"><use href="#triangle-alert"/></svg>Есть признаки обмана</b><p>В списках опасных её нет, но вот что мы увидели.</p></div>
+        <div class="card a" style="animation-name: up; animation-delay: 3.3s; font-size:12.5px; color:var(--slate)">Настоящий адрес после переходов<br><b style="color:var(--ink); font-size:14px">instagram-verify-login.com</b></div>
+        <div class="find a" style="animation-name: up; animation-delay: 3.8s"><span class="n">1</span><span><b>Короткая ссылка скрывает адрес <span class="badge">факт</span></b>На самом деле ведёт на instagram-verify-login.com.</span></div>
+        <div class="find a" style="animation-name: up; animation-delay: 4.2s"><span class="n">2</span><span><b>Похоже на instagram.com, но это не он <span class="badge">факт</span></b>instagram-verify-login.com ≠ instagram.com</span></div>
+        <div class="find a" style="animation-name: up; animation-delay: 4.6s"><span class="n">3</span><span><b>Домен зарегистрирован 4 дн. назад <span class="badge">факт</span></b>Банки и магазины существуют годами. Новый адрес — частый признак обмана.</span></div>
+        <div class="a" style="animation-name: up; animation-delay: 5.2s"><p class="h3">Что дальше</p><p style="margin:4px 0 0; font-size:13px; color:var(--slate)">Не вводи коды и данные карты, даже если уже открывал(а).</p></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- 4 · photo check: scan, markers, where to look (7 s) -->
+<template id="s-photo">
+  <div class="screen">
+    <div class="bar" style="margin-top: 46px"><svg class="ic"><use href="#arrow-left"/></svg><b>Проверка изображения</b><span class="help"><svg class="ic"><use href="#shield-alert"/></svg>Помощь</span></div>
+    <div class="body">
+      <div style="position:relative; height:262px; border-radius:18px; overflow:hidden; background:#e2e8f0">
+        <img src="../v2/assets/demo-face.jpg" style="width:100%; height:100%; object-fit:cover" alt="" />
+        <span class="a" style="position:absolute; left:0; right:0; top:0; height:30%; background:linear-gradient(180deg, rgba(37,99,235,0), rgba(37,99,235,.3) 85%, rgba(37,99,235,.9)); animation: scan 1.7s .3s ease-in-out both"></span>
+        <span class="a" style="position:absolute; left:80%; top:46%; width:32px; height:32px; margin:-16px; border-radius:50%; background:#1e293b; color:#fff; display:grid; place-items:center; font-size:15px; font-weight:700; box-shadow:0 0 0 4px rgba(255,255,255,.85); animation-name: pop; animation-delay: 2.1s">1</span>
+        <span class="a" style="position:absolute; left:21%; top:10%; width:32px; height:32px; margin:-16px; border-radius:50%; background:#1e293b; color:#fff; display:grid; place-items:center; font-size:15px; font-weight:700; box-shadow:0 0 0 4px rgba(255,255,255,.85); animation-name: pop; animation-delay: 2.45s">2</span>
+        <span class="a" style="position:absolute; left:0; right:0; bottom:0; padding:9px 12px; display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.92); font-size:13px; color:var(--slate); animation: out .25s 2s both"><span class="spin"></span>Ищем признаки на изображении…</span>
+      </div>
+      <div class="tier a" style="animation-name: up; animation-delay: 2.9s"><b><svg class="ic"><use href="#triangle-alert"/></svg>Есть признаки возможной подделки</b><p>Это не доказательство. Посмотри сам(а) — вот где.</p></div>
+      <p class="h3 a" style="animation-name: up; animation-delay: 3.3s">Где смотреть</p>
+      <div class="find a" style="animation-name: up; animation-delay: 3.55s"><span class="n">1</span><span><b>Граница лица и волос <span class="badge">возможно</span></b>Приблизь здесь: у настоящего фото волосы не сливаются с фоном ровной линией.</span></div>
+      <div class="find a" style="animation-name: up; animation-delay: 3.85s"><span class="n">2</span><span><b>Искажённый фон <span class="badge">возможно</span></b>Прямые линии (двери, окна, плитка) изгибаются рядом с лицом.</span></div>
+    </div>
+  </div>
+</template>
+
+<!-- 5 · iPhone: share the post into SafeChilds (6.5 s) -->
+<template id="s-share">
+  <div class="screen">
+    <div class="feed">
+      <div class="feed__top"><b>Instagram</b><span style="display:flex; gap:16px"><svg class="ic" style="width:25px;height:25px"><use href="#heart"/></svg><svg class="ic" style="width:25px;height:25px"><use href="#message-circle"/></svg></span></div>
+      <div class="post__h"><span class="av"></span><span><b>zarina_r_official</b><small>создан 3 дня назад</small></span></div>
+      <div class="post__img"></div>
+      <div class="post__acts"><svg class="ic"><use href="#heart"/></svg><svg class="ic"><use href="#message-circle"/></svg><svg class="ic"><use href="#share"/></svg></div>
+      <div class="post__cap"><b>zarina_r_official</b> Привет, это мой новый акк, старый взломали. Добавь!</div>
+    </div>
+    <span class="tapdot" style="left: 112px; top: 540px; animation-delay: .8s"></span>
+    <div class="dim a" style="animation: fade .3s 1.1s both, out .3s 3.3s both"></div>
+    <div class="sheet a" style="animation: sheetin .45s 1.1s cubic-bezier(.22,1,.36,1) both, sheetout .4s 3.2s ease-in both">
+      <div class="sheet__grab"></div>
+      <p class="sheet__t">Поделиться</p>
+      <div class="apps">
+        <span class="app"><i style="background:#34c759"><svg class="ic"><use href="#message-circle"/></svg></i>Сообщения</span>
+        <span class="app"><i style="background:#0a84ff"><svg class="ic"><use href="#share"/></svg></i>Почта</span>
+        <span class="app"><i style="background:#ffcc00"><svg class="ic"><use href="#notepad-text"/></svg></i>Заметки</span>
+        <span class="app app--sc"><i style="background:none"><img src="../v2/assets/icon.svg" alt="" /></i>SafeChilds</span>
+      </div>
+      <div class="rows"><div><span>Копировать ссылку</span><svg class="ic"><use href="#copy"/></svg></div><div><span>Сохранить изображение</span><svg class="ic"><use href="#image"/></svg></div></div>
+    </div>
+    <span class="tapdot" style="left: 300px; top: 618px; animation-delay: 2.4s"></span>
+    <div class="layer a" style="animation: fade .4s 3.4s both">
+      <div class="bar"><svg class="ic"><use href="#arrow-left"/></svg><b>SafeChilds</b><span class="help"><svg class="ic"><use href="#shield-alert"/></svg>Помощь</span></div>
+      <div class="body">
+        <p class="a" style="margin:0; font-size:13px; color:var(--slate); animation-name: up; animation-delay: 3.6s">Получено из Instagram</p>
+        <p class="a" style="margin:0; font-size:24px; font-weight:700; letter-spacing:-.02em; animation-name: up; animation-delay: 3.7s">Что проверить?</p>
+        <div class="a" style="display:flex; gap:12px; align-items:center; animation-name: up; animation-delay: 3.85s"><span style="width:64px; height:64px; border-radius:14px; background:url(../v2/assets/demo-face.jpg) center/cover"></span><span style="font-size:13px; color:var(--slate)">Фото из поста<br>zarina_r_official</span></div>
+        <div class="card a" style="display:flex; align-items:center; gap:12px; font-size:15px; font-weight:600; animation: up .5s 4s both, hot .3s 5.1s both"><svg class="ic" style="color:var(--blue)"><use href="#scan-search"/></svg>Проверить фото</div>
+        <div class="card a" style="display:flex; align-items:center; gap:12px; font-size:15px; font-weight:600; animation-name: up; animation-delay: 4.12s"><svg class="ic" style="color:var(--blue)"><use href="#user-x"/></svg>Это профиль-двойник?</div>
+        <div class="card a" style="display:flex; align-items:center; gap:12px; font-size:15px; font-weight:600; animation-name: up; animation-delay: 4.24s"><svg class="ic" style="color:var(--blue)"><use href="#notepad-text"/></svg>Сразу к плану</div>
+      </div>
+    </div>
+    <span class="tapdot" style="left: 180px; top: 296px; animation-delay: 5s"></span>
+  </div>
+</template>
+
+<!-- 6 · the ready message goes to mum (7 s) -->
+<template id="s-message">
+  <div class="screen">
+    <div class="bar" style="margin-top: 46px"><svg class="ic"><use href="#arrow-left"/></svg><b>Расскажи взрослому</b><span class="help"><svg class="ic"><use href="#shield-alert"/></svg>Помощь</span></div>
+    <div class="body">
+      <p style="margin:0; font-size:13px; color:var(--slate)">Не обязательно родителям. Тот, кому доверяешь.</p>
+      <div style="display:flex; gap:8px">
+        <span class="a" style="padding:8px 14px; border-radius:99px; border:1.5px solid var(--line); font-size:14px; font-weight:600; animation: hot2 .3s .6s both">Мама</span>
+        <span style="padding:8px 14px; border-radius:99px; border:1.5px solid var(--line); font-size:14px; font-weight:600">Учитель</span>
+        <span style="padding:8px 14px; border-radius:99px; border:1.5px solid var(--line); font-size:14px; font-weight:600">Брат или сестра</span>
+      </div>
+      <div class="card" style="font-size:19px; font-weight:600; line-height:1.35; letter-spacing:-.01em; padding:18px">Мне нужна помощь. Кто-то выложил фейковое фото со мной. Я не знаю, что делать. Пожалуйста, не ругай меня.</div>
+      <div class="btn a" style="animation: press .3s 1.7s both"><svg class="ic"><use href="#share"/></svg>Отправить</div>
+    </div>
+    <span class="tapdot" style="left: 60px; top: 150px; animation-delay: .5s"></span>
+    <span class="tapdot" style="left: 180px; top: 432px; animation-delay: 1.6s"></span>
+    <div class="layer chat a" style="animation: fade .4s 2.2s both">
+      <div class="sbar"><svg class="ic"><use href="#arrow-left"/></svg><span style="width:34px; height:34px; border-radius:50%; background:#f5e6c8; display:grid; place-items:center; font-weight:700">М</span><span><b>Мама</b><small>в сети</small></span></div>
+      <div class="msgs">
+        <div class="m m--me a" style="animation-name: up; animation-delay: 2.6s">Мне нужна помощь. Кто-то выложил фейковое фото со мной. Я не знаю, что делать. Пожалуйста, не ругай меня.</div>
+        <div class="ticks a" style="animation-name: fade; animation-delay: 3.1s">Прочитано</div>
+        <div class="typing a" style="animation: up .3s 3.6s both, out .2s 4.6s both"><i></i><i></i><i></i></div>
+        <div class="m a" style="animation-name: up; animation-delay: 4.65s">Я рядом. Ты не виноват(а). Сейчас разберёмся вместе ❤️</div>
+      </div>
+      <div class="compose">Сообщение…</div>
+    </div>
+  </div>
+</template>
+
+<!-- end card 16:9 (5 s) -->
+<template id="s-end">
+  <div class="end">
+    <span class="glow a" style="width:900px; height:900px; left:-300px; bottom:-420px; background:rgba(43,160,255,.35); animation-name: fade; animation-duration: 1.2s"></span>
+    <span class="glow a" style="width:600px; height:600px; right:120px; top:-200px; background:rgba(142,212,98,.18); animation-name: fade; animation-duration: 1.2s; animation-delay: .2s"></span>
+    <div style="position:relative">
+      <div class="mark a" style="animation-name: up; animation-delay: .3s"><img src="../v2/assets/icon.svg" alt="" />SafeChilds</div>
+      <h1 class="a" style="animation-name: up; animation-delay: .6s; animation-duration: .8s">Следующий<br><span>понятный шаг</span>.</h1>
+      <p class="a" style="animation-name: up; animation-delay: 1s">Помощь там, где всё случилось.</p>
+      <div class="tagc a" style="animation-name: up; animation-delay: 1.3s">Концепт · следующая версия</div>
+    </div>
+    <div class="qr a" style="animation-name: pop; animation-delay: 1.6s; animation-duration: .6s"><img src="../v2/assets/qr.svg" alt="" />Открой на телефоне</div>
+  </div>
+</template>
+
+<script>
+  var CAPS = {
+    dm: ["Сцена 1", "Подозрительное сообщение", "«Это ты на фото?» и короткая ссылка. Давят временем."],
+    bubble: ["Сцена 2", "Одно касание", "Кнопка поверх соцсети открывает помощь и проверки."],
+    link: ["Сцена 3", "Проверка ссылки", "Не открывая её. Показывает, что не так, без слова «безопасно»."],
+    photo: ["Сцена 4", "Проверка фото", "Отмечает, где смотреть. Не вердикт «фейк»."],
+    share: ["Сцена 5", "На iPhone — через «Поделиться»", "Фото или ссылку отправляешь в SafeChilds."],
+    message: ["Сцена 6", "Готовые слова для взрослого", "Одно нажатие — и мама знает, что нужна помощь."]
+  };
+  var q = new URLSearchParams(location.search), s = q.get("s") || "dm", frame = q.get("frame") === "1";
+  var tpl = document.getElementById("s-" + s), root = document.getElementById("root");
+  var node = tpl.content.cloneNode(true);
+  var scr = node.querySelector(".screen");
+  if (scr) scr.prepend(document.getElementById("t-status").content.cloneNode(true));
+  if (frame && scr) {
+    var c = CAPS[s] || ["", "", ""];
+    root.innerHTML = '<div class="stage"><div class="cap"><small>' + c[0] + '</small><h2>' + c[1] + '</h2><p>' + c[2] + '</p></div><div class="phone"><div class="phone__in"></div></div></div>';
+    root.querySelector(".phone__in").appendChild(node);
+  } else {
+    root.appendChild(node);
+  }
+</script>
+<style>
+@keyframes scan { 0% { opacity: 1; transform: translateY(-100%); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateY(340%); } }
+@keyframes hot2 { to { background: #0f172a; color: #fff; border-color: #0f172a; } }
+</style>
+</body>
+</html>

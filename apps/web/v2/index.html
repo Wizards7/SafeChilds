@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>SafeChilds · следующий понятный шаг</title>
+    <meta
+      name="description"
+      content="SafeChilds помогает подросткам в Таджикистане понять, что делать, если в интернете травят, шантажируют, обманывают или подделали фото: план под ситуацию и готовое сообщение взрослому. Без регистрации."
+    />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="scrollcraft.css" />
+    <link rel="stylesheet" href="page.css" />
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
+      <!-- Lucide icons (ISC). One family for the whole product. -->
+      <symbol id="image" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <circle cx="9" cy="9" r="2" />
+        <path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21" />
+      </symbol>
+      <symbol id="video" viewBox="0 0 24 24">
+        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
+        <rect x="2" y="6" width="14" height="12" rx="2" />
+      </symbol>
+      <symbol id="user-x" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <line x1="17" x2="22" y1="8" y2="13" />
+        <line x1="22" x2="17" y1="8" y2="13" />
+      </symbol>
+      <symbol id="shield-alert" viewBox="0 0 24 24">
+        <path
+          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+        />
+        <path d="M12 8v4" />
+        <path d="M12 16h.01" />
+      </symbol>
+      <symbol id="banknote" viewBox="0 0 24 24">
+        <rect width="20" height="12" x="2" y="6" rx="2" />
+        <circle cx="12" cy="12" r="2" />
+        <path d="M6 12h.01M18 12h.01" />
+      </symbol>
+      <symbol id="message-circle" viewBox="0 0 24 24">
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+      </symbol>
+      <symbol id="message-warning" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        <path d="M12 7v2" />
+        <path d="M12 13h.01" />
+      </symbol>
+      <symbol id="circle-help" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <path d="M12 17h.01" />
+      </symbol>
+      <symbol id="heart" viewBox="0 0 24 24">
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        />
+      </symbol>
+      <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol>
+      <symbol id="x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </symbol>
+      <symbol id="chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+      <symbol id="arrow-left" viewBox="0 0 24 24">
+        <path d="m12 19-7-7 7-7" />
+        <path d="M19 12H5" />
+      </symbol>
+      <symbol id="phone" viewBox="0 0 24 24">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        />
+      </symbol>
+      <symbol id="users" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </symbol>
+      <symbol id="house" viewBox="0 0 24 24">
+        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+        <path
+          d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+        />
+      </symbol>
+      <symbol id="folder" viewBox="0 0 24 24">
+        <path
+          d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+        />
+      </symbol>
+      <symbol id="lock" viewBox="0 0 24 24">
+        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </symbol>
+      <symbol id="copy" viewBox="0 0 24 24">
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+      </symbol>
+      <symbol id="share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+        <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
+      </symbol>
+      <symbol id="camera" viewBox="0 0 24 24">
+        <path
+          d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
+        />
+        <circle cx="12" cy="13" r="3" />
+      </symbol>
+      <symbol id="info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 16v-4" />
+        <path d="M12 8h.01" />
+      </symbol>
+      <symbol id="triangle-alert" viewBox="0 0 24 24">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+      </symbol>
+      <symbol id="search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </symbol>
+      <symbol id="wifi-off" viewBox="0 0 24 24">
+        <path d="M12 20h.01" />
+        <path d="M8.5 16.429a5 5 0 0 1 7 0" />
+        <path d="M5 12.859a10 10 0 0 1 5.17-2.69" />
+        <path d="M19 12.859a10 10 0 0 0-2.007-1.523" />
+        <path d="M2 8.82a15 15 0 0 1 4.177-2.643" />
+        <path d="M22 8.82a15 15 0 0 0-11.288-3.764" />
+        <path d="m2 2 20 20" />
+      </symbol>
+      <symbol id="user" viewBox="0 0 24 24">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </symbol>
+      <symbol id="life-buoy" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m4.93 4.93 4.24 4.24" />
+        <path d="m14.83 9.17 4.24-4.24" />
+        <path d="m14.83 14.83 4.24 4.24" />
+        <path d="m9.17 14.83-4.24 4.24" />
+        <circle cx="12" cy="12" r="4" />
+      </symbol>
+      <symbol id="notepad-text" viewBox="0 0 24 24">
+        <path d="M8 2v4" />
+        <path d="M12 2v4" />
+        <path d="M16 2v4" />
+        <rect width="16" height="18" x="4" y="4" rx="2" />
+        <path d="M8 10h6" />
+        <path d="M8 14h8" />
+        <path d="M8 18h5" />
+      </symbol>
+      <symbol id="settings" viewBox="0 0 24 24">
+        <path
+          d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+        />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="image-plus" viewBox="0 0 24 24">
+        <path d="M16 5h6" />
+        <path d="M19 2v6" />
+        <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+        <circle cx="9" cy="9" r="2" />
+      </symbol>
+      <symbol id="smartphone" viewBox="0 0 24 24">
+        <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+        <path d="M12 18h.01" />
+      </symbol>
+      <symbol id="trash-2" viewBox="0 0 24 24">
+        <path d="M10 11v6" />
+        <path d="M14 11v6" />
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+        <path d="M3 6h18" />
+        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      </symbol>
+      <symbol id="link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </symbol>
+      <symbol id="plus" viewBox="0 0 24 24">
+        <path d="M5 12h14" />
+        <path d="M12 5v14" />
+      </symbol>
+      <symbol id="scan-search" viewBox="0 0 24 24">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+        <circle cx="12" cy="12" r="3" />
+        <path d="m16 16-1.9-1.9" />
+      </symbol>
+      <symbol id="circle-check" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m9 12 2 2 4-4" />
+      </symbol>
+      <symbol id="pause" viewBox="0 0 24 24">
+        <rect x="14" y="4" width="4" height="16" rx="1" />
+        <rect x="6" y="4" width="4" height="16" rx="1" />
+      </symbol>
+      <symbol id="play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" /></symbol>
+      <symbol id="waves" viewBox="0 0 24 24">
+        <path
+          d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+        />
+        <path
+          d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+        />
+        <path
+          d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+        />
+      </symbol>
+    </svg>
+
+    <a class="skip" href="#main" data-i18n="skip">Перейти к содержанию</a>
+    <span data-sc-progress></span>
+
+    <!-- ============ chrome: floating pill = the route map ============ -->
+    <header class="bar">
+      <div class="pill">
+        <div>
+
+          <a class="mark" href="#top" aria-label="SafeChilds">
+            <img src="assets/icon.svg" width="36" height="36" alt="" />
+            <span>SafeChilds</span>
+          </a>
+        </div>
+        <nav class="route" aria-label="Маршрут по странице" data-i18n-aria="routeLabel">
+          <a href="#problems" data-stop="problems" data-i18n="rProb">Проблемы</a>
+          <a href="#solution" data-stop="solution" data-i18n="rSol">Решение</a>
+          <a href="#plan" data-stop="plan" data-i18n="rPlan">Пример</a>
+          <a href="#privacy" data-stop="privacy" data-i18n="rPrivacy">Приватность</a>
+          <a href="#faq" data-stop="faq" data-i18n="rFaq">Вопросы</a>
+        </nav>
+        <div class="pill__end">
+          <a class="help" data-app="/urgent" href="#">
+            <svg class="ic" aria-hidden="true"><use href="#life-buoy" /></svg
+            ><span data-i18n="helpNow">Помощь сейчас</span>
+          </a>
+        </div>
+        <span class="pill__progress" aria-hidden="true"><span></span></span>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ 1 · RECOGNITION: layered hero (parallax) ============ -->
+      <!-- hero + problems share a wrapper: the hero sticks while the problems sheet slides over it -->
+      <div class="stack-in">
+      <section class="hero" id="top" data-sc-act="flow">
+        <span class="hero__glow hero__glow--a" aria-hidden="true"></span>
+        <span class="hero__glow hero__glow--b" aria-hidden="true"></span>
+        <div class="hero__in">
+          <div class="hero__copy">
+            <h1 class="hero__title">
+              <span data-i18n="h1a">Стало не по себе?</span>
+              <span class="hero__l2"><span data-i18n="h1b1">Начнём с</span> <span class="hero__mark" data-i18n="h1b2">одного шага</span><span data-i18n="h1b3">.</span></span>
+            </h1>
+            <p class="hero__lead" data-i18n="lead">Травля, шантаж, обман или фейк: SafeChilds подскажет, что делать дальше.</p>
+            <div class="hero__cta">
+              <a class="btn btn--hot" data-app="/?from=landing" href="#"
+                ><span data-i18n="ctaOpen">Открыть приложение</span
+                ><span class="dot" aria-hidden="true"
+                  ><svg class="ic"><use href="#chevron-right" /></svg></span
+              ></a>
+              <a class="btn btn--ghost" href="#plan" data-i18n="ctaExample">Посмотреть пример</a>
+            </div>
+            <!-- like a "happy customers" row, but true: the four situations the app covers -->
+            <div class="hero__cover">
+              <span class="hero__faces" aria-hidden="true">
+                <img src="assets/fake_content.webp" width="640" height="615" alt="" />
+                <img src="assets/extortion.webp" width="640" height="631" alt="" />
+                <img src="assets/fraud.webp" width="640" height="630" alt="" />
+                <img src="assets/cyberbullying.webp" width="640" height="617" alt="" />
+              </span>
+              <p><strong data-i18n="coverT">Свой план для 4 ситуаций</strong><span data-i18n="coverD">Без регистрации · на русском и таджикском</span></p>
+            </div>
+          </div>
+
+          <div class="scene" aria-hidden="true">
+            <span class="scene__halo"></span>
+            <span class="scene__orbit"></span>
+            <!-- the four situations as tiles: two in front of the phone, two behind, each on its own parallax depth -->
+            <span class="sticker sticker--a sticker--front" data-sc-parallax="-0.9"><span class="sticker__card"><img src="assets/fake_content.webp" width="640" height="615" alt=""></span><span class="sticker__l" data-i18n="lFake">Фейк</span></span>
+            <span class="sticker sticker--b sticker--back" data-sc-parallax="0.6"><span class="sticker__card"><img src="assets/fraud.webp" width="640" height="630" alt=""></span><span class="sticker__l" data-i18n="lFraud">Обман</span></span>
+            <span class="sticker sticker--c sticker--back" data-sc-parallax="-0.5"><span class="sticker__card"><img src="assets/extortion.webp" width="640" height="631" alt=""></span><span class="sticker__l" data-i18n="lExt">Шантаж</span></span>
+            <span class="sticker sticker--d sticker--front" data-sc-parallax="1.1"><span class="sticker__card"><img src="assets/cyberbullying.webp" width="640" height="617" alt=""></span><span class="sticker__l" data-i18n="lBully">Травля</span></span>
+            <!-- the phone with the real app home -->
+            <div class="plane plane--mid" data-sc-parallax="-0.35">
+              <div class="device device--hero">
+                <span class="device__btn device__btn--a"></span><span class="device__btn device__btn--b"></span><span class="device__btn device__btn--c"></span>
+                <div class="device__screen">
+                  <span class="device__status"><span>9:41</span><span class="device__island"></span><span class="device__icons"><i></i><i></i><i></i></span></span>
+                  <span class="device__shots"><img class="is-here" src="assets/app-home.jpg" width="554" height="1200" alt=""></span>
+                </div>
+              </div>
+            </div>
+            <!-- front: the message, and the first step pressed on over the phone's edge -->
+            <div class="plane plane--front" data-sc-parallax="0.6">
+              <!-- <p class="chip chip--msg" data-i18n="heroMsg">Кто-то выложил фейковое фото со мной.</p> -->
+              <!-- <p class="chip chip--step"><span data-i18n="heroStep">Сохрани ссылку на пост</span><svg class="ic" aria-hidden="true"><use href="#check"/></svg></p> -->
+            </div>
+            <!-- QR for the jury watching on a big screen (desktop only) -->
+            <!-- <figure class="hero__qr" tabindex="0">
+              <img src="assets/qr.svg" width="164" height="164" alt="QR-код: открой SafeChilds на телефоне" data-i18n-alt="qrAlt">
+              <figcaption><strong data-i18n="qr">Открой на телефоне</strong><span data-i18n="qrHint">Наведи камеру на код</span></figcaption>
+            </figure> -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 2 · TENSION: the problems, and why kids stay silent (pan) ============ -->
+      <!-- "что это" and "почему ребёнок молчит" are quoted from packages/guidance (content/signs.ts, ABOUT) -->
+      <section id="problems" class="sits probs" data-sc-act="pan" data-sc-span="4.6">
+        <div data-sc-stage class="sits__stage">
+          <div class="rail" data-sc-pan="0.04">
+            <div class="rail__lead" style="--i: 0">
+              <p class="kicker kicker--coral" data-i18n="probKicker">Проблема</p>
+              <h2 class="h2" data-i18n="probTitle">С чем подростки сталкиваются в интернете</h2>
+              <p class="body" data-i18n="probBody">И почему о таком чаще всего молчат.</p>
+            </div>
+            <article class="sit prob prob--sky" style="--i: 1">
+              <span class="prob__art"><span class="prob__n">01</span><img class="art" src="assets/fake_content.webp" width="640" height="615" alt="" loading="lazy" /></span>
+              <h3 data-i18n="cFake">Поддельный контент</h3>
+              <p data-i18n="pFakeD">Фото, видео или профиль с твоим именем, которые сделал кто-то другой. Для этого хватает бесплатного приложения и пяти минут.</p>
+              <p class="prob__why"><svg class="ic" aria-hidden="true"><use href="#message-circle" /></svg><span class="prob__why-l" data-i18n="whySilent">Почему молчат</span><span data-i18n="pFakeQ">«Стыдно показать кому-то»</span></p>
+            </article>
+            <article class="sit prob prob--coral" style="--i: 2">
+              <span class="prob__art"><span class="prob__n">02</span><img class="art" src="assets/extortion.webp" width="640" height="631" alt="" loading="lazy" /></span>
+              <h3 data-i18n="cExt">Вымогательство</h3>
+              <p data-i18n="pExtD">Угрожают разослать твои фото и требуют деньги или новые изображения. Давят временем: «у тебя час».</p>
+              <p class="prob__why"><svg class="ic" aria-hidden="true"><use href="#message-circle" /></svg><span class="prob__why-l" data-i18n="whySilent">Почему молчат</span><span data-i18n="pExtQ">«Я сам(а) виноват(а)»</span></p>
+            </article>
+            <article class="sit prob prob--sun" style="--i: 3">
+              <span class="prob__art"><span class="prob__n">03</span><img class="art" src="assets/fraud.webp" width="640" height="630" alt="" loading="lazy" /></span>
+              <h3 data-i18n="cFraud">Мошенничество</h3>
+              <p data-i18n="pFraudD">Выманивают деньги, код из СМС или пароль: «бесплатные» кристаллы, «друг» просит срочно перевести.</p>
+              <p class="prob__why"><svg class="ic" aria-hidden="true"><use href="#message-circle" /></svg><span class="prob__why-l" data-i18n="whySilent">Почему молчат</span><span data-i18n="pFraudQ">«Стыдно, что повёлся(лась)»</span></p>
+            </article>
+            <article class="sit prob prob--grass" style="--i: 4">
+              <span class="prob__art"><span class="prob__n">04</span><img class="art" src="assets/cyberbullying.webp" width="640" height="617" alt="" loading="lazy" /></span>
+              <h3 data-i18n="cBully">Травля</h3>
+              <p data-i18n="pBullyD">Оскорбляют, распускают слухи, исключают из групп, и это повторяется. Телефон приносит травлю домой.</p>
+              <p class="prob__why"><svg class="ic" aria-hidden="true"><use href="#message-circle" /></svg><span class="prob__why-l" data-i18n="whySilent">Почему молчат</span><span data-i18n="pBullyQ">«Станет только хуже»</span></p>
+            </article>
+            <a class="sit prob prob--end" style="--i: 5" href="#solution">
+              <span class="prob__fan" aria-hidden="true">
+                <img src="assets/fake_content.webp" width="640" height="615" alt="" />
+                <img src="assets/extortion.webp" width="640" height="631" alt="" />
+                <img src="assets/fraud.webp" width="640" height="630" alt="" />
+                <img src="assets/cyberbullying.webp" width="640" height="617" alt="" />
+              </span>
+              <h3 data-i18n="pEndT">В итоге подросток остаётся с этим один.</h3>
+              <p data-i18n="pEndD">Страшно, стыдно, непонятно, с чего начать и кому сказать.</p>
+              <span class="sit__go"><span data-i18n="pEndGo">Как помогает SafeChilds</span><svg class="ic" aria-hidden="true"><use href="#chevron-right" /></svg></span>
+            </a>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <!-- ============ 3 · TURN: each problem, answered by the real app (pin + bespoke) ============ -->
+      <!-- screens are screenshots of the deployed PWA; steps and answers come from packages/guidance -->
+      <section id="solution" class="sol" data-sc-act="pin" data-sc-span="4.4">
+        <div data-sc-stage class="sol__stage">
+          <div class="sol__left">
+            <p class="kicker kicker--grass" data-i18n="solKicker">Решение в приложении</p>
+            <div class="sol__tabs" role="group" aria-label="Проблема" data-i18n-aria="solTabsLabel">
+              <button type="button" data-ch="0" aria-pressed="true"><span>1</span><span data-i18n="cFake">Поддельный контент</span></button>
+              <button type="button" data-ch="1" aria-pressed="false"><span>2</span><span data-i18n="cExt">Вымогательство</span></button>
+              <button type="button" data-ch="2" aria-pressed="false"><span>3</span><span data-i18n="cFraud">Мошенничество</span></button>
+              <button type="button" data-ch="3" aria-pressed="false"><span>4</span><span data-i18n="cBully">Травля</span></button>
+            </div>
+
+            <div class="sol__chs">
+              <div class="sol__ch is-here" data-ch="0">
+                <p class="sol__was"><span data-i18n="pFakeQ">«Стыдно показать кому-то»</span></p>
+                <h3 class="sol__title" data-i18n="s1T">Проверка фото покажет, где смотреть</h3>
+                <ul class="sol__list">
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s1a">Отмечает на фото места, где могут быть следы подделки.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s1b">Без вердикта «фейк» и без процентов: только «где смотреть» и как проверить самому.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s1c">Дальше план под платформу: Instagram, TikTok, Telegram, VK.</span></li>
+                </ul>
+                <p class="sol__answer" data-i18n="s1q">Показать можно скриншот с именем аккаунта, а не само фото. Взрослый, которому доверяешь, не будет ругать.</p>
+              </div>
+              <div class="sol__ch" data-ch="1">
+                <p class="sol__was"><span data-i18n="pExtQ">«Я сам(а) виноват(а)»</span></p>
+                <h3 class="sol__title" data-i18n="s2T">Сначала «стоп», потом план</h3>
+                <ul class="sol__list">
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s2a">Стоп-карточка на десять секунд: не плати, не отправляй ничего, не удаляй переписку.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s2b">Потом по порядку: сохрани доказательства, пожалуйся, расскажи взрослому.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s2c">«Мне тяжело»: минута на дыхание, если накрывает.</span></li>
+                </ul>
+                <p class="sol__answer" data-i18n="s2q">Виноват тот, кто угрожает. Доверять — не преступление.</p>
+              </div>
+              <div class="sol__ch" data-ch="2">
+                <p class="sol__was"><span data-i18n="pFraudQ">«Стыдно, что повёлся(лась)»</span></p>
+                <h3 class="sol__title" data-i18n="s3T">Проверка ссылки, не открывая её</h3>
+                <ul class="sol__list">
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s3a">Ссылку открывает приложение, на своей стороне. Тебе открывать не нужно.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s3b">Если уже отправил(а) деньги или код, план будет другим.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s3c">Учебные примеры: «Бесплатно» за пароль, «Я из банка, назовите код».</span></li>
+                </ul>
+                <p class="sol__answer" data-i18n="s3q">Так обманывают и взрослых. Обман — чья-то профессия, а не твоя глупость.</p>
+              </div>
+              <div class="sol__ch" data-ch="3">
+                <p class="sol__was"><span data-i18n="pBullyQ">«Станет только хуже»</span></p>
+                <h3 class="sol__title" data-i18n="s4T">Сначала вопрос: один раз или продолжается?</h3>
+                <ul class="sol__list">
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s4a">От ответа зависит, что делать первым.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s4b">Сохрани всё, ограничь или заблокируй, пожалуйся на группу.</span></li>
+                  <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="s4c">Готовое сообщение взрослому: «давай сначала просто поговорим».</span></li>
+                </ul>
+                <p class="sol__answer" data-i18n="s4q">Хуже становится, когда никто не останавливает. Взрослый, который не ругает, — это остановка.</p>
+              </div>
+            </div>
+
+            <div class="sol__foot">
+              <a class="sol__open" id="sol-open" data-app="/situation?c=fake_content" href="#"><span data-i18n="solOpen">Открыть в приложении</span><span class="dot" aria-hidden="true"><svg class="ic"><use href="#chevron-right" /></svg></span></a>
+              <a class="sol__unsure" data-app="/chat" href="#"><span data-i18n="solUnsure">Не знаешь, что из этого? Опиши своими словами</span><svg class="ic" aria-hidden="true"><use href="#chevron-right" /></svg></a>
+            </div>
+          </div>
+
+          <div class="sol__right" aria-hidden="true">
+            <span class="device__floor"></span>
+            <div class="device">
+              <span class="device__btn device__btn--a"></span><span class="device__btn device__btn--b"></span><span class="device__btn device__btn--c"></span>
+              <div class="device__screen">
+                <span class="device__status"><span>9:41</span><span class="device__island"></span><span class="device__icons"><i></i><i></i><i></i></span></span>
+                <span class="device__shots">
+                  <!-- chapter 1: the image check, drawn like the app's own result screen (training example: an AI-made face,
+                       nobody real; markers use the app's codes face_boundary + background_warp; texts from packages/analysis) -->
+                  <span class="scr is-here">
+                    <span class="scr__bar"><svg class="ic"><use href="#arrow-left" /></svg><b data-i18n="checkHead">Проверка изображения</b><i><svg class="ic"><use href="#shield-alert" /></svg><span data-i18n="scrHelp">Помощь</span></i></span>
+                    <span class="scr__tier"><b><svg class="ic"><use href="#triangle-alert" /></svg><span data-i18n="checkTier">Есть признаки возможной подделки</span></b><span data-i18n="checkTierD">Это не доказательство. Посмотри сам(а) — вот где.</span></span>
+                    <span class="scr__pic">
+                      <img src="assets/demo-face.jpg" width="720" height="720" alt="" loading="lazy" />
+                      <span class="scr__scan"></span>
+                      <span class="scr__mark scr__mark--1" style="left: 80%; top: 46%">1</span>
+                      <span class="scr__mark scr__mark--2" style="left: 21%; top: 10%">2</span>
+                    </span>
+                    <span class="scr__h" data-i18n="scrWhere">Где смотреть</span>
+                    <span class="scr__look scr__look--1"><span class="scr__n">1</span><span><b><span data-i18n="ind1">Граница лица и волос</span> <i data-i18n="maybe">возможно</i></b><span data-i18n="ind1how">Приблизь здесь: у настоящего фото волосы не сливаются с фоном ровной линией.</span></span></span>
+                    <span class="scr__look scr__look--2"><span class="scr__n">2</span><span><b><span data-i18n="ind2">Искажённый фон</span> <i data-i18n="maybe">возможно</i></b><span data-i18n="ind2how">Прямые линии (двери, окна, плитка) изгибаются рядом с лицом.</span></span></span>
+                  </span>
+                  <img src="assets/app-stop.jpg" width="554" height="1199" alt="" loading="lazy" />
+                  <img src="assets/app-link.jpg" width="554" height="1199" alt="" loading="lazy" />
+                  <img src="assets/app-bully.jpg" width="554" height="1199" alt="" loading="lazy" />
+                </span>
+              </div>
+            </div>
+            <!-- a two-line chat: the kid's silent thought, then the app's reviewed answer -->
+            <div class="sol__bubbles">
+              <div class="sol__pair is-here"><div class="sol__kid"><span class="sol__who" data-i18n="kidLabel">Мысль подростка</span><p data-i18n="k1">Стыдно показать кому-то</p></div><svg class="sol__arrow" viewBox="0 0 120 48" aria-hidden="true"><path class="sol__arrow-line" pathLength="1" d="M98 4 C 98 26, 52 22, 28 44" /><path class="sol__arrow-head" d="M37 42.8 L 28 44 L 29.9 35.2" /></svg><p class="sol__bubble"><span class="sol__from"><img src="assets/icon.svg" width="22" height="22" alt="" /><b>SafeChilds</b><span data-i18n="replies">отвечает</span><i></i></span><span data-i18n="s1q">Показать можно скриншот с именем аккаунта, а не само фото. Взрослый, которому доверяешь, не будет ругать.</span></p></div>
+              <div class="sol__pair"><div class="sol__kid"><span class="sol__who" data-i18n="kidLabel">Мысль подростка</span><p data-i18n="k2">Я сам(а) виноват(а)</p></div><svg class="sol__arrow" viewBox="0 0 120 48" aria-hidden="true"><path class="sol__arrow-line" pathLength="1" d="M98 4 C 98 26, 52 22, 28 44" /><path class="sol__arrow-head" d="M37 42.8 L 28 44 L 29.9 35.2" /></svg><p class="sol__bubble"><span class="sol__from"><img src="assets/icon.svg" width="22" height="22" alt="" /><b>SafeChilds</b><span data-i18n="replies">отвечает</span><i></i></span><span data-i18n="s2q">Виноват тот, кто угрожает. Доверять — не преступление.</span></p></div>
+              <div class="sol__pair"><div class="sol__kid"><span class="sol__who" data-i18n="kidLabel">Мысль подростка</span><p data-i18n="k3">Стыдно, что повёлся(лась)</p></div><svg class="sol__arrow" viewBox="0 0 120 48" aria-hidden="true"><path class="sol__arrow-line" pathLength="1" d="M98 4 C 98 26, 52 22, 28 44" /><path class="sol__arrow-head" d="M37 42.8 L 28 44 L 29.9 35.2" /></svg><p class="sol__bubble"><span class="sol__from"><img src="assets/icon.svg" width="22" height="22" alt="" /><b>SafeChilds</b><span data-i18n="replies">отвечает</span><i></i></span><span data-i18n="s3q">Так обманывают и взрослых. Обман — чья-то профессия, а не твоя глупость.</span></p></div>
+              <div class="sol__pair"><div class="sol__kid"><span class="sol__who" data-i18n="kidLabel">Мысль подростка</span><p data-i18n="k4">Станет только хуже</p></div><svg class="sol__arrow" viewBox="0 0 120 48" aria-hidden="true"><path class="sol__arrow-line" pathLength="1" d="M98 4 C 98 26, 52 22, 28 44" /><path class="sol__arrow-head" d="M37 42.8 L 28 44 L 29.9 35.2" /></svg><p class="sol__bubble"><span class="sol__from"><img src="assets/icon.svg" width="22" height="22" alt="" /><b>SafeChilds</b><span data-i18n="replies">отвечает</span><i></i></span><span data-i18n="s4q">Хуже становится, когда никто не останавливает. Взрослый, который не ругает, — это остановка.</span></p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 3 · QUIET: the held line (flow + in) ============ -->
+      <section class="quiet" data-sc-act="flow">
+        <div class="quiet__in" data-sc-in>
+          <h2 class="quiet__title" data-i18n="quietTitle">Не нужно решать всё сразу.</h2>
+        </div>
+        <ol class="stages" data-sc-in data-sc-stagger="70">
+          <li><span class="stages__n">1</span><span data-i18n="p1">Выбери ситуацию</span></li>
+          <li>
+            <span class="stages__n">2</span
+            ><span data-i18n="p2">Проверь, нужна ли срочная помощь</span>
+          </li>
+          <li><span class="stages__n">3</span><span data-i18n="p3">Получи план</span></li>
+          <li>
+            <span class="stages__n">4</span
+            ><span data-i18n="p4">Подготовь обращение к взрослому</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ============ 4 · PEAK: the plan writes itself (pin + bespoke) ============ -->
+      <section id="plan" class="peak" data-sc-act="pin" data-sc-span="5">
+        <div data-sc-stage class="peak__stage">
+          <div class="peak__left">
+            <span class="tag" data-i18n="demoTag">Учебный пример</span>
+            <div class="switch" role="group" aria-label="Пример ситуации" data-i18n-aria="switchLabel">
+              <button type="button" data-case="fake" aria-pressed="true" data-i18n="tabFake">Поддельное фото</button>
+              <button type="button" data-case="link" aria-pressed="false" data-i18n="tabLink">Подозрительная ссылка</button>
+              <button type="button" data-case="bully" aria-pressed="false" data-i18n="tabBully">Травля</button>
+              <button type="button" data-case="ext" aria-pressed="false" data-i18n="tabExt">Шантаж</button>
+            </div>
+            <div class="titles" id="titles">
+              <p class="title is-here" data-i18n="cap1">Ты пишешь, что случилось.</p>
+              <p class="title" data-i18n="cap2">Сначала: ты в безопасности?</p>
+              <p class="title" data-i18n="cap3">Потом: три шага. Отмечай сделанное.</p>
+              <p class="title" data-i18n="cap4">И готовые слова для взрослого.</p>
+            </div>
+            <div class="segs" aria-hidden="true"><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span></div>
+            <div class="peak__foot">
+              <a class="peak__open" id="peak-open" data-app="/situation?c=fake_content" href="#"><span data-i18n="demoOpen">Открыть этот сценарий</span><span class="dot" aria-hidden="true"><svg class="ic"><use href="#chevron-right"/></svg></span></a>
+              <p class="peak__note" id="peak-note">Пример плана после проверки безопасности</p>
+            </div>
+          </div>
+
+          <div class="stack" id="stack" aria-live="polite">
+            <article class="scard" data-card="0">
+              <p class="scard__head"><span class="scard__n">1</span><span data-i18n="cardYou">Ты пишешь</span></p>
+              <div class="scard__body scard__body--msg">
+                <p class="bubble" id="s-msg">Кто-то выложил фейковое фото со мной.</p>
+                <p class="typing" aria-hidden="true"><i></i><i></i><i></i></p>
+              </div>
+            </article>
+
+            <article class="scard" data-card="1">
+              <p class="scard__head"><span class="scard__n">2</span><span data-i18n="safetyQ">Ты сейчас в безопасности?</span></p>
+              <ul class="answers" id="answers">
+                <li data-a="safe" data-i18n="ansSafe">Да, я в безопасности</li>
+                <li data-a="threatened" data-i18n="ansThreat">Мне угрожают</li>
+                <li data-a="unsure" data-i18n="ansUnsure">Не уверен(а)</li>
+                <li data-a="urgent" data-i18n="ansUrgent">Мне нужна срочная помощь</li>
+              </ul>
+            </article>
+
+            <article class="scard scard--plan" data-card="2">
+              <p class="scard__head"><span class="scard__n">3</span><span id="s-plan-t">С чего начать</span></p>
+              <div class="scard__body" id="s-body"><!-- page.js --></div>
+            </article>
+
+            <article class="scard scard--adult" data-card="3">
+              <p class="scard__head"><span class="scard__n">4</span><span id="s-adult-t">Расскажи взрослому</span></p>
+              <div class="scard__body">
+                <blockquote class="adult__msg" id="s-adult-msg">Мне нужна помощь. Кто-то выложил фейковое фото со мной. Я не знаю, что делать. Пожалуйста, не ругай меня.</blockquote>
+                <button type="button" class="copy" id="copy"><svg class="ic" aria-hidden="true"><use href="#copy"/></svg><span data-i18n="copy">Скопировать текст</span></button>
+                <span class="sr-only" role="status" aria-live="polite" id="copy-status"></span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 4b · COMING: one floating button that opens the app's main doors (planned feature, labelled) ============ -->
+      <section id="quick" class="quick" data-sc-act="flow">
+        <div class="quick__in">
+          <div class="quick__copy" data-sc-in>
+            <p class="kicker kicker--sun" data-i18n="qKicker">Скоро в приложении</p>
+            <h2 class="h2" data-i18n="qTitle">Всё важное в одно касание</h2>
+            <p class="body" data-i18n="qBody">Плавающая кнопка поверх соцсетей. Увидел(а) что-то плохое в ленте — нажми, и рядом помощь, проверка фото и твой случай.</p>
+            <ul class="quick__list">
+              <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="qL1">Не нужно искать приложение: помощь там, где всё случилось</span></li>
+              <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="qL2">Кнопку можно передвинуть в удобный угол</span></li>
+              <li><svg class="ic" aria-hidden="true"><use href="#check" /></svg><span data-i18n="qL3">«Помощь сейчас» всегда на первом месте</span></li>
+            </ul>
+            <p class="quick__hint"><span class="quick__hint-dot" aria-hidden="true"></span><span data-i18n="qHint">Нажми на кнопку в телефоне</span></p>
+          </div>
+
+          <div class="quick__stage">
+            <span class="quick__halo" aria-hidden="true"></span>
+            <div class="device device--quick">
+              <span class="device__btn device__btn--a"></span><span class="device__btn device__btn--b"></span><span class="device__btn device__btn--c"></span>
+              <div class="device__screen">
+                <span class="device__status"><span>9:41</span><span class="device__island"></span><span class="device__icons"><i></i><i></i><i></i></span></span>
+                <span class="device__shots">
+                  <!-- a social feed drawn in HTML (no real screenshot): the post is from the fake-profile example in
+                       packages/guidance (zarina_r_official), the photo is our AI-made demo face -->
+                  <span class="ig" aria-hidden="true">
+                    <span class="ig__top"><b>Instagram</b><span><svg class="ic"><use href="#heart" /></svg><svg class="ic"><use href="#message-circle" /></svg></span></span>
+                    <span class="ig__stories">
+                      <i><img src="assets/fake_content.webp" alt="" /></i><i><img src="assets/fraud.webp" alt="" /></i><i><img src="assets/cyberbullying.webp" alt="" /></i><i><img src="assets/extortion.webp" alt="" /></i><i><img src="assets/person.webp" alt="" /></i>
+                    </span>
+                    <span class="ig__post">
+                      <span class="ig__head"><i class="ig__av"></i><span><b>zarina_r_official</b><small data-i18n="igNew">создан 3 дня назад</small></span><em>···</em></span>
+                      <img class="ig__photo" src="assets/demo-face.jpg" width="720" height="720" alt="" loading="lazy" />
+                      <span class="ig__acts"><svg class="ic"><use href="#heart" /></svg><svg class="ic"><use href="#message-circle" /></svg><svg class="ic"><use href="#share" /></svg></span>
+                      <span class="ig__cap"><b>zarina_r_official</b> <span data-i18n="igCap">Привет, это мой новый акк, старый взломали. Добавь!</span></span>
+                    </span>
+                    <span class="ig__tabs"><svg class="ic"><use href="#house" /></svg><svg class="ic"><use href="#search" /></svg><svg class="ic"><use href="#plus" /></svg><svg class="ic"><use href="#video" /></svg><svg class="ic"><use href="#user" /></svg></span>
+                  </span>
+                  <span class="qm" id="qmenu">
+                    <span class="qm__dim"></span>
+                    <span class="qm__panel">
+                      <a class="qm__it qm__it--help" style="--d: 0" data-app="/urgent" href="#"><svg class="ic" aria-hidden="true"><use href="#life-buoy" /></svg><span data-i18n="helpNow">Помощь сейчас</span></a>
+                      <a class="qm__it qm__it--breathe" style="--d: 1" data-app="/breathe" href="#"><svg class="ic" aria-hidden="true"><use href="#waves" /></svg><span data-i18n="qBreathe">Дыхание</span></a>
+                      <a class="qm__it qm__it--case" style="--d: 2" data-app="/incident" href="#"><svg class="ic" aria-hidden="true"><use href="#folder" /></svg><span data-i18n="vCase">Мой случай</span></a>
+                      <a class="qm__it qm__it--photo" style="--d: 3" data-app="/situation?c=fake_content" href="#"><svg class="ic" aria-hidden="true"><use href="#scan-search" /></svg><span data-i18n="qPhoto">Проверить фото</span></a>
+                      <a class="qm__it qm__it--home" style="--d: 4" data-app="/?from=landing" href="#"><span class="qm__home" aria-hidden="true"></span><span data-i18n="qHome">SafeChilds</span></a>
+                      <a class="qm__it qm__it--link" style="--d: 5" data-app="/link" href="#"><svg class="ic" aria-hidden="true"><use href="#link" /></svg><span data-i18n="qLink">Проверить ссылку</span></a>
+                    </span>
+                  </span>
+                  <button type="button" class="qbtn" aria-controls="qmenu" aria-expanded="false" aria-label="Быстрое меню" data-i18n-aria="qBtn"><span></span></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 5 · SUBSTANCE: tools, a bento of small working pictures (flow + in) ============ -->
+      <section class="tools" data-sc-act="flow">
+        <div class="tools__in">
+          <div class="tools__head" data-sc-in>
+            <h2 class="h2" data-i18n="toolsTitle">Ещё несколько инструментов</h2>
+            <p class="body" data-i18n="toolsBody">Они необязательны: план доступен и без них.</p>
+          </div>
+          <ul class="bento" data-sc-in data-sc-stagger="80">
+
+            <li class="tool tool--image">
+              <div class="viz viz--image" aria-hidden="true">
+                <span class="viz__pic"><img src="assets/fake_content.webp" width="640" height="615" alt="" loading="lazy"><span class="spot spot--1"></span><span class="spot spot--2"></span></span>
+                <span class="viz__pill viz__pill--where"><svg class="ic"><use href="#scan-search"/></svg><span data-i18n="vizWhere">Покажет, где смотреть</span></span>
+                <span class="viz__pill viz__pill--no" data-i18n="vizNoVerdict">Без вердикта «фейк» или «настоящее»</span>
+              </div>
+              <div class="tool__text">
+                <span class="tool__dot tool__dot--sky" aria-hidden="true"><svg class="ic"><use href="#scan-search"/></svg></span>
+                <h3 data-i18n="t1">Проверка изображения</h3>
+                <p data-i18n="t1d">Покажет признаки изменений и объяснит, где смотреть. Не выносит вердикт «настоящее или фейк».</p>
+                <p class="tool__meta" data-i18n="t1m">JPEG, PNG, WebP · до 8 МБ</p>
+              </div>
+            </li>
+
+            <li class="tool tool--signs">
+              <div class="tool__text">
+                <span class="tool__dot tool__dot--coral" aria-hidden="true"><svg class="ic"><use href="#search"/></svg></span>
+                <h3 data-i18n="t3">Учебные примеры</h3>
+                <p data-i18n="t3d">Признаки обмана и травли на примерах.</p>
+              </div>
+              <div class="viz viz--chat" aria-hidden="true">
+                <p class="msg"><span class="flag">1</span><span data-i18n="sg1">Привет! Это ты на этом фото?</span></p>
+                <p class="msg"><span class="flag">2</span><span data-i18n="sg2">bit.ly/3x… посмотри сам(а)</span></p>
+                <p class="msg"><span class="flag">3</span><span data-i18n="sg3">Только быстрее, пока не удалили</span></p>
+                <p class="sign"><span class="flag">2</span><span data-i18n="sgNote">Ссылка укороченная или чужой сайт: цель — чтобы ты нажал(а) и ввёл(а) пароль.</span></p>
+              </div>
+            </li>
+
+            <li class="tool tool--link">
+              <div class="viz viz--link" aria-hidden="true">
+                <span class="url"><svg class="ic"><use href="#link"/></svg>bit.ly/3x…</span>
+                <span class="url__arrow"></span>
+                <span class="url__check"><svg class="ic"><use href="#check"/></svg><span data-i18n="linkCheck">Проверка без открытия</span></span>
+              </div>
+              <div class="tool__text">
+                <span class="tool__dot tool__dot--sun" aria-hidden="true"><svg class="ic"><use href="#link"/></svg></span>
+                <h3 data-i18n="t2">Проверка ссылки</h3>
+                <p data-i18n="t2d">Не открывая её самому. Если опасных признаков нет, это ещё не значит, что ссылка безопасна.</p>
+              </div>
+            </li>
+
+            <li class="tool tool--breathe">
+              <div class="viz viz--breathe" aria-hidden="true">
+                <span class="breath"><span class="breath__in" data-i18n="breatheIn">Вдох</span><span class="breath__out" data-i18n="breatheOut">Выдох</span></span>
+              </div>
+              <div class="tool__text">
+                <span class="tool__dot tool__dot--grass" aria-hidden="true"><svg class="ic"><use href="#waves"/></svg></span>
+                <h3 data-i18n="t4">Минута на дыхание</h3>
+                <p data-i18n="t4d">Короткая пауза, когда всего слишком много.</p>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 6 · TRUST: privacy plate (reveal) ============ -->
+      <section id="privacy" class="privacy" data-sc-act="flow">
+        <div class="privacy__in">
+          <div class="plate" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+            <div class="plate__copy">
+              <span class="plate__icon" aria-hidden="true"><svg class="ic"><use href="#lock" /></svg></span>
+              <h2 class="plate__title" data-i18n="prTitle">Твой случай хранится на твоём устройстве.</h2>
+              <ul class="plate__pts">
+                <li>
+                  <span class="plate__pt-ic" aria-hidden="true"><svg class="ic"><use href="#smartphone" /></svg></span>
+                  <div><strong data-i18n="prP1T">Всё остаётся на телефоне</strong>
+                  <p data-i18n="pr1">Случай, сохранённые доказательства и выполненные шаги хранятся на этом устройстве. Регистрация не нужна.</p></div>
+                </li>
+                <li>
+                  <span class="plate__pt-ic plate__pt-ic--sky" aria-hidden="true"><svg class="ic"><use href="#scan-search" /></svg></span>
+                  <div><strong data-i18n="prP2T">Проверка только по твоему запуску</strong>
+                  <p data-i18n="pr2">Если ты запускаешь проверку изображения, ссылки или описания ситуации, соответствующие данные отправляются на обработку. Приложение сообщает об этом заранее.</p></div>
+                </li>
+              </ul>
+              <a class="plate__link" data-app="/privacy" href="#"><span data-i18n="prLink">Подробнее о приватности</span><svg class="ic" aria-hidden="true"><use href="#chevron-right" /></svg></a>
+            </div>
+
+            <!-- what «Мой случай» holds, drawn as a small locked vault on the phone -->
+            <div class="vault" aria-hidden="true">
+              <div class="vault__card">
+                <p class="vault__head"><svg class="ic"><use href="#folder" /></svg><span data-i18n="vCase">Мой случай</span><span class="vault__lock"><svg class="ic"><use href="#lock" /></svg></span></p>
+                <ul class="vault__rows" data-sc-in data-sc-stagger="90">
+                  <li><span class="vault__ic"><svg class="ic"><use href="#link" /></svg></span><span data-i18n="vLink">Ссылка на пост</span><svg class="ic vault__ok"><use href="#check" /></svg></li>
+                  <li><span class="vault__ic"><svg class="ic"><use href="#image" /></svg></span><span data-i18n="vShot">Скриншот</span><svg class="ic vault__ok"><use href="#check" /></svg></li>
+                  <li><span class="vault__ic"><svg class="ic"><use href="#notepad-text" /></svg></span><span data-i18n="vSteps">Выполненные шаги</span><svg class="ic vault__ok"><use href="#check" /></svg></li>
+                </ul>
+                <p class="vault__here"><span></span><span data-i18n="vHere">Хранится только на этом телефоне</span></p>
+              </div>
+              <p class="vault__chip"><svg class="ic"><use href="#user-x" /></svg><span data-i18n="vNoId">Без имени, телефона и фото при входе</span></p>
+            </div>
+          </div>
+          <div class="proto" data-sc-in>
+            <svg class="ic" aria-hidden="true"><use href="#info" /></svg>
+            <p>
+              <strong data-i18n="stageT">Что пока работает как прототип.</strong>
+              <span data-i18n="stageD"
+                >Сейчас справочник содержит демо-карточки специалистов. Форма запроса на связь
+                показывает будущий сценарий: запрос никуда не отправляется.</span
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 7 · FAQ (flow + in) ============ -->
+      <section id="faq" class="faq" data-sc-act="flow">
+        <div class="faq__in">
+          <h2 class="h2" data-sc-in data-i18n="faqTitle">Частые вопросы</h2>
+          <div class="faq__list" data-sc-in data-sc-stagger="50">
+            <details>
+              <summary>
+                <span data-i18n="q1">Нужно ли регистрироваться?</span
+                ><svg class="ic" aria-hidden="true"><use href="#plus" /></svg>
+              </summary>
+              <p data-i18n="a1">Нет. Приложение не спрашивает имя, телефон или фото при входе.</p>
+            </details>
+            <details>
+              <summary>
+                <span data-i18n="q2">Как открыть SafeChilds на телефоне?</span
+                ><svg class="ic" aria-hidden="true"><use href="#plus" /></svg>
+              </summary>
+              <p data-i18n="a2">
+                Это веб-приложение: оно открывается в браузере. Его можно добавить на главный экран,
+                как обычное приложение.
+              </p>
+            </details>
+            <details>
+              <summary>
+                <span data-i18n="q3">Проверка точно определит подделку?</span
+                ><svg class="ic" aria-hidden="true"><use href="#plus" /></svg>
+              </summary>
+              <p data-i18n="a3">
+                Нет. Проверка показывает признаки изменений и свои ограничения, но не даёт
+                гарантированного ответа «настоящее» или «фейк». План действий не зависит от
+                проверки.
+              </p>
+            </details>
+            <details>
+              <summary>
+                <span data-i18n="q4">Здесь есть чат с психологом?</span
+                ><svg class="ic" aria-hidden="true"><use href="#plus" /></svg>
+              </summary>
+              <p data-i18n="a4">
+                Нет. «Своими словами» подбирает готовые шаги, проверенные людьми. Это не разговор с
+                человеком. Справочник специалистов пока содержит демо-карточки.
+              </p>
+            </details>
+            <details>
+              <summary>
+                <span data-i18n="q5">Что делать, если мне угрожают?</span
+                ><svg class="ic" aria-hidden="true"><use href="#plus" /></svg>
+              </summary>
+              <p>
+                <span data-i18n="a5"
+                  >Открой срочную помощь и расскажи взрослому, которому доверяешь. Ты не
+                  виноват(а).</span
+                >
+                <a class="urgent-link" data-app="/urgent" href="#" data-i18n="a5link"
+                  >Срочная помощь</a
+                >
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 8 · COMMITMENT: arrival (pin, hold) ============ -->
+      <section id="go" class="close" data-sc-act="pin" data-sc-span="1.3">
+        <div data-sc-stage class="close__stage">
+          <div class="close__main">
+            <svg
+              class="close__route"
+              viewBox="0 0 600 160"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path d="M0 30 C 140 30, 180 130, 330 120 S 520 96, 596 104" />
+              <circle cx="596" cy="104" r="7" />
+            </svg>
+            <h2 class="close__title" data-sc-cue="0.04" data-i18n="finalTitle">
+              Начни с одного шага.
+            </h2>
+            <div class="close__act" data-sc-cue="0.1">
+              <a class="btn btn--primary btn--lg" data-app="/?from=landing" href="#"
+                ><span data-i18n="ctaOpen">Открыть приложение</span
+                ><span class="dot" aria-hidden="true"
+                  ><svg class="ic"><use href="#chevron-right" /></svg></span
+              ></a>
+              <figure class="qr">
+                <img
+                  src="assets/qr.svg"
+                  width="164"
+                  height="164"
+                  alt="QR-код: открой SafeChilds на телефоне"
+                  data-i18n-alt="qrAlt"
+                />
+                <figcaption data-i18n="qr">Открой на телефоне</figcaption>
+              </figure>
+            </div>
+          </div>
+          <footer class="foot">
+            <span class="mark mark--sm"
+              ><img src="assets/icon.svg" width="24" height="24" alt="" /><span
+                >SafeChilds</span
+              ></span
+            >
+            <p data-i18n="footD">
+              Помогает подросткам сделать следующий безопасный шаг и дойти до взрослого, которому
+              они доверяют.
+            </p>
+            <nav aria-label="Ссылки" data-i18n-aria="footNav">
+              <a data-app="/?from=landing" href="#" data-i18n="footApp">Приложение</a>
+              <a data-app="/privacy" href="#" data-i18n="footPrivacy">Приватность</a>
+              <a data-app="/signs" href="#" data-i18n="footSigns">Признаки обмана и травли</a>
+            </nav>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <script src="scrollcraft.js"></script>
+    <script src="page.js"></script>
+  </body>
+</html>
